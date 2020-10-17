@@ -1,0 +1,204 @@
+% ----------- Cover Master Thesis Faculty of Sciences ---------------
+% This document should be compiled with pdflatex. If you want to use
+% latex to compile to dvi/ps, you have to convert the images to (e)ps
+%                           -- December 2012
+% -------------------------------------------------------------------
+\RequirePackage{fix-cm}
+\documentclass[12pt,a4paper,oneside]{article}
+%
+% ------------------------- Load packages ---------------------------
+% You can eventually add these while you load other packages
+% in case you want to integrate the titlepage with the rest of your thesis
+% -------------------------------------------------------------------
+\usepackage{graphicx,xcolor,textpos}
+\usepackage{helvet}
+%
+%\usepackage[top=3cm, bottom=2.54cm, left=3cm, right=2.54cm]{geometry} % margins
+\usepackage{setspace} 						% flexible spacing
+%\setlength{\parskip}{2.5mm} 			    % paragraph space
+\usepackage[round]{natbib} 					% bibliography library
+\usepackage{amsfonts}						% mathematical formulas
+\usepackage{amsmath}						% mathematical formulas
+\usepackage{amssymb}
+\usepackage{url} 							% web addressess
+\usepackage{enumerate} 						% numbered lines
+\usepackage{color, soul}					% highlight text
+%
+% ------------------------ Page settings -----------------------------
+% If you change these, the cover layout will also change.  In that
+% case you have to adjust the latter manually.
+% --------------------------------------------------------------------
+%
+\topmargin -10mm
+\textwidth 160truemm
+\textheight 240truemm
+\oddsidemargin 0mm
+\evensidemargin 0mm
+%
+% ---------------------- textpos settings ----------------------------
+% Some additional settings for the cover
+% --------------------------------------------------------------------
+%
+\definecolor{green}{RGB}{172,196,0}
+\definecolor{bluetitle}{RGB}{29,141,176}
+\definecolor{blueaff}{RGB}{0,0,128}
+\definecolor{blueline}{RGB}{82,189,236}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+%
+\begin{document}
+%
+% ----------------------- Cover --------------------------------------
+% Please fill in:
+% - The title and subtitle (if applicable)
+%         to include a formula in the title or subtitle
+%         use  \form{$...$}
+% - Your name
+% - Your (co)supervisor, mentor (if applicable)
+% - Your master
+% - The academic year
+% --------------------------------------------------------------------
+\graphicspath{{./images/}} 	          % relative path for images
+%
+\thispagestyle{empty}
+\newcommand{\form}[1]{\scalebox{1.087}{\boldmath{#1}}}
+\sffamily
+%
+\begin{textblock}{191}(-24,-11)
+\colorbox{green}{\hspace{139mm}\ \parbox[c][18truemm]{52mm}{\textcolor{white}{FACULTY OF SCIENCE}}}
+\end{textblock}
+%
+\begin{textblock}{70}(-18,-19)
+\textblockcolour{}
+\includegraphics*[height=19.8truemm]{LogoKULeuven}
+\end{textblock}
+%
+\begin{textblock}{160}(-6,63)
+\textblockcolour{}
+\vspace{-\parskip}
+\flushleft
+\fontsize{40}{42}\selectfont \textcolor{bluetitle}{Generalized Multilevel Structural Equation Modeling:}\\[1.5mm]
+\fontsize{20}{22}\selectfont Framework, estimation, advantages, and applications to educational policy analysis. \\
+\end{textblock}
+%
+\begin{textblock}{160}(8,153)
+\textblockcolour{}
+\vspace{-\parskip}
+\flushright
+\fontsize{14}{16}\selectfont \textbf{Jose Manuel Rivera Espejo}
+\end{textblock}
+%
+\begin{textblock}{70}(-6,191)
+\textblockcolour{}
+\vspace{-\parskip}
+\flushleft
+Supervisor: Prof. Geert Molenbegrhs \\[-2pt]
+\textcolor{blueaff}{Affiliation \textsl{(optional)}}\\[5pt]
+Co-supervisor: Prof. Wim Van den Noortgate \textsl{(optional)}\\[-2pt]
+\textcolor{blueaff}{Affiliation \textsl{(optional)}}\\[5pt]
+Mentor: \textsl{(optional)}\\[-2pt]
+\textcolor{blueaff}{Affiliation \textsl{(optional)}}\\
+\end{textblock}
+%
+\begin{textblock}{160}(8,191)
+\textblockcolour{}
+\vspace{-\parskip}
+\flushright
+Proposal presented in\\[4.5pt]
+fulfillment of the requirements\\[4.5pt]
+for the degree of Master of Science\\[4.5pt]
+in Statistics and Data Science:\\[4.5pt]
+Social, Behavioral and Educational Sciences
+\end{textblock}
+%
+\begin{textblock}{160}(8,232)
+\textblockcolour{}
+\vspace{-\parskip}
+\flushright
+Academic year 2020-2021
+\end{textblock}
+%
+\begin{textblock}{191}(-24,248)
+{\color{blueline}\rule{550pt}{5.5pt}}
+\end{textblock}
+%
+\vfill
+\newpage
+%
+% In case you want to integrate the TeX-file for the titlepage
+% with the rest of your thesis, you can continue below
+% ------------------------- First pages ---------------------------
+% For table of contents, acknowlegments, ...
+% -----------------------------------------------------------------
+\rmfamily
+\setcounter{page}{0}
+\pagenumbering{roman}
+%
+% -------------------------- Proper text --------------------------
+% Introduction, chapters, ...
+% -----------------------------------------------------------------
+\newpage
+\setcounter{page}{0}
+\pagenumbering{arabic}
+%
+%---------------------------
+% body
+%---------------------------
+\input 0_dedication
+\input 1_introduction
+\input 2_methods
+\input 3_application
+\input 4_conclusions
+\input 5_appendixA
+\input 5_appendixB
+%
+%
+%---------------------------
+% Bibliography
+%---------------------------
+\newpage
+\backmatter \singlespacing    % simple spacing
+\bibliography{bibliography}
+\bibliographystyle{dcu}
+%
+%
+% ----------------------- Back cover ------------------------------
+% Please fill in:
+% - Department
+% - Department's address
+% - Telephone number and fax number
+% -----------------------------------------------------------------
+\newpage
+\thispagestyle{empty}
+\sffamily
+%
+\begin{textblock}{191}(113,-11)
+{\color{blueline}\rule{160pt}{5.5pt}}
+\end{textblock}
+%
+\begin{textblock}{191}(168,-11)
+{\color{blueline}\rule{5.5pt}{59pt}}
+\end{textblock}
+%
+\begin{textblock}{183}(-24,-11)
+\textblockcolour{}
+\flushright
+\fontsize{7}{7.5}\selectfont
+\textbf{AFDELING}\\
+Straat nr bus 0000\\
+3000 LEUVEN, BELGI\"{E}\\
+tel. + 32 16 00 00 00\\
+fax + 32 16 00 00 00\\
+www.kuleuven.be\\
+\end{textblock}
+%
+\begin{textblock}{191}(154,-7)
+\textblockcolour{}
+\includegraphics*[height=16.5truemm]{sedes}
+\end{textblock}
+%
+\begin{textblock}{191}(-20,235)
+{\color{bluetitle}\rule{544pt}{55pt}}
+\end{textblock}
+%
+\end{document}

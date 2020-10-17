@@ -1,0 +1,6 @@
+.Rhistory
+*.aux
+*.bbl
+*.blg
+*.log
+*synctex.gz
