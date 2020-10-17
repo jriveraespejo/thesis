@@ -4,23 +4,25 @@
 %                           -- December 2012
 % -------------------------------------------------------------------
 \RequirePackage{fix-cm}
-\documentclass[12pt,a4paper,oneside]{article}
+\documentclass[12pt,a4paper,oneside]{book}
 %
 % ------------------------- Load packages ---------------------------
 % You can eventually add these while you load other packages
 % in case you want to integrate the titlepage with the rest of your thesis
 % -------------------------------------------------------------------
 \usepackage{graphicx,xcolor,textpos}
-\usepackage{helvet}
-%
+%\usepackage[spanish,es-nodecimaldot]{babel}% for spanish, decimal="."
+\usepackage[utf8]{inputenc}					% for spanish
 %\usepackage[top=3cm, bottom=2.54cm, left=3cm, right=2.54cm]{geometry} % margins
 \usepackage{setspace} 						% flexible spacing
 %\setlength{\parskip}{2.5mm} 			    % paragraph space
-\usepackage[round]{natbib} 					% bibliography library
+\usepackage[round]{natbib} 					% Bibtex bibliography
+%\usepackage{biblatex}						% Biber bibliography
 \usepackage{amsfonts}						% mathematical formulas
-\usepackage{amsmath}						% mathematical formulas
+\usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{url} 							% web addressess
+\usepackage[hidelinks]{hyperref}       		% hyperlinks
+\usepackage{url} 							% url typesetting
 \usepackage{enumerate} 						% numbered lines
 \usepackage{color, soul}					% highlight text
 %
@@ -96,8 +98,6 @@ Supervisor: Prof. Geert Molenbegrhs \\[-2pt]
 \textcolor{blueaff}{Affiliation \textsl{(optional)}}\\[5pt]
 Co-supervisor: Prof. Wim Van den Noortgate \textsl{(optional)}\\[-2pt]
 \textcolor{blueaff}{Affiliation \textsl{(optional)}}\\[5pt]
-Mentor: \textsl{(optional)}\\[-2pt]
-\textcolor{blueaff}{Affiliation \textsl{(optional)}}\\
 \end{textblock}
 %
 \begin{textblock}{160}(8,191)
@@ -134,31 +134,105 @@ Academic year 2020-2021
 \setcounter{page}{0}
 \pagenumbering{roman}
 %
+%--------------------------------------------------------------------------
+% ----------------------- dedication --------------------------------------
+%--------------------------------------------------------------------------
+\chapter*{Dedication}
+\noindent To Manuel, for being my friend and father. \\
+To Margarita, Susan and Ana, for their relentless encouragement. \\
+To both of you, for still being my raison d'être. \\
+And to all that knowingly or not, help me to get here.\\
+I am lucky thanks to all of you. \\
+I hope I make you all proud. \\ \\ \\
+%
+%
+\noindent A Manuel, por ser mi amigo y mi padre. \\
+A Margarita, Susan y Ana, por su incansable aliento. \\
+A ustedes dos, por a\'un ser mi raz\'on de ser. \\
+Y a todos los que sabiendolo o no, me ayudaron a llegar aqu\'i\\
+Soy un suertudo gracias todos ustedes. \\
+Espero llenarlos de orgullo.
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- acknowledgment ---------------------------------
+%--------------------------------------------------------------------------
+\chapter*{Acknowledgment}
+(in the works)
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- abstract ----------------------------------------
+%--------------------------------------------------------------------------
+\chapter*{Abstract}
+(in the works) \\
+%
+\noindent \textbf{Keywords:} 
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- table of contents -------------------------------
+%--------------------------------------------------------------------------
+\tableofcontents    					% print table of contents
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- figures and tables ------------------------------
+%--------------------------------------------------------------------------
+\listoffigures		% figure list
+\listoftables		% table list
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- abbreviations ----------------------------------------
+%--------------------------------------------------------------------------
+\chapter*{Abbreviations}
+
+\begin{tabular}{rl}
+	MCQ		& Multiple Choice Question. \\
+	IRT		& Item Response Theory. \\
+\end{tabular}
+%
+%
+%--------------------------------------------------------------------------
+% ----------------------- symbols -----------------------------------------
+%--------------------------------------------------------------------------
+\chapter*{Symbols}
+
+\begin{tabular}{ll}
+	$n$			& sample \\
+	$p$			& variables \\
+\end{tabular}
+%
+%
 % -------------------------- Proper text --------------------------
 % Introduction, chapters, ...
 % -----------------------------------------------------------------
 \newpage
-\setcounter{page}{0}
+\setcounter{page}{1}
 \pagenumbering{arabic}
 %
 %---------------------------
 % body
 %---------------------------
-\input 0_dedication
 \input 1_introduction
-\input 2_methods
-\input 3_application
-\input 4_conclusions
-\input 5_appendixA
-\input 5_appendixB
+\input 2_framework
+\input 3_estimation
+\input 4_application
+\input 5_conclusion
+\appendix
+\include{6_appendixA}
+\include{6_appendixB}
 %
 %
 %---------------------------
 % Bibliography
 %---------------------------
 \newpage
-\backmatter \singlespacing    % simple spacing
-\bibliography{bibliography}
+\backmatter \singlespacing			% simple spacing
+%\addbibresource{bibliography.bib}	% Biber bibliography
+%\printbibliography
+\bibliography{bibliography}			% BibTex bibliography
 \bibliographystyle{dcu}
 %
 %
