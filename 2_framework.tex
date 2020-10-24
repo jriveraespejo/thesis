@@ -1,21 +1,63 @@
 \chapter{The Generalized Linear Latent and Mixed Model} \label{chap:framework}
 
+The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004}, the method was motivated by the need of multilevel Structural Equation Models (multilevel SEM) to accommodate for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. \\
+
+This chapter will present the definition of such model, its characteristics, assumptions and properties.
+
 
 \section{Definition}
 
+In the context of a standardize assessment, we assume that $J$ subjects answer $I$ items, where the response to each one of them is assumed to be explained by one or $M_{l}$ latent variables at $L$ arbitrary levels. Following \citet{Rabe_et_al_2004a}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a wide format, and adopt a univariate approach, i.e. long format. In that sense, all the response variables for each subject are "stacked" in a single response vector with different variables distinguished from each other by a design matrix. \\
+
+With the aforementioned structure, we proceed to outline the three parts of the framework: (i) the response model, (ii) the structural latent variable model, and (iii) the distribution of the latent variables. For a detailed description of the special cases of multilevel SEM that can be derived with the framework, refer to the Appendix \ref{app:additional}.
+
+
 \subsection{Response model}
+
+As outlined in \citet{Rabe_et_al_2004a, Rabe_et_al_2012}, conditional on the latent variables, the response model is a generalized linear model (GLM) defined by a linear predictor, a link function and a distribution from the exponential family.
 
 \subsubsection{Linear predictor}
 
+For a model with $L$ arbitrary levels and $M_{l}$ latent variables at $l>1$ levels, the linear predictor for subject $j$ takes the following form:
+
+\begin{equation}
+	\mathbf{v}_{j} = \mathbf{X}_{j} \pmb{\beta} + \sum_{l=2}^{L} \sum_{m=1}^{M_{l}} \eta_{mj}^{l} \mathbf{Z}_{mj}^{l} \pmb{\lambda}_{m}^{l}
+\end{equation}
+
+\noindent where $\mathbf{v}_{j}$ is the vector of linear predictor for subject $j$ ($j=1, \dots, J$), $\mathbf{X}_{j}$ is a design matrix that maps the parameter vector $\pmb{\beta}$ to the linear predictor, $\eta_{mj}^{l}$ is the $m$th latent variable at level $l$ ($m=1, \dots, M_{l}$ and $l=1, \dots, L$), and $\mathbf{Z}_{mj}^{l}$ is a design matrix that maps the vector of loadings $\pmb{\lambda}_{m}^{l}$ to the $m$th latent variable at level $l$.
+
 \subsubsection{Links and distributions}
 
-\subsection{Structural model fo the latent variables}
+\begin{equation}
+	g(E[\mathbf{Y} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = \mathbf{V}
+\end{equation}
+
+\noindent where the distributions assumed for the responses depends on their type:
+\begin{enumerate}
+	\item \textbf{Continuous:}
+	\item \textbf{Ordinal and discrete time duration:}
+	\item \textbf{Dichotomous:}
+	\item \textbf{Counts and continuous time duration:}
+	\item \textbf{Polytomous:}
+	\item \textbf{Mixed responses:}
+\end{enumerate}
+
+\subsection{Structural model for the latent variables}
 
 \subsection{Distribution of the latent variables}
 
 
 
 \section{Relationship with other modeling schemes}
+
+\citet{Rabe_et_al_2012}
+
+{\color{red} The motivation for multilevel regression models is to handle hierarchical data where elementary units are nested in clusters, such as students in schools, which in
+turn may be nested in higher-level clusters (e.g., school districts or states). The latent variables, often called "random effects” in this context, can be interpreted as
+the effects of unobserved covariates at different levels that induce dependence among lower-level units. In contrast, the motivation for structural equation models is to
+handle variables that cannot be measured directly, and are hence latent, and to model their relationships with each other and with observed or manifest variables.
+The latent variables, often called “common factors” inthis context, are measured by manifest variables and induce dependence among them.}
+
 
 \subsection{Factor Models}
 
