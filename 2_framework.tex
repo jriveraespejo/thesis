@@ -1,45 +1,100 @@
 \chapter{The Generalized Linear Latent and Mixed Model} \label{chap:framework}
 
-The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004}, the method was motivated by the need of multilevel Structural Equation Models (multilevel SEM) to accommodate for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. \\
+The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b Skrondal_et_al_2004}, the method was motivated by the need of a multilevel Structural Equation Models (SEM) that accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. 
 
 This chapter will present the definition of such model, its characteristics, assumptions and properties.
 
 
 \section{Definition}
+Following \citet{Rabe_et_al_2004a}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a "wide" format, and adopt a univariate approach, i.e. "long" format. In that sense, all the response variables for each unit are "stacked" in a single response vector with different variables distinguished from each other by a design matrix.
 
-In the context of a standardize assessment, we assume that $J$ subjects answer $I$ items, where the response to each one of them is assumed to be explained by one or $M_{l}$ latent variables at $L$ arbitrary levels. Following \citet{Rabe_et_al_2004a}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a wide format, and adopt a univariate approach, i.e. long format. In that sense, all the response variables for each subject are "stacked" in a single response vector with different variables distinguished from each other by a design matrix. \\
-
-With the aforementioned structure, we proceed to outline the three parts of the framework: (i) the response model, (ii) the structural latent variable model, and (iii) the distribution of the latent variables. For a detailed description of the special cases of multilevel SEM that can be derived with the framework, refer to the Appendix \ref{app:additional}.
+With the aforementioned structure, we proceed to outline the three parts of the framework: (i) the response model, (ii) the structural latent variable model, and (iii) the distribution of the latent variables. For a detailed description of some of the special cases of multilevel SEM that can be derived with this framework, refer to Appendix \ref{app:additional}.
 
 
 \subsection{Response model}
+As outlined in \citet{Rabe_et_al_2004a, Rabe_et_al_2012}, conditional on the latent variables, the response model is a generalized linear model (GLM) defined by a systematic and a distributional part. For the systematic part, a linear predictor and a link function are selected. Finally, for the distributional part, a distribution from the exponential family is also selected. 
 
-As outlined in \citet{Rabe_et_al_2004a, Rabe_et_al_2012}, conditional on the latent variables, the response model is a generalized linear model (GLM) defined by a linear predictor, a link function and a distribution from the exponential family.
+In the following sections, we proceed to describe the linear predictor, the link function and the distributions accommodated by the framework.
+
 
 \subsubsection{Linear predictor}
-
-For a model with $L$ arbitrary levels and $M_{l}$ latent variables at $l>1$ levels, the linear predictor for subject $j$ takes the following form:
-
-\begin{equation}
-	\mathbf{v}_{j} = \mathbf{X}_{j} \pmb{\beta} + \sum_{l=2}^{L} \sum_{m=1}^{M_{l}} \eta_{mj}^{l} \mathbf{Z}_{mj}^{l} \pmb{\lambda}_{m}^{l}
+For a model with $L$ levels and $M_{l}$ latent variables at $l>1$ levels, the linear predictor takes the following form:
+\begin{equation} \label{eq:linear_predictor}
+	v = \mathbf{X} \pmb{\beta} + \sum_{l=2}^{L} \sum_{m=1}^{M_{(l)}} \eta_{m}^{(l)} \mathbf{Z}_{m}^{(l)} \pmb{\lambda}_{m}^{(l)}
 \end{equation}
 
-\noindent where $\mathbf{v}_{j}$ is the vector of linear predictor for subject $j$ ($j=1, \dots, J$), $\mathbf{X}_{j}$ is a design matrix that maps the parameter vector $\pmb{\beta}$ to the linear predictor, $\eta_{mj}^{l}$ is the $m$th latent variable at level $l$ ($m=1, \dots, M_{l}$ and $l=1, \dots, L$), and $\mathbf{Z}_{mj}^{l}$ is a design matrix that maps the vector of loadings $\pmb{\lambda}_{m}^{l}$ to the $m$th latent variable at level $l$.
+\noindent where $\mathbf{X}$ is a design matrix that maps the parameter vector $\pmb{\beta}$ to the linear predictor, $\eta_{m}^{(l)}$ the $m$th latent variable at level $l$ ($m=1, \dots, M_{(l)}$ and $l=1, \dots, L$), and $\mathbf{Z}_{m}^{(l)}$ a design matrix that maps the vector of loadings $\pmb{\lambda}_{m}^{(l)}$ to the $m$th latent variable at level $l$.
 
-\subsubsection{Links and distributions}
+Note that wo do not use subscripts for the units of observation at different levels, this decision was made with the purpose of avoiding the use of mathematical definitions with large number of subscripts. However, a careful reader should consider that equation \ref{eq:linear_predictor} rest on the assumption that each unit is identified at their appropriate level. For special cases of multilevel SEM and their use of subscripts refer to Appendix \ref{app:additional}.
 
-\begin{equation}
-	g(E[\mathbf{Y} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = \mathbf{V}
+\subsubsection{Links and Distributions}
+To make the mathematical explanation more tractable, the author first proceeds to define some nomenclature. First, $\pmb{\eta}^{(l)}=[\eta_{1}^{(l)}, \dots, \eta_{M_{(l)}}^{(l)}]^{T}$ denotes the vector of latent variables at level $l$, and $\mathbf{Z}^{(l)}=[\mathbf{Z}_{1}^{(l)T}, \dots, \mathbf{Z}_{M_{(l)}}^{(l)T}]^{T}$ the "stacked" design matrix of explanatory variables at level $l$, respectively. Finally, $\pmb{\eta}=[\eta^{(2)T}, \dots, \eta^{(L)T}]^{T}$ describes the "stacked" vector of latent variables for all $L$ levels, and $\mathbf{Z}=[\mathbf{Z}^{(2)T}, \dots, \mathbf{Z}^{(L)T}]^{T}$ the "stacked" design matrices of explanatory variables for all $L$ levels, respectively. \\
+
+For the link functions, the model "links" the expectation of the conditional response to the linear predictor through a response function $h(\cdot)$, in the following form: 
+\begin{equation} \label{eq:response_function}
+	\mu = E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = h(v)
 \end{equation}
 
-\noindent where the distributions assumed for the responses depends on their type:
+\noindent where equation \ref{eq:response_function} can be re-written in terms of the link function $g(\cdot) = h^{-1}(\cdot)$:
+\begin{equation} \label{eq:link_function}
+	g(\mu) = g(E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = v
+\end{equation}
+
+Finally, the response model specification is complete when we select an appropriate distribution for the conditional response from the family of exponential distributions. The types of responses that can be accommodated by the framework are the following:
+
 \begin{enumerate}
-	\item \textbf{Continuous:}
-	\item \textbf{Ordinal and discrete time duration:}
-	\item \textbf{Dichotomous:}
-	\item \textbf{Counts and continuous time duration:}
-	\item \textbf{Polytomous:}
-	\item \textbf{Mixed responses:}
+	
+	\item \textbf{Continuous:} \\
+	It results form selecting an identity link function for the mean scaled response,
+	\begin{equation} \label{eq:link_cont}
+	\mu^{*} = v^{*}
+	\end{equation}
+
+	and a standard normal distribution for the same response,
+	\begin{equation} \label{eq:dist_cont}
+		f(\mu^{*}) = \phi(\mu^{*}) \sigma^{-1} = \phi(v^{*}) \sigma^{-1}
+	\end{equation}
+
+	where $y^{*} = y \sigma^{-1}$, $v^{*} = v \sigma^{-1}$, and $\phi(x) = (2 \pi )^{-1/2} exp(-x^{2}/2)$, which describes the standard normal distribution. Additionally, in the presence of heteroscedasticity, this can be modeled as:
+	\begin{equation} \label{eq:het_cont}
+		log(\sigma) = \pmb{\alpha}^{T}\mathbf{Z^{(1)}}
+	\end{equation}
+	
+	where $\sigma$ is the standard deviation of the errors, and $\mathbf{Z^{(1)}}$ is the design matrix at level $1$, that maps the regression parameters $\pmb{\alpha}$.
+	
+	
+	\item \textbf{Dichotomous:} \\
+	It results from selecting an appropriate link function for the expected value of the response, which describe the probability of endorsing one of the available categories,
+	\begin{equation} \label{eq:link_dich}
+		\mu = E[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = P[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \pi = h(v)
+	\end{equation}
+	
+	where $h(v)$ can be defined by the $h(x) = exp(x)[1 + exp(x)]^{-1}$, $h(x) = \phi(x)$, or $h(x) = exp(x - exp(x))$, which are the logit, probit, and complementary log-log links, respectively. Finally, the conditional distributional part is defined by a binomial distribution,
+	\begin{equation} \label{eq:dist_dich}
+		f[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \binom{n}{k} \mu^{k} (1-\mu)^{n-k}= \binom{n}{k} \pi^{k} (1-\pi)^{n-k}
+	\end{equation}
+
+	where $k$ is the number of successes in $n$ independent Bernoulli trials. 
+	
+	
+	\item \textbf{Counts and continuous time duration:} \\
+	It results from selecting a log link function for the expected value of the response,
+	\begin{equation} \label{eq:link_count}
+		ln(\mu) = ln(E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = ln(\lambda) = v
+	\end{equation}
+	
+	and a Poisson distribution for the conditional distribution of the counts,
+	\begin{equation} \label{eq:dist_count}
+		f[y| \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = exp(-\mu) \mu^{y} (y!)^{-1} = exp(-\lambda) \lambda^{y} (y!)^{-1}
+	\end{equation}
+
+		
+	\item \textbf{Polytomous:} \\
+	
+	\item \textbf{Ordinal and discrete time duration:} \\
+		
+	\item \textbf{Mixed responses:} \\
+
 \end{enumerate}
 
 \subsection{Structural model for the latent variables}
