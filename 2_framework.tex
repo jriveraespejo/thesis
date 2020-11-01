@@ -8,7 +8,7 @@ This chapter will present the definition of such model, its characteristics, ass
 \section{Definition}
 Following \citet{Rabe_et_al_2004a}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a "wide" format, and adopt a univariate approach, i.e. "long" format. In that sense, all the response variables for each unit are "stacked" in a single response vector with different variables distinguished from each other by a design matrix.
 
-With the aforementioned structure, we proceed to outline the three parts of the framework: (i) the response model, (ii) the structural latent variable model, and (iii) the distribution of the latent variables. For a detailed description of some of the special cases of multilevel SEM that can be derived with this framework, refer to Appendix \ref{app:additional}.
+With the aforementioned structure, we proceed to outline the three parts of the framework: (i) the response model, (ii) the structural latent variable model, and (iii) the distribution of the latent variables. For a detailed description of some of the special cases of multilevel SEM that can be derived with this framework, refer to Appendix \ref{appA:additional}.
 
 
 \subsection{Response model}
@@ -25,10 +25,10 @@ For a model with $L$ levels and $M_{l}$ latent variables at $l>1$ levels, the li
 
 \noindent where $\mathbf{X}$ is a design matrix that maps the parameter vector $\pmb{\beta}$ to the linear predictor, $\eta_{m}^{(l)}$ the $m$th latent variable at level $l$ ($m=1, \dots, M_{(l)}$ and $l=1, \dots, L$), and $\mathbf{Z}_{m}^{(l)}$ a design matrix that maps the vector of loadings $\pmb{\lambda}_{m}^{(l)}$ to the $m$th latent variable at level $l$.
 
-Note that wo do not use subscripts for the units of observation at different levels, this decision was made with the purpose of avoiding the use of mathematical definitions with large number of subscripts. However, a careful reader should consider that equation \ref{eq:linear_predictor} rest on the assumption that each unit is identified at their appropriate level. For special cases of multilevel SEM and their use of subscripts refer to Appendix \ref{app:additional}.
+Note that wo do not use subscripts for the units of observation at different levels. This decision was made with the purpose of avoiding the use of mathematical definitions with large number of subscripts. However, a careful reader should consider that equation \ref{eq:linear_predictor} rest on the assumption that each unit is identified at their appropriate level. For special cases of multilevel SEM and their use of subscripts refer to Appendix \ref{appA:additional}.
 
 \subsubsection{Links and Distributions}
-To make the mathematical explanation more tractable, the author first proceeds to define some nomenclature. First, $\pmb{\eta}^{(l)}=[\eta_{1}^{(l)}, \dots, \eta_{M_{(l)}}^{(l)}]^{T}$ denotes the vector of latent variables at level $l$, and $\mathbf{Z}^{(l)}=[\mathbf{Z}_{1}^{(l)T}, \dots, \mathbf{Z}_{M_{(l)}}^{(l)T}]^{T}$ the "stacked" design matrix of explanatory variables at level $l$, respectively. Finally, $\pmb{\eta}=[\eta^{(2)T}, \dots, \eta^{(L)T}]^{T}$ describes the "stacked" vector of latent variables for all $L$ levels, and $\mathbf{Z}=[\mathbf{Z}^{(2)T}, \dots, \mathbf{Z}^{(L)T}]^{T}$ the "stacked" design matrices of explanatory variables for all $L$ levels, respectively. \\
+To make the mathematical explanation more tractable, the author first proceeds to define some nomenclature. First, $\pmb{\eta}^{(l)}=[\eta_{1}^{(l)}, \dots, \eta_{M_{(l)}}^{(l)}]^{T}$ denotes the vector of latent variables, and $\mathbf{Z}^{(l)}=[\mathbf{Z}_{1}^{(l)T}, \dots, \mathbf{Z}_{M_{(l)}}^{(l)T}]^{T}$ the "stacked" design matrix of explanatory variables, at level $l$ respectively. Finally, $\pmb{\eta}=[\eta^{(2)T}, \dots, \eta^{(L)T}]^{T}$ describes the "stacked" vector of latent variables, and $\mathbf{Z}=[\mathbf{Z}^{(2)T}, \dots, \mathbf{Z}^{(L)T}]^{T}$ the "stacked" design matrices of explanatory variables, for all $L$ levels respectively. \\
 
 For the link functions, the model "links" the expectation of the conditional response to the linear predictor through a response function $h(\cdot)$, in the following form: 
 \begin{equation} \label{eq:response_function}
@@ -40,7 +40,7 @@ For the link functions, the model "links" the expectation of the conditional res
 	g(\mu) = g(E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = v
 \end{equation}
 
-Finally, the response model specification is complete when we select an appropriate distribution for the conditional response from the family of exponential distributions. The types of responses that can be accommodated by the framework are the following:
+Finally, the response model specification is complete when we select an appropriate distribution from the family of exponential distributions, for the conditional response. The types of responses that can be accommodated by the framework are the following:
 
 \begin{enumerate}
 	
@@ -50,31 +50,76 @@ Finally, the response model specification is complete when we select an appropri
 	\mu^{*} = v^{*}
 	\end{equation}
 
-	and a standard normal distribution for the same response,
+	On the other hand, the distributional part use an standard normal distribution,
 	\begin{equation} \label{eq:dist_cont}
-		f(\mu^{*}) = \phi(\mu^{*}) \sigma^{-1} = \phi(v^{*}) \sigma^{-1}
+		f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) = \phi(\mu^{*}) \sigma^{-1} = \phi(v^{*}) \sigma^{-1}
 	\end{equation}
 
-	where $y^{*} = y \sigma^{-1}$, $v^{*} = v \sigma^{-1}$, and $\phi(x) = (2 \pi )^{-1/2} exp(-x^{2}/2)$, which describes the standard normal distribution. Additionally, in the presence of heteroscedasticity, this can be modeled as:
+	where $y^{*} = y \sigma^{-1}$, $v^{*} = v \sigma^{-1}$, and $\phi(x) = (2 \pi )^{-1/2} exp(-x^{2}/2)$, describes the Standard Normal density distribution. Additionally, in the presence of heteroscedasticity, this can be modeled as:
 	\begin{equation} \label{eq:het_cont}
 		log(\sigma) = \pmb{\alpha}^{T}\mathbf{Z^{(1)}}
 	\end{equation}
 	
-	where $\sigma$ is the standard deviation of the errors, and $\mathbf{Z^{(1)}}$ is the design matrix at level $1$, that maps the regression parameters $\pmb{\alpha}$.
+	where $\sigma$ is the standard deviation of the errors, and $\mathbf{Z^{(1)}}$ is the design matrix at level $1$, that maps the regression parameters $\pmb{\alpha}$. {\color{red} is this a random intercepts at level $1$ definition?}
 	
 	
 	\item \textbf{Dichotomous:} \\
-	It results from selecting an appropriate link function for the expected value of the response, which describe the probability of endorsing one of the available categories,
+	It results from selecting an appropriate link function for the expected value of the response, which describe the probability of endorsing one of the two available categories,
 	\begin{equation} \label{eq:link_dich}
 		\mu = E[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = P[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \pi = h(v)
 	\end{equation}
 	
-	where $h(v)$ can be defined by the $h(x) = exp(x)[1 + exp(x)]^{-1}$, $h(x) = \phi(x)$, or $h(x) = exp(x - exp(x))$, which are the logit, probit, and complementary log-log links, respectively. Finally, the conditional distributional part is defined by a binomial distribution,
+	with a response function that can be defined in three ways:	
+	\begin{eqnarray}
+		h(x) &= &exp(x)[1 + exp(x)]^{-2} \label{eq:response_dich1}\\
+		h(x) &= &(2 \pi )^{-1/2} exp(-x^{2}/2) \\
+		h(x) &= &exp(x - exp(x))
+	\end{eqnarray}
+	which corresponds to the logistic, standard normal, and {\color{red} Gumbel} density distributions, respectively. In turn, in terms of link functions, the distributions corresponds to the logit, probit and complementary log-log link functions, respectively. 
+	
+	Finally, the distributional part is defined by a Binomial distribution,
 	\begin{equation} \label{eq:dist_dich}
 		f[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \binom{n}{k} \mu^{k} (1-\mu)^{n-k}= \binom{n}{k} \pi^{k} (1-\pi)^{n-k}
 	\end{equation}
 
-	where $k$ is the number of successes in $n$ independent Bernoulli trials. 
+	where $k$ denotes the number of successes in $n$ independent Bernoulli trials.
+	
+			
+	\item \textbf{Polytomous:} \\	
+	It results from selecting an appropriate link function for the expected value of the response, which in this case describe the probability of endorsing one of the $S$ unordered available categories,
+	\begin{equation} \label{eq:link_poly1}
+		\mu_{s} = E[y=y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = P[y=y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \pi_{s} = h(v_{s})
+	\end{equation}
+	
+	with a response function that can be defined in two ways: 
+	\begin{eqnarray}
+		h(x) &= &exp(x)\left[\sum_{s=1}^{S} exp(x)\right]^{-1}\\
+		h(x) &= &exp(-x-exp(-x))
+	\end{eqnarray}
+	where the former describes the generalized logistic density distribution, and the latter, the Gumbel (extreme value type I) distribution. It is important to note that under the Gumbel parametrization, the modelling process will corresponds with the "random utility model" parametrization, often used in econometrics. 
+	
+	{\color{red} make sure of the following part}
+	
+	Under this framework, we can model the category of interest against a reference category, in the following form:
+	\begin{equation} \label{eq:link_poly2}
+		\mu_{s-r} = E[y=y_{s-r} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = P[y=y_{s-r} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \pi_{s-r} = h(v_{s} - v_{r})
+	\end{equation}
+
+	where $r$ denotes the reference category, $y_{s-r}=y_{s} - y_{r}$, and $h(\cdot)$ is a logistic distribution like in \ref{eq:response_dich1}. Alternatively, the framework can model the category of interest against the $S-1$ categories in the following form,
+	\begin{equation} \label{eq:link_poly2}
+		\mu_{s-S} = E[y=y_{s-r} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = P[y=y_{s-r} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \pi_{s-r} = h(v_{s} - v_{r})
+	\end{equation}
+	
+	Finally, the distributional part is defined by a Multinomial distribution,
+	\begin{equation} \label{eq:dist_poly}
+		f[y=\{y_{1}, \cdots, y_{S}\} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = \frac{n!}{k_{1}! \cdots k_{S}!} \prod_{s=1}^{S} \mu_{s}^{y_{s}} = \frac{n!}{k_{1}! \cdots k_{S}!} \prod_{s=1}^{S} \pi_{s}^{y_{s}}
+	\end{equation}
+	
+	where, in the case of the Gumbel parametrization, the product will span over $S-1$ set of alternatives, and the parameters will be defined as $y_{s-r}$, $\mu_{s-r}$ and $\pi_{s-r}$. 
+
+	
+	
+	\item \textbf{Ordinal and discrete time duration:} \\
 	
 	
 	\item \textbf{Counts and continuous time duration:} \\
@@ -87,11 +132,12 @@ Finally, the response model specification is complete when we select an appropri
 	\begin{equation} \label{eq:dist_count}
 		f[y| \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = exp(-\mu) \mu^{y} (y!)^{-1} = exp(-\lambda) \lambda^{y} (y!)^{-1}
 	\end{equation}
-
-		
-	\item \textbf{Polytomous:} \\
 	
-	\item \textbf{Ordinal and discrete time duration:} \\
+	
+	\item \textbf{Rankings and pairwise comparisons:} \\
+	Similar parametrization can be used as the building block for the conditiona distribution of rankings \citep{Rabe_et_al_2003}. 
+
+
 		
 	\item \textbf{Mixed responses:} \\
 
@@ -101,6 +147,7 @@ Finally, the response model specification is complete when we select an appropri
 
 \subsection{Distribution of the latent variables}
 
+\subsection{Model identification}
 
 
 \section{Relationship with other modeling schemes}
