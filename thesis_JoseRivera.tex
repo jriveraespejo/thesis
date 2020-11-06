@@ -21,9 +21,11 @@
 \usepackage{amsfonts}						% mathematical formulas
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{stackengine}
 \usepackage[hidelinks]{hyperref}       		% hyperlinks
 \usepackage{url} 							% url typesetting
 \usepackage{enumerate} 						% numbered lines
+\usepackage{cases} 							% numbered cases equations
 \usepackage{color, soul}					% highlight text
 %
 % ------------------------ Page settings -----------------------------
@@ -133,6 +135,8 @@ Academic year 2020-2021
 \rmfamily
 \setcounter{page}{0}
 \pagenumbering{roman}
+%\numberwithin{equation}{section}	% numbering of equation per section
+\stackMathé
 %
 %--------------------------------------------------------------------------
 % ----------------------- dedication --------------------------------------
