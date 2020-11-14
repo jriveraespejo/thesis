@@ -187,7 +187,7 @@ Finally, the response model specification is complete when we select an appropri
 	\item \textbf{Rankings and pairwise comparisons:} \\
 	Following \citet{Skrondal_et_al_2003a}, the parametrization for polytomous responses can serve as the building block for the conditional distribution of rankings. Selecting a "exploded logit" function \citep{Chapaaan_et_al_1982} for the expected value of the response, which describes the probability of the full rankings of category $s$,
 	
-	{\color{red} REVIEW THIS PART
+	{\color{red} WORK IN PROGRESS
 	\begin{equation} \label{eq:link_rank}
 		\begin{split}
 			\mu_{s} &= P[\mathbf{R}_{s}= \{ r_{s}^{1}, \dots r_{s}^{1}\} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
@@ -241,11 +241,13 @@ Finally, the response model specification is complete when we select an appropri
 
 \end{enumerate}
 
-\subsubsection{Modeling heteroscedasticity and over-dispersion}
+\subsubsection{Heteroscedasticity and over-dispersion in the response}
 
-Under the GLM framework, the continuous response model assumes that the errors are homoscedastic, i.e. $\epsilon^{*} \sim N(0,1)$, assumption that is often violated when, for example, the units of analysis are correlated or belong to a cluster. In similar fashion, for non-continuous response models (dichotomous, ordinal and counts), the framework fixes the relationship of the modeled dispersion to the mean value, e.g. for the dichotomous case $\mu = \pi$, and $v(\mu) = \pi (1-\pi)$; however in practice, this assumption is also often violated as the data can register over- or under-dispersion. 
+Under the GLM framework, the continuous response model assumes that the errors are homoscedastic, identical and independently distributed, i.e. $\epsilon^{*} \overset{iid}{\sim} N(0,1)$. However, this assumption that is often violated when, for example, the units of analysis are correlated or belong to a cluster. In similar fashion, for non-continuous responses the framework fixes the relationship of the modeled dispersion to the mean value, e.g. for the dichotomous case $\mu = \pi$, and $v(\mu) = \pi (1-\pi)$. But again, in practice, this assumption is also often violated as the data can present over- or under-dispersion. 
 
-Given the restrictions of GLM, the Generalized Linear Mixed Model (GLMM) framework was developed. Under the new framework, heteroscedasticity and over-dispersion is modeled by including random effects in the linear predictor. The GLLAMM framework borrows the same idea to model similar characteristics of the data:
+Given the restrictions of GLM, the Generalized Linear Mixed Model (GLMM) framework was developed. Under the new framework, heteroscedasticity, over-dispersion and other characteristics of the data can be easily modeled by adding random effects to the linear predictor. 
+
+In that sense, GLLAMM is similar to the GLMM framework, as it borrow the idea of including random effects to model heteroscedasticity, and over-dispersion in the responses. The types of responses, in which such characteristics can be modeled, are the following:
 
 \begin{enumerate}
 	\item \textbf{Continuous:} \\
@@ -312,13 +314,11 @@ The structural model for the latent variables has the form:
 	\def\stacktype{L}
 	\pmb{\eta} = \stackunder{\mathbf{B}}{\sss (M \times M)} \stackunder{\pmb{\eta}}{\sss (M \times 1)} + \stackunder{\pmb{\Gamma}}{\sss (M \times Q)} \stackunder{\mathbf{W}}{\sss (Q \times 1)} + \stackunder{\pmb{\zeta}}{\sss (M \times 1)}
 \end{equation}
-where $\mathbf{B}$ and $\pmb{\Gamma}$ are parameter matrices that maps the relationship between the latent variables $\pmb{\eta}$, and the vector of "stacked" covariates $\mathbf{W}$, respectively; $\pmb{\zeta}$ is a vector of errors or disturbances, and $M = \sum_{l} M_{l}$. Notice that while equation \ref{eq:structural_model} resembles to single-level structural equation models, the main difference lies in the fact that the latent variables may vary at different levels. 
-
-Additionally, considering that $\pmb{\eta}$ has no feedback effects and it is permuted and sorted appropriately (according to its levels), the framework considers $\mathbf{B}$ as a strictly upper diagonal matrix. Regarding this, it is important to mention that: 
+where $\mathbf{B}$ and $\pmb{\Gamma}$ are parameter matrices that maps the relationship between the latent variables $\pmb{\eta}$, and the vector of "stacked" covariates $\mathbf{W}$, respectively; $\pmb{\zeta}$ is a vector of errors or disturbances, and $M = \sum_{l} M_{l}$. Notice that while equation \ref{eq:structural_model} resembles to single-level structural equation models, the main difference lies in the fact that the latent variables may vary at different levels. Additionally, considering that $\pmb{\eta}$ has no feedback effects, and it is permuted and sorted according to the levels, $\mathbf{B}$ is defined as a strictly upper triangular matrix. In this regard, it is important to mention that,
 \begin{enumerate}
-	\item The absence of feedback loops implies that the method deals with non-recursive models, i.e. none of the latent variables are specified as both causes and effects of each other \citep{Kline_2012}; {\color{red} this in turn allows the estimation of the model parameters}.
+	\item The absence of feedback loops implies that the method deals with non-recursive models, i.e. none of the latent variables are specified as both causes and effects of each other \citep{Kline_2012}; {\color{red} this in turn allows the easy estimation of the model parameters}.
 	
-	\item The permutation and sorting characteristic reveals that the framework does not allow higher level latent variables to be regressed on lower level latent or observed variables, as such specification is more related to the use of formative, rather than reflective, latent variables. For a detail explanation on the topic refer to \citet{Edwards_et_al_2000}.
+	\item The strictly upper triangular structure reveals that the framework does not allow latent variables to be regressed on lower level latent or observed variables, as such specification is more related to the use of formative, rather than reflective, latent variables. For a detail explanation on the topic refer to \citet{Edwards_et_al_2000}.
 \end{enumerate}
 Notice, however, the previous restrictions does not hinder the ability of the method to model contextual effects, after controlling the lower level compositional effects.
 
@@ -327,27 +327,38 @@ Notice, however, the previous restrictions does not hinder the ability of the me
 
 
 \subsection{Distribution of the latent variables}
-Finally, to fully specify the framework, we need to define the assumed distributions for the disturbances $\pmb{\zeta}$ or the latent variables $\pmb{\eta}$. If our interest lies in the structural equation model, it is more convenient to specify the distribution of the disturbances; otherwise, we set the distributions for the latent variables. Additionally, as in a multilevel setting, it is assumed that latent variables at different levels are independent, whereas latent variables at the same level may be dependent. In that sense, we consider that all latent variables at level $l$ have a multivariate normal distribution with zero mean and covariance matrix $\Sigma_{l}$, i.e. $\pmb{\eta}^{(l)} \sim MVN(\mathbf{0}, \pmb{\Sigma}_{l})$. However, while the multivariate normal distribution is widely used, any other can be assumed, and can be even left unspecified by using non-parametric maximum likelihood estimation \citep{Rabe_et_al_2003a}
+Finally, to fully specify the framework, and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$ or the latent variables $\pmb{\eta}$. If our research interest lies in the structural equation model, it is more convenient to make assumptions for the distribution of the disturbances; otherwise, we make assumptions for the distributions for the latent variables. 
+
+Furthermore, as in the hierarchical framework, it is assumed the latent variables at different levels are independent, whereas latent variables at the same level may present dependency. In that sense, we presume all latent variables at level $l$ to have a multivariate normal distribution with zero mean and covariance matrix $\Sigma_{l}$, i.e. $\pmb{\eta}^{(l)} \sim MVN(\mathbf{0}, \pmb{\Sigma}_{l})$. It is important to emphasize that, while the multivariate normal distribution is widely used in these settings, it is not the only distribution that can be assumed. \citet{Rabe_et_al_2003a} have provided evidence that it can be even left unspecified, by using non-parametric maximum likelihood estimation.
 
 
 
 \subsection{Model identification}
-{\color{red} IMPROVE ON THIS PART
+{\color{red} WORK IN PROGRESS
 	
-	The structure of the latent variables is specified by the number of levels L and the number
-	of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
+	The structure of the latent variables is specified by the number of levels L and the number of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
 }
 
 
 \section{Relationship with other modeling schemes}
 
-\citet{Rabe_et_al_2012}
+{\color{red} WORK IN PROGRESS
 
-{\color{red} The motivation for multilevel regression models is to handle hierarchical data where elementary units are nested in clusters, such as students in schools, which in
-turn may be nested in higher-level clusters (e.g., school districts or states). The latent variables, often called "random effects” in this context, can be interpreted as
-the effects of unobserved covariates at different levels that induce dependence among lower-level units. In contrast, the motivation for structural equation models is to
-handle variables that cannot be measured directly, and are hence latent, and to model their relationships with each other and with observed or manifest variables.
-The latent variables, often called “common factors” inthis context, are measured by manifest variables and induce dependence among them.}
+Throughout The statistical literature was instigated to develop methods that can handle such data characteristics. Considering that researchers are often interested in variables that cannot be measured directly or reflect measurement error, e.g. intelligence, depression;  Is in this setting that Structural Equation Models (SEM) were developed, as a framework motivated by the need of tools that can impute relationships between unobserved constructs (also known as factors, latent variables, amng others) and observable or manifest variables. Under this framework, it is assumed that such "common factors" are responsible for the variation and dependence in the manifest variables.
+
+Use of SEM is commonly justified in the social sciences because of its ability to 
+
+
+Multilevel regression models were developed to handle hierarchical or clustered structure in the data, where elementary units are nested in clusters, such as students in schools, which in turn may be nested in higher-level clusters (e.g., school districts or states). The latent variables, often called "random effects” in this context, can be interpreted as the effects of unobserved covariates at different levels that induce dependence among lower-level units.
+
+As stated by \citet{Rabe_et_al_2012}, the GLLAMM framework was motivated by the need of a multilevel Structural Equation Model (SEM) to accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables.
+
+multilevel structural equation models represent a synthesis between multilevel regression models and structural equation models. Considering that 
+
+
+is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Rabe_et_al_2004c, Skrondal_et_al_2004a, Rabe_et_al_2012}, the method was motivated by the need of a multilevel Structural Equation Model (SEM) that accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. 
+
+}
 
 
 \subsection{Factor Models}

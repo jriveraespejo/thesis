@@ -17,7 +17,7 @@
 \usepackage{setspace} 						% flexible spacing
 %\setlength{\parskip}{2.5mm} 			    % paragraph space
 \usepackage{natbib} 						% Bibtex bibliography
-%\usepackage{biblatex}						% Biber bibliography
+%\usepackage[style=apa]{biblatex}			% Biber bibliography
 \usepackage{amsfonts}						% mathematical formulas
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -27,6 +27,9 @@
 \usepackage{enumerate} 						% numbered lines
 \usepackage{cases} 							% numbered cases equations
 \usepackage{color, soul}					% highlight text
+%
+%
+%\addbibresource{bibliography.bib}			% Biber bibliography
 %
 % ------------------------ Page settings -----------------------------
 % If you change these, the cover layout will also change.  In that
@@ -79,7 +82,7 @@
 %
 \begin{textblock}{160}(-6,63)
 \textblockcolour{}
-\vspace{-\parskip}
+\vspace{-\parskip}^
 \flushleft
 \fontsize{40}{42}\selectfont \textcolor{bluetitle}{Generalized Linear Latent and Mixed Models:}\\[1.5mm]
 \fontsize{20}{22}\selectfont method, estimation procedures, advantages, and applications to educational policy. \\
@@ -143,7 +146,8 @@ Academic year 2020-2021
 %--------------------------------------------------------------------------
 \chapter*{Dedication}
 \noindent To Manuel, for being my friend and father. \\
-To Margarita, Susan and Ana, for their relentless encouragement. \\
+To Margarita, Susan, and Marysu, for their relentless encouragement. \\
+To Ana, for showing me the value of family, here in this moorland. \\
 To both of you, as you are always in my mind. \\
 And to all that knowingly or not, help me to get here.\\
 I am lucky due to all of you. \\
@@ -151,9 +155,10 @@ I hope I make you all proud. \\ \\ \\
 %
 %
 \noindent A Manuel, por ser mi amigo y mi padre. \\
-A Margarita, Susan y Ana, por su incansable aliento. \\
+A Margarita, Susan y Marysu, por su incansable aliento. \\
+A Ana, por mostrarme el valor de la familia, aqu\'i en este p\'aramo.\\
 A ustedes dos, que siempre las tengo en mente. \\
-Y a todos los que sabiendolo o no, me ayudaron a llegar aqu\'i\\
+Y a todos los que sabiendolo o no, me ayudaron a llegar aqu\'i.\\
 Soy un suertudo gracias todos ustedes. \\
 Espero llenarlos de orgullo.
 %
@@ -253,7 +258,6 @@ Espero llenarlos de orgullo.
 %---------------------------
 \newpage
 \backmatter \singlespacing			% simple spacing
-%\addbibresource{bibliography.bib}	% Biber bibliography
 %\printbibliography
 \bibliography{bibliography}			% BibTex bibliography
 \bibliographystyle{dcu}

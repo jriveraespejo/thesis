@@ -1,4 +1,7 @@
 % BibTeX standard bibliography style `dcu' (one of the harvard family)
+	
+	% Modified to include DOI and URL separately
+	
 	% version 0.99a for BibTeX versions 0.99a or later, LaTeX version 2.09.
 	% Copyright (C) 1991, all rights reserved.
 	% Copying of this file is authorized only if either
@@ -38,7 +41,8 @@ ENTRY
     series
     title
     type
-    URL
+    doi
+    url
     volume
     year
   }
@@ -159,10 +163,17 @@ FUNCTION {quote}
   if$
 }
 
-FUNCTION {write.url}
-{ URL empty$
+FUNCTION {write.doi}
+{ doi empty$
     { skip$ }
-    { "\newline\harvardurl{" URL * "}" * write$ newline$ }
+    { "\newline{\bf DOI: }{" doi * "}{.}" * write$ newline$ }
+  if$
+}
+
+FUNCTION {write.url}
+{ url empty$
+    { skip$ }
+    { "\newline{\bf URL: }{" url * "}{.}" * write$ newline$ }
   if$
 }
 
@@ -710,6 +721,7 @@ FUNCTION {article}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -744,6 +756,7 @@ FUNCTION {book}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -761,6 +774,7 @@ FUNCTION {booklet}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -796,6 +810,7 @@ FUNCTION {inbook}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -824,6 +839,7 @@ FUNCTION {incollection}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -858,6 +874,7 @@ FUNCTION {inproceedings}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -887,6 +904,7 @@ FUNCTION {manual}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -906,6 +924,7 @@ FUNCTION {mastersthesis}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -922,8 +941,8 @@ FUNCTION {misc}
   new.block
   note output
   fin.entry
+  nwrite.doi
   write.url
-  empty.misc.check
 }
 
 FUNCTION {phdthesis}
@@ -942,6 +961,7 @@ FUNCTION {phdthesis}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -975,6 +995,7 @@ FUNCTION {proceedings}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -994,6 +1015,7 @@ FUNCTION {techreport}
   new.block
   note output
   fin.entry
+  write.doi
   write.url
 }
 
@@ -1010,6 +1032,7 @@ FUNCTION {unpublished}
   new.block
   note "note" output.check
   fin.entry
+  write.doi
   write.url
 }
 
