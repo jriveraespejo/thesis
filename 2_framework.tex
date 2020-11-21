@@ -16,7 +16,7 @@ For a detailed description of some of the special cases of multilevel SEM, that 
 
 
 \subsection{Response model}
-As outlined by the authors, conditional on the latent variables, the response model is a Generalized Linear Model (GLM) defined by a systematic and a distributional part. For the systematic part, a linear predictor and a link function are selected, in accordance to the characteristics of the manifest variables. On the other hand, for the distributional part, a distribution from the exponential family is selected. \\
+As outlined by the authors, conditional on the latent variables, the response model is a Generalized Linear Model (GLM) defined by a systematic and a distributional part. For the systematic part, a linear predictor and a link function are selected, in accordance to the characteristics of the manifest variables. On the other hand, for the distributional part, a distribution from the exponential family is selected.
 
 In the following sections, we proceed to describe the linear predictor, the link function and the distributions accommodated by the framework.
 
@@ -29,15 +29,15 @@ For a model with $L$ levels and $M_{l}$ latent variables at $l>1$ levels, the li
 
 \noindent where $\mathbf{X}$ is a design matrix that maps the parameter vector $\pmb{\beta}$ to the linear predictor, $\eta_{m}^{(l)}$ the $m$th latent variable at level $l$ ($m=1, \dots, M_{(l)}$ and $l=1, \dots, L$), and $\mathbf{Z}_{m}^{(l)}$ a design matrix that maps the vector of loadings $\pmb{\lambda}_{m}^{(l)}$ to the $m$th latent variable at level $l$.
 
-Note that wo do not use subscripts for the units of observation at different levels. This decision was made with the purpose of avoiding the use of mathematical definitions with large number of subscripts. However, a careful reader should consider that equation \ref{eq:linear_predictor} rest on the assumption that each unit is identified at their appropriate level. For special cases of multilevel SEM, and their use of subscripts, refer to Appendix \ref{appA:additional}.
+Note that wo do not use subscripts for the units of observation at different levels. This decision was made with the purpose of avoiding the use of mathematical definitions with large number of subscripts. However, a careful reader should consider that equation (\ref{eq:linear_predictor}) rest on the assumption that each unit is identified at their appropriate level. For special cases of multilevel SEM, and their use of subscripts, refer to Appendix \ref{appA:additional}.
 
 \subsubsection{Links and Distributions}
-As in the GLM framework, the model "links" the expectation of the conditional response, to the linear predictor, through a response function $h(\cdot)$, in the following form: 
+As in the GLM framework, the model "links" the expectation of the conditional response, to the linear predictor, through a inverse-link function $h(\cdot)$, in the following form: 
 \begin{equation} \label{eq:response_function}
 	\mu = E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] = h(v)
 \end{equation}
 
-\noindent where equation \ref{eq:response_function} can be re-written in terms of the link function $g(\cdot) = h^{-1}(\cdot)$:
+\noindent where equation (\ref{eq:response_function}) can be re-written in terms of the link function $g(\cdot) = h^{-1}(\cdot)$:
 \begin{equation} \label{eq:link_function}
 	g(\mu) = g(E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}]) = v
 \end{equation}
@@ -53,43 +53,45 @@ Finally, the response model specification is complete when we select an appropri
 	\begin{equation} \label{eq:link_cont}
 		\begin{split}
 		\mu^{*} &= E[y^{*} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\ 
-		&= v^{*}
+		&= v
 		\end{split}
 	\end{equation}
-	where $\mu^{*} = \mu \sigma^{-1}$, $y^{*} = y \sigma^{-1}$, $v^{*} = v \sigma^{-1}$, and $\sigma$ denotes the standard deviation of the errors.
+	where $\mu^{*} = \mu \sigma^{-1}$, $y^{*} = y \sigma^{-1}$, and $\sigma$ denotes the standard deviation of the errors.
 	
-	On the other hand, the distributional part is defined by a Standard Normal distribution $\phi(x)=(2 \pi)^{-1/2} exp(-x^{2}/2 )$,
+	On the other hand, the distributional part is defined by a Standard Normal distribution $\phi(x)=(2 \pi)^{-1/2} exp(-x^{2}/2)$,
 	\begin{equation} \label{eq:dist_cont}
 		\begin{split}
 		f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) &= \phi(\mu^{*}) \sigma^{-1} \\
-		&= \phi(v^{*}) \sigma^{-1}
+		&= \phi(v) \sigma^{-1}
 		\end{split}
 	\end{equation}
-	Notice that the same parametrization can be achieved considering $y^{*} = v^{*} + \epsilon^{*}$, and $\epsilon^{*} \sim N(0, 1)$.
-	Additionally, the decision to standardize the response variables has been made with the purpose of making the estimation process easier.
+	Notice that the same parametrization can be achieved considering $y^{*} = v + \epsilon^{*}$, and $\epsilon^{*} \sim N(0, 1)$.
+	Additionally, the decision to standardize the response variables has been made with the purpose of making the estimation process easier, as such distribution is free of unknown parameters.
 	
 	
 	
 	\item \textbf{Dichotomous:} \\
-	It results from selecting an appropriate response function for the expected value of the manifest variable, which describe the probability of endorsing one of the two available categories,
+	It results from selecting an appropriate inverse-link function for the expected value of the manifest variable, which describe the probability of endorsing one of the two available categories,
 	\begin{equation} \label{eq:link_dich}
 		\begin{split}
 		\mu &= E[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\ 
 		&= P[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
 		&= \pi \\
-		&= h(v)
+		&= h(\kappa - v)
 		\end{split}	
 	\end{equation}
-	where $h(\cdot)$ can be defined in three ways:	
+	where $\kappa$ is the decision threshold, and $h(\cdot)$ can be defined in three ways:	
 	\begin{equation} \label{eq:response_dich1}
 		h(x) = 
 		\begin{cases}
-		exp(x)[1 + exp(x)]^{-2} \\
-		(2 \pi )^{-1/2} exp(-x^{2}/2) \\
-		exp(x - exp(x))
+			exp(x)[1 + exp(x)]^{-1} \\
+			\Phi(x) \quad \text{No closed form.} \\
+			exp(-exp(x))
 		\end{cases}
 	\end{equation}
-	which corresponds to the logistic, standard normal $\phi(x)$, and Gumbel (extreme value type I) density  distributions, respectively. In terms of link functions, the distributions corresponds to the well known logit, probit and complementary log-log link functions, respectively. Alternatively, the same parametrization can be achieved using the concept of an underlying latent variable in the form $y^{*} = v + \epsilon^{*}$, where $\epsilon^{*}$ can have a distribution as the ones defined in equation \ref{eq:response_dich1}.
+	which corresponds to the logistic, standard normal $\Phi(x)$, and Gumbel (extreme value type I) \textit{cumulative distributions}, respectively. In terms of link functions, the distributions corresponds to the well known logit, probit and complementary log-log link functions, respectively. 
+	
+	Alternatively, the same parametrization can be achieved using the concept of an underlying latent variable in the form $y^{*} = v + \epsilon^{*}$, where $y = 1$ if $y^{*} \ge \kappa$, and $\epsilon^{*}$ can have a distribution as the ones defined in equation (\ref{eq:response_dich1}). It is important to mention that under this parametrization, the threshold parameters $\kappa$ and the $\pmb{\beta}$ {\color{red} are confounded as they serve similar purposes, so only one would be estimated}.
 	
 	Finally, the distributional part is defined by a Binomial distribution,
 	\begin{equation} \label{eq:dist_dich}
@@ -104,7 +106,7 @@ Finally, the response model specification is complete when we select an appropri
 	
 			
 	\item \textbf{Polytomous:} \\	
-	It results from selecting a generalized logistic response function \citep{Bock_1972} for the expected value of the response, which in this case, describe the probability of endorsing one of the $S$ unordered available categories,
+	It results from selecting a generalized logistic inverse-link function \citep{Bock_1972} for the expected value of the response, which in this case, describe the probability of endorsing one of the $S$ unordered available categories,
 	\begin{equation} \label{eq:link_poly}
 		\begin{split}
 		\mu_{s} &= E[y=y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
@@ -117,7 +119,8 @@ Finally, the response model specification is complete when we select an appropri
 	\begin{equation} \label{eq:response_poly}
 		h(x) = exp(x)\left[\sum_{s=1}^{S} exp(x)\right]^{-1}
 	\end{equation}
-	It is important to note that, as in the dichotomous case, the same parametrization can be achieved using the concept of underlying continuous responses in the form $y_{s}^{*} = v_{s} + \epsilon_{s}^{*}$, where $y_{s}$ denotes the random utility for the $s$ category, and $\epsilon_{s}^{*}$ have a Gumbel (extreme value type I) distribution, as the one defined in equation \ref{eq:response_dich1}.
+	It is important to note that, as in the dichotomous case, the same parametrization can be achieved using the concept of underlying continuous responses in the form $y_{s}^{*} = v_{s} + \epsilon_{s}$, where $y = s$ if $y_{s}^{*} > y_{k}^{*}$ $\forall s, s \neq k$, $\epsilon_{s}$ have a Gumbel (extreme value type I) distribution, as the one defined in equation (\ref{eq:response_dich1}), and $y_{s}$ denotes the random utility for the $s$ category.
+	
 	
 	Finally, the distributional part is defined by a Multinomial distribution,
 	\begin{equation} \label{eq:dist_poly}
@@ -137,7 +140,7 @@ Finally, the response model specification is complete when we select an appropri
 		\begin{split}
 			\mu_{s} &= E[y = y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
 			&= P[y \leq y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[y \leq y_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
-			&= H(\kappa_{s} - v_{s}) - H(\kappa_{s-1} - v_{s-1})
+			&= h(\kappa_{s} - v_{s}) - h(\kappa_{s-1} - v_{s-1})
 		\end{split}
 	\end{equation}
 	where $\kappa_{s}$ denotes the thresholds for category $s$. For discrete time duration, the linear predictor is "linked" to the probability of survival, in the $s$th time interval, as follows:
@@ -145,26 +148,21 @@ Finally, the response model specification is complete when we select an appropri
 		\begin{split}
 			\mu_{s} &= E[t_{s-1} \leq T \le t_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
 			&= P[T \leq t_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[T \leq t_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
-			&= H(v_{s} + t_{s}) - H(v_{s-1} + t_{s-1})
+			&= h(v_{s} + t_{s}) - h(v_{s-1} + t_{s-1})
 		\end{split}
 	\end{equation}
-	where $T$ is the unobserved continuous time, and $t_{s}$ its observed discrete realization. Additionally, $H(\cdot)$ can be defined, for both type of responses, as the cumulative distributions for the logistic, standard normal, and Gumbel (extreme value type I) density  distributions, respectively:
-	\begin{equation} \label{eq:response_ord}
-	H(x) = 
-	\begin{cases}
-		exp(x)[1 + exp(x)]^{-1} \\
-		\Phi(x) \quad \text{no closed form} \\
-		exp(-exp(x))
-	\end{cases}
-	\end{equation}
-	It is important to note, for discrete time duration responses, the logit link corresponds to a \textbf{Proportional-Odds model}, while the complementary log-log link to a \textbf{Discrete Time Hazards model} \citep{Rabe_et_al_2001}. Other models for ordinal responses, such as the \textbf{Baseline Category Logit} or the \textbf{Adjacent Category Logit} models can be specified as special cases of the generalized logistic response function, defined in equation \ref{eq:response_poly}. Additionally, and similar to the dichotomous and polytomous case, the same parametrization can be achieved using the concept of underlying latent variables, often used for discrete choice models in econometrics.
+	where $T$ is the unobserved continuous time, and $t_{s}$ its observed discrete realization. Additionally, for both type of responses, $h(\cdot)$ can be defined as the logistic, standard normal, and Gumbel (extreme value type I) \textit{cumulative distributions}, as in equation (\ref{eq:response_dich1}).
 	
-	Finally, the distributional part is defined by a Multinomial distribution, as the one defined in equation \ref{eq:dist_poly}.
+	Similar to the dichotomous and polytomous case, the same parametrization can be achieved using the concept of underlying latent variables with $y_{s}^{*} = v_{s} + \epsilon_{s}$, where $y = s$ if $\kappa_{s-1} < y_{s}^{*} \le \kappa_{s}$, $\kappa_{0}=-\infty$, $\kappa_{1}=0$, $\kappa_{S}=+\infty$, $\epsilon_{s}$ has one of the distributions in equation (\ref{eq:response_dich1}), and $y_{s}$ denotes the random utility for the $s$ category.
+	
+	It is important to note, for discrete time duration responses, the logit link corresponds to a \textit{Proportional-Odds model}, while the complementary log-log link to a \textit{Discrete Time Hazards model} \citep{Rabe_et_al_2001}. Other models for ordinal responses, such as the \textit{Baseline Category Logit} or the \textit{Adjacent Category Logit} models can be specified as special cases of the generalized logistic response function, defined in equation (\ref{eq:response_poly}). 
+	
+	Finally, the distributional part is defined by a Multinomial distribution, as the one defined in equation (\ref{eq:dist_poly}).
 	
 	
 	
 	\item \textbf{Counts and continuous time duration:} \\
-	It results from selecting an exponential response function (log link) for the expected value of the response,
+	It results from selecting an exponential inverse-link function (log link) for the expected value of the response,
 	\begin{equation} \label{eq:link_count}
 		\begin{split}
 		\mu &= E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
@@ -172,7 +170,6 @@ Finally, the response model specification is complete when we select an appropri
 		&= exp(v)
 		\end{split}
 	\end{equation}
-	
 	and a Poisson conditional distribution for the counts,
 	\begin{equation} \label{eq:dist_count}
 		\begin{split}
@@ -185,7 +182,7 @@ Finally, the response model specification is complete when we select an appropri
 	
 	
 	\item \textbf{Rankings and pairwise comparisons:} \\
-	Following \citet{Skrondal_et_al_2003a}, the parametrization for polytomous responses can serve as the building block for the conditional distribution of rankings. Selecting a "exploded logit" function \citep{Chapaaan_et_al_1982} for the expected value of the response, which describes the probability of the full rankings of category $s$,
+	Following \citet{Skrondal_et_al_2003a}, the parametrization for polytomous responses can serve as the building block for the conditional distribution of rankings. Selecting a "exploded logit" inverse-link function \citep{Chapaaan_et_al_1982} for the expected value of the response, which describes the probability of the full rankings of category $s$,
 	
 	{\color{red} WORK IN PROGRESS
 	\begin{equation} \label{eq:link_rank}
@@ -222,10 +219,10 @@ Finally, the response model specification is complete when we select an appropri
 		\item \textbf{Different links and distributions for different latent variables}. This can be easily achieved by setting different links and distributions for each of the $M_{2}$ latent variables located at level $2$.
 		
 		
-		\item \textbf{Left- or right-censored continuous responses}. Common in selection models (e.g. \citealp{Hekman_1979}), they can be achieved by specifying an identity link and Normal distribution for the uncensored scaled responses (similar to equations \ref{eq:link_cont} and \ref{eq:dist_cont}); and a scaled probit link and Binomial distribution otherwise (similar to equations \ref{eq:response_dich1} and \ref{eq:dist_dich}).
+		\item \textbf{Left- or right-censored continuous responses}. Common in selection models (e.g. \citealp{Hekman_1979}), they can be achieved by specifying an identity link and Normal distribution for the uncensored scaled responses, as in equations (\ref{eq:link_cont}) and (\ref{eq:dist_cont}); and a scaled probit link and Binomial distribution otherwise, as in equations (\ref{eq:response_dich1}) and (\ref{eq:dist_dich}).
 		
 		
-		\item \textbf{zero-inflated count responses}. where a log link and a Poisson distribution is set for the counts (similar to equations \ref{eq:link_count} and \ref{eq:dist_count}); and a logit link and Binomial distribution is specified to model the zero center of mass (similar to equations \ref{eq:link_dich} and \ref{eq:dist_dich}).
+		\item \textbf{zero-inflated count responses}. where a log link and a Poisson distribution is set for the counts, as in equations (\ref{eq:link_count}) and (\ref{eq:dist_count}); and a logit link and Binomial distribution is specified to model the zero center of mass, as in equations (\ref{eq:link_dich}) and (\ref{eq:dist_dich}).
 		
 		
 		\item \textbf{Measurement error in covariates}. this setting occurs when standard models use variables, with measurement error, as covariates, e.g. a logistic regression with a continuous covariate that presents measurement error. For more details on this type of setting see \citet{Rabe_et_al_2003a, Rabe_et_al_2003b}, and \citet{Skrondal_et_al_2003b}.
@@ -243,11 +240,7 @@ Finally, the response model specification is complete when we select an appropri
 
 \subsubsection{Heteroscedasticity and over-dispersion in the response}
 
-Under the GLM framework, the continuous response model assumes that the errors are homoscedastic, identical and independently distributed, i.e. $\epsilon^{*} \overset{iid}{\sim} N(0,1)$. However, this assumption that is often violated when, for example, the units of analysis are correlated or belong to a cluster. In similar fashion, for non-continuous responses the framework fixes the relationship of the modeled dispersion to the mean value, e.g. for the dichotomous case $\mu = \pi$, and $v(\mu) = \pi (1-\pi)$. But again, in practice, this assumption is also often violated as the data can present over- or under-dispersion. 
-
-Given the restrictions of GLM, the Generalized Linear Mixed Model (GLMM) framework was developed. Under the new framework, heteroscedasticity, over-dispersion and other characteristics of the data can be easily modeled by adding random effects to the linear predictor. 
-
-In that sense, GLLAMM is similar to the GLMM framework, as it borrow the idea of including random effects to model heteroscedasticity, and over-dispersion in the responses. The types of responses, in which such characteristics can be modeled, are the following:
+GLLAMM allows to model heteroscedasticity, and over- or under-dispersion by adding random effects to the linear predictor, at level $1$. The types of responses, in which such characteristics can be modeled, are the following:
 
 \begin{enumerate}
 	\item \textbf{Continuous:} \\
@@ -255,41 +248,40 @@ In that sense, GLLAMM is similar to the GLMM framework, as it borrow the idea of
 	\begin{equation} \label{eq:het_cont}
 		\sigma = exp(\pmb{\alpha}^{T}\mathbf{Z^{(1)}})
 	\end{equation}
-	Notice that the previous formula implies that equation \ref{eq:dist_cont} can be re-written in the following form:
+	Notice that the previous formula implies that equation (\ref{eq:dist_cont}) can be re-written in the following form:
 	\begin{equation} \label{eq:dist_cont1}
-			f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) = \phi(v^{*} + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+			f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) = \phi(v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
 	\end{equation}
-	where $v^{*} = v \sigma^{-1}$, $\sigma$ denotes the standard deviation of the errors, and $\mathbf{Z^{(1)}}$ is the design matrix that maps the random effects $\pmb{\alpha}$. Notice that equation \ref{eq:dist_cont1} effectively corresponds to a model that includes random intercepts at level $1$. 
+	where $\mathbf{Z^{(1)}}$ is the design matrix that maps the random effects $\pmb{\alpha}$. Notice that equation (\ref{eq:dist_cont1}) effectively corresponds to a model that includes random intercepts at level $1$. 
 	
 	
 	
 	\item \textbf{Dichotomous:} \\
-	In a more straightforward way, we model over- or under-dispersion by modifying equation \ref{eq:link_dich}, to include random intercepts at level $1$, in the following form:
+	In a more straightforward way, we model over- or under-dispersion by modifying equation (\ref{eq:link_dich}), to include random intercepts at level $1$, in the following form:
 	\begin{equation} \label{eq:link_dich1}
 		\begin{split}
 			\mu &= P[y=1 | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
 			&= \pi \\
-			&= h(v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+			&= h(\kappa - v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
 		\end{split}	
 	\end{equation}
-	where $\mathbf{Z^{(1)}}$, and $\pmb{\alpha}$ are defined as in equation \ref{eq:dist_cont1}.
 	
 	
 	
 	\item \textbf{Ordinal, and discrete time duration:} \\
-	Similar to the dichotomous case, by including random intercepts at level $1$ in equation \ref{eq:link_ord1}, we can model over- or under-dispersion:
+	Similar to the dichotomous case, by including random intercepts at level $1$ in equation (\ref{eq:link_ord1}), we can model over- or under-dispersion:
 	\begin{equation} \label{eq:link_ord3}
 		\begin{split}
 			\mu_{s} &= P[y \leq y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[y \leq y_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
-			&= H(\kappa_{s} - v_{s} - \pmb{\alpha}^{T}\mathbf{Z^{(1)}}) - H(\kappa_{s-1} - v_{s-1} - \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+			&= h(\kappa_{s} - v_{s} + \pmb{\alpha}^{T}\mathbf{Z^{(1)}}) - h(\kappa_{s-1} - v_{s-1} + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
 		\end{split}
 	\end{equation}
-	where $\mathbf{Z^{(1)}}$, and $\pmb{\alpha}$ are defined as in equation \ref{eq:dist_cont1}. Similar parametrization can be used for discrete time duration.
+	A similar parametrization can be used for discrete time duration.
 
 
 	
 	\item \textbf{Counts, and continuous time duration:} \\
-	Finally, modifying equation \ref{eq:link_count} allow us to model over- or under-dispersion under a counts model:
+	Finally, modifying equation (\ref{eq:link_count}) allow us to model over- or under-dispersion under a counts model:
 	\begin{equation} \label{eq:link_count1}
 		\begin{split}
 			\mu &= E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
@@ -297,7 +289,6 @@ In that sense, GLLAMM is similar to the GLMM framework, as it borrow the idea of
 			&= exp(v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
 		\end{split}
 	\end{equation}
-	where $\mathbf{Z^{(1)}}$, and $\pmb{\alpha}$ are defined as in equation \ref{eq:dist_cont1}. 
 
 \end{enumerate}
 
@@ -314,13 +305,13 @@ The structural model for the latent variables has the form:
 	\def\stacktype{L}
 	\pmb{\eta} = \stackunder{\mathbf{B}}{\sss (M \times M)} \stackunder{\pmb{\eta}}{\sss (M \times 1)} + \stackunder{\pmb{\Gamma}}{\sss (M \times Q)} \stackunder{\mathbf{W}}{\sss (Q \times 1)} + \stackunder{\pmb{\zeta}}{\sss (M \times 1)}
 \end{equation}
-where $\mathbf{B}$ and $\pmb{\Gamma}$ are parameter matrices that maps the relationship between the latent variables $\pmb{\eta}$, and the vector of "stacked" covariates $\mathbf{W}$, respectively; $\pmb{\zeta}$ is a vector of errors or disturbances, and $M = \sum_{l} M_{l}$. Notice that while equation \ref{eq:structural_model} resembles to single-level structural equation models, the main difference lies in the fact that the latent variables may vary at different levels. Additionally, considering that $\pmb{\eta}$ has no feedback effects, and it is permuted and sorted according to the levels, $\mathbf{B}$ is defined as a strictly upper triangular matrix. In this regard, it is important to mention that,
+where $\mathbf{B}$ and $\pmb{\Gamma}$ are parameter matrices that maps the relationship between the latent variables $\pmb{\eta}$, and the vector of "stacked" covariates $\mathbf{W}$, respectively; $\pmb{\zeta}$ is a vector of errors or disturbances, and $M = \sum_{l} M_{l}$. Notice that while equation (\ref{eq:structural_model}) resembles to single-level structural equation models, the main difference lies in the fact that the latent variables may vary at different levels. Additionally, considering that $\pmb{\eta}$ has no feedback effects, and it is permuted and sorted according to the levels, $\mathbf{B}$ is defined as a strictly upper triangular matrix. In this regard, it is important to mention that,
 \begin{enumerate}
 	\item The absence of feedback loops implies that the method deals with non-recursive models, i.e. none of the latent variables are specified as both causes and effects of each other \citep{Kline_2012}; {\color{red} this in turn allows the easy estimation of the model parameters}.
 	
 	\item The strictly upper triangular structure reveals that the framework does not allow latent variables to be regressed on lower level latent or observed variables, as such specification is more related to the use of formative, rather than reflective, latent variables. For a detail explanation on the topic refer to \citet{Edwards_et_al_2000}.
 \end{enumerate}
-Notice, however, the previous restrictions does not hinder the ability of the method to model contextual effects, after controlling the lower level compositional effects.
+Notice, however, the previous restrictions does not hinder the ability of the method to model contextual effects, after controlling the lower level compositional effects. For examples of such refer to Appendix \ref{appA:additional}.
 
 
 
@@ -333,7 +324,7 @@ Furthermore, as in the hierarchical framework, it is assumed the latent variable
 
 
 
-\subsection{Model identification}
+\section{Model identification}
 {\color{red} WORK IN PROGRESS
 	
 	The structure of the latent variables is specified by the number of levels L and the number of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
@@ -343,6 +334,13 @@ Furthermore, as in the hierarchical framework, it is assumed the latent variable
 \section{Relationship with other modeling schemes}
 
 {\color{red} WORK IN PROGRESS
+
+Under the GLM framework, the continuous response model assumes that the errors are homoscedastic, identical and independently distributed, i.e. $\epsilon^{*} \overset{iid}{\sim} N(0,1)$. However, this assumption that is often violated when, for example, the units of analysis are correlated or belong to a cluster. In similar fashion, for non-continuous responses the framework fixes the relationship of the modeled dispersion to the mean value, e.g. for the dichotomous case $\mu = \pi$, and $v(\mu) = \pi (1-\pi)$. But again, in practice, this assumption is also often violated as the data can present over- or under-dispersion. 
+
+Given the restrictions of GLM, the Generalized Linear Mixed Model (GLMM) framework was developed. Under the new framework, heteroscedasticity, over-dispersion and other characteristics of the data can be easily modeled by adding random effects to the linear predictor. 
+
+In that sense, GLLAMM is similar to the GLMM framework, as it borrow the idea of including random effects to model heteroscedasticity, and over-dispersion in the responses. The types of responses, in which such characteristics can be modeled, are the following:
+
 
 Throughout The statistical literature was instigated to develop methods that can handle such data characteristics. Considering that researchers are often interested in variables that cannot be measured directly or reflect measurement error, e.g. intelligence, depression;  Is in this setting that Structural Equation Models (SEM) were developed, as a framework motivated by the need of tools that can impute relationships between unobserved constructs (also known as factors, latent variables, amng others) and observable or manifest variables. Under this framework, it is assumed that such "common factors" are responsible for the variation and dependence in the manifest variables.
 
