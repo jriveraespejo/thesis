@@ -33,7 +33,7 @@ The computational implementation of the method will be developed in R (R Core Te
 
 
 ### Supervisors
-* [Geert Molenbegrhs](https://www.kuleuven.be/wieiswie/nl/person/00056633)
+* [Geert Molenberghs](https://www.kuleuven.be/wieiswie/nl/person/00056633)
 * [Wim Van den Noortgate](https://www.kuleuven.be/wieiswie/nl/person/00006844)
 
 
