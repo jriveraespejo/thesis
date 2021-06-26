@@ -1,19 +1,88 @@
-\chapter{Estimation} \label{chap:estimation}
+\chapter{Bayesian estimation} \label{chap:estimation}
+
+The practical use of GLLAMM requires the estimation of the parameters associated with the items and the individuals' latent abilities. The frameworks that can be used to perform the estimation of such parameters can be grouped in two main categories: the classical (frequentist), and the bayesian. The current chapter center its attention on describing the bayesian framework using the Markov Chain Monte Carlo method (MCMC). \\
+
+For a full development of GLLAMM under the classical (frequentist) estimation framework refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}.
 
 
-\section{Likelihood methods}
+\section{Benefits and shortcomings}
 
-\subsection{Likelihood function}
+There are several general reasons on why the bayesian framework is attractive to perform the estimation of the parameters, among them:
 
-\subsection{Adaptive Quadrature}
+\begin{enumerate}
+	\item The bayesian estimates are at least as good as the classical (frequentist) estimates \cite{Baker_1998, Wollack_2002, Hsieh_2010}. 
+	
+	\item It is built on a simulation-based estimation method, therefore, it can handle all kinds of priors and data-generating processes \cite{Fox_2010}. This is especially useful with highly complex and over-parameterized models, where other methods are unfeasible or work poorly \cite{Baker_1998, Kim_1999}. 
+	
+	\item The model definitions are used to estimate the associated parameters, but they can also be used in a generative way, i.e. simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
+	
+	\item It allow us to integrate prior beliefs or knowledge about the parameters of interest beyond the observed responses \cite{Fox_2010, Skrondal_et_al_2004a}. This is especially useful when we have issues of non-convergence or improper estimation of the parameters under the Maximum Likelihood methods (ML). Examples of these cases are:
+	
+	\begin{enumerate}
+		\item Estimating abilities when individuals have null scores or aberrant response patterns, i.e. examinees that answered some relatively difficult and discriminating items correctly, while answering some of the easiest incorrectly.} \cite{Hambleton_et_al_1991a, Azevedo_2003}.
+		
+		\item Estimating parameters that need to be confined to a permitted parameter space, e.g. estimate positive unique factors variances, where the opposite is known as ‘Heywood cases’ \cite{Martin_et_al_1975}
+			
+		\item Estimating parameters under a sparse data structure, where the asymptotic theory is unlikely to hold \cite{Fox_2010};
+		
+	\end{enumerate}
+	
+\end{enumerate}
+
+{\color{red} (work in progress) \\
+\noindent Finally, in terms of shortcomings, the bayesian framework has the following inconveniences:
+
+\begin{enumerate}	
+	\item It exposes the user to many "arbitrary" decision about the running of the chains, e.g. how many iterates does the chain need to achieve better precision, what is the right size for the burn-in and warm-up phases \cite{Skrondal_et_al_2004a}. A popular approach is to use an arbitrary large number, or to run a number of chains with different initial states to assess convergence
+	
+	\item Another problem concerns the speciﬁcation of noninformative priors for
+	variance parameters in random effects models \cite{Skrondal_et_al_2004a}.
+	
+	\item the communication of the model can be daunting, difference between centered and non-centered versions \cite{McElreath_2020}.
+	
+	\item It takes too long 
+		
+\end{enumerate}
+
+}
 
 
-\section{Bayesian methods}
+\section{Bayesian framework}
 
-\subsection{Prior distributions}
+\subsection{Prior distribution}
 
 \subsection{Initial start}
 
-\subsection{Posterior distributions}
+\subsection{Likelihood}
+
+\subsection{Posterior distribution}
+
+
+\section{Computational implementation}
+
+{\color{red} (work in progress) \\
+see 
+- Gelman et al (2011) - Handbook of Markov Chain Monte Carlo
+- McElreath (2020) - Statistical Rethinking
+
+Rethinking: Warmup is not burn-in. Other MCMC algorithms and software often discuss burn-
+in. With a sampling strategy like ordinary Metropolis, it is conventional and useful to trim off the
+front of the chain, the “burn-in” phase. This is done because it is unlikely that the chain has reached
+stationarity within the first few samples. Trimming off the front of the chain hopefully removes any
+influence of which starting value you chose for a parameter. 156
+But Stan’s sampling algorithms use a different approach. What Stan does during warmup is quite
+different from what it does after warmup. The warmup samples are used to adapt sampling, to find
+good values for the step size and the number of steps. Warmup samples are not representative of
+the target posterior distribution, no matter how long warmup continues. They are not burning in,
+but rather more like cycling the motor to heat things up and get ready for sampling. When real
+sampling begins, the samples will be immediately from the target distribution, assuming adaptation
+was successful.
+
+}
+
+
+The procedure will be with the aid of \texttt{Stan} \cite{Stan2020} and \texttt{R} \cite{R2015, RStan2020} to retrieve . \\
+
+
 
 

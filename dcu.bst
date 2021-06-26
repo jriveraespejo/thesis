@@ -166,14 +166,14 @@ FUNCTION {quote}
 FUNCTION {write.doi}
 { doi empty$
     { skip$ }
-    { "\newline{\bf DOI: }{" doi * "}{.}" * write$ newline$ }
+    { "\newline{\bf doi: }{" doi * "}{.}" * write$ newline$ }
   if$
 }
 
 FUNCTION {write.url}
 { url empty$
     { skip$ }
-    { "\newline{\bf URL: }{" url * "}{.}" * write$ newline$ }
+    { "\newline{\bf url: }{" url * "}{.}" * write$ newline$ }
   if$
 }
 

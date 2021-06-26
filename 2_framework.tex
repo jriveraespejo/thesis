@@ -117,7 +117,7 @@ Finally, the response model specification is complete when we select an appropri
 	\end{equation}	
 	where $v_{s}$ is the linear predictor for category $s$ ($s=1, \dots, S$), and $h(\cdot)$ is defined as:
 	\begin{equation} \label{eq:response_poly}
-		h(x) = exp(x)\left[\sum_{s=1}^{S} exp(x)\right]^{-1}
+		h(x) = exp(x) \cdot \left[\sum_{s=1}^{S} exp(x)\right]^{-1}
 	\end{equation}
 	It is important to note that, as in the dichotomous case, the same parametrization can be achieved using the concept of underlying continuous responses in the form $y_{s}^{*} = v_{s} + \epsilon_{s}$, where $y = s$ if $y_{s}^{*} > y_{k}^{*}$ $\forall s, s \neq k$, $\epsilon_{s}$ have a Gumbel (extreme value type I) distribution, as the one defined in equation (\ref{eq:response_dich1}), and $y_{s}$ denotes the random utility for the $s$ category.
 	
@@ -323,6 +323,7 @@ Furthermore, as in the hierarchical framework, it is assumed the latent variable
 
 \section{Model identification} \label{sect:identification}
 {\color{red}(work in progress) \\
+	
 The structure of the latent variables is specified by the number of levels L and the number of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
 
 }
@@ -351,7 +352,7 @@ From the previous description, it is easy to notice that the GLLAMM framework us
 Considering that, in practice, researchers are often faced with variables that cannot be measured directly or reflect measurement error, e.g. intelligence, depression, student abilities, among other; the statistical literature was instigated to develop methods that can handle such data characteristics. 
 
 {\color{red}(work in progress) \\
-The disciplinary seeds of Structural Equation Models (SEM) were set by \citet{Spearman_1904}, with a factor model on intelligence testing, passing through \citet{Wright_1920}, with a path analysis in the context of genetic and biology, to finally land in the sociological field, with the work of \citet{Blalock_1961}.
+The disciplinary seeds of Structural Equation Models (SEM) were set by \cite{Spearman_1904}, with a factor model on intelligence testing, passing through \cite{Wright_1920}, with a path analysis in the context of genetic and biology, to finally land in the sociological field, with the work of \cite{Blalock_1961}.
 
 to include several features of the previous modeling scheme, i.e. generalized linear mixed models, the framework is characterized by the fact that it is a method that can impute relationships between unobserved factors or latent variables, and observable or manifest variables. Under this framework, it is assumed that such "common factors" are responsible for the variation and dependence in the manifest variables.
 
