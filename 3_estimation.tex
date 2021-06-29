@@ -1,22 +1,20 @@
 \chapter{Bayesian estimation} \label{chap:estimation}
 
-The practical use of GLLAMM requires the estimation of the parameters associated with the items and the individuals' latent abilities, and these can be obtained within two frameworks: the classical (frequentist), and the bayesian. The current chapter center its attention on describing the bayesian framework using the Markov Chain Monte Carlo method (MCMC).
-
-For a full development of GLLAMM under the classical (frequentist) estimation framework refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}.
+The practical use of GLLAMM requires the estimation of the parameters associated with the items and the individuals' latent abilities. These can be obtained within two frameworks: the classical (frequentist), and the bayesian. The current chapter center its attention on describing the bayesian framework using the Markov Chain Monte Carlo method (MCMC). For a full development of GLLAMM under the frequentist estimation framework refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}.
 
 
 \section{Benefits and shortcomings}
 
-There are several reasons on why bayesian statistics is attractive to perform the estimation of the parameters of any model, and especially under the GLLAMM framework, among them:
+The reasons on why bayesian statistics is attractive to perform the estimation of the parameters of any model, and especially under the GLLAMM framework, are:
 
 \begin{enumerate}
-	\item The bayesian estimates are at least as good as the classical (frequentist) estimates \cite{Baker_1998, Wollack_2002, Hsieh_2010}. 
+	\item The bayesian estimates are at least as good as the frequentist estimates \cite{Baker_1998, Wollack_2002, Hsieh_2010}. 
 	
 	\item It is built on a simulation-based estimation method, therefore, it can handle all kinds of priors and data-generating processes \cite{Fox_2010}. This is especially useful with highly complex and over-parameterized models, where other methods are unfeasible or work poorly \cite{Baker_1998, Kim_1999}. 
 	
-	\item The model definitions are used to estimate the associated parameters, but they can also be used in a generative way, i.e. simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
+	\item The model definitions, i.e. the likelihood for the data and priors for the parameters, are used to estimate the corresponding posterior distributions. However, the definitions can also be used in a generative way, i.e. simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
 	
-	\item It allow us to integrate prior beliefs or knowledge about the parameters of interest beyond the observed responses \cite{Fox_2010, Skrondal_et_al_2004a}. This is especially useful when we have issues of non-convergence or improper estimation of the parameters under the Maximum Likelihood methods (ML). Examples of these cases are:
+	\item It allow us to integrate prior beliefs or knowledge about the parameters beyond the observed responses \cite{Fox_2010, Skrondal_et_al_2004a}. This is especially useful when we have issues of non-convergence or improper estimation of the parameters under the Maximum Likelihood methods (ML). Examples of these cases are:
 	
 	\begin{enumerate}
 		\item Estimating abilities when individuals have null scores or aberrant response patterns, i.e. examinees that answered some relatively difficult and discriminating items correctly, while answering some of the easiest incorrectly. \cite{Hambleton_et_al_1991a, Azevedo_2003}.
@@ -32,35 +30,28 @@ There are several reasons on why bayesian statistics is attractive to perform th
 \noindent Finally, in terms of shortcomings, the bayesian framework has the following inconveniences:
 
 \begin{enumerate}	
-	\item It exposes the user to arbitrary" decisions about the running of the chains, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases? \cite{Skrondal_et_al_2004a}. 
+	\item It exposes the user to arbitrary" decisions about the running of the chains, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thining procedure be performed? \cite{Skrondal_et_al_2004a}. 
 	
 	\item The user has many options to assess if the chain achieves stationarity, convergence or good mixing, and most of them are visual. This makes it hard to assess if the chain converges to a proper distribution \cite{Gelman_et_al_1996}.
 	
-	\item The procedure could make it hard to discover the lack of identification in parameters \cite{Skrondal_et_al_2004a}. Inadequate mixing of the chain could lead us to think that an unidentified parameter has been estimated with precision, when in fact, the parameter has a "flat" posterior \cite{Keane_1992}.
-
-{\color{red}
-	\item Without sufficient data the specification of noninformative priors leads to poor solutions, sometimes worse than with the classical methods. However, we can reach poor solutions even when we have enough data, an example for this is the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}, but this applies also for the classical methods.
+	\item The procedure makes it hard to discover parameters' lack of identification \cite{Skrondal_et_al_2004a}. Inadequate mixing of the chain could lead us to think unidentified parameters have been estimated with precision, when in fact they have a `flat' posterior \cite{Keane_1992}.
 	
-	\item the communication of the model can be daunting, difference between centered and non-centered versions \cite{McElreath_2020}.
+	\item Sometimes the geometry of the model makes it hard to find proper solutions for the parameter space. This is especially true in hierarchical models. Under this circumstances, the scientist needs to re-parameterize the model to a non-centered form, i.e. remove the dependence of the parameters on other sampled parameters \cite{Gorinova_et_al_2019}. In those cases, the complexity of the transformation limit the ability of the scientist to communicate/share the implementation \cite{McElreath_2020}.
+		
+	\item The procedure requires more time to achieve a proper solution, compared to the classical methods. This is especially true in models with high complexity \cite{Tarazona_2013, Rivera_2019}.
 	
-	\item It takes too long 
-}		
 \end{enumerate}
 
-{\color{red} 
-(responses for shortcommings)
+\noindent Although some of the shortcomings has made the use of bayesian methods a "controversial" issue, most of these already have an acceptable solution. 
 
-A popular approach to solve this issues is to use an arbitrary large number of iterates, or multiple chains with different initial states. However, Hamiltonian Monte Carlo methods (HMC) does not lean on this decision so much.
+For the first point, a popular approach to solve the issues is to use a large number of iterates, or multiple chains with different initial states. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling methods. However, as we will see in section \ref{sect:comp_imp}, the Hamiltonian Monte Carlo method (HMC) \cite{Betancourt_et_al_2013} implements a different sampling mechanism that is less reliant on these decisions. 
 
-stationarity, convergence are more easy to assess visually (and have help of some statistics created, like Rhat). However, good mixing is much harder to assess visually. This is mildly solved with HMC and the different parametrizations (centered and non-centered).
+About the second shortcoming, it is well accepted that the visual assessment of stationarity and convergence is easier, and this procedure usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. A popular approach to increase the possibility of a well mixed chain is to change the geometry of the model \cite{McElreath_2020}. However, the implementation of the approach does not necessarily ensure the required property.
 
-In case of lack of identification, is better to regularize, which implies we are more skeptical of highly variant parameters \cite{McElreath_2020}.
+On the third point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one can achieve poor parameter estimates, even in the presence of `enough' data and regularizing priors, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}, but this is also applicable to the classical estimation procedures.
 
-set non-informative priors is a bad "policy" for the models because: .... \cite{McElreath_2020}
+Finally, the fourth and fifth points can be considered as the `price' a scientist has to pay to be able to fit complex models, that are in more accordance with the observed data generating processes.
 
-However, as it is described in section \ref{sect:comp_imp}, we will see that Hamiltonian Monte Carlo methods (HMC)
-
-}
 \section{Bayesian framework}
 
 \subsection{Prior distribution}
@@ -75,8 +66,8 @@ However, as it is described in section \ref{sect:comp_imp}, we will see that Ham
 \section{Computational implementation} \label{sect:comp_imp}
 
 {\color{red} (work in progress) \\
-see 
-- Gelman et al (2011) - Handbook of Markov Chain Monte Carlo
+see \\
+- Gelman et al (2011) - Handbook of Markov Chain Monte Carlo\\
 - McElreath (2020) - Statistical Rethinking
 
 Rethinking: Warmup is not burn-in. Other MCMC algorithms and software often discuss burn-
