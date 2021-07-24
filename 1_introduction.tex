@@ -2,6 +2,30 @@
 
 \section{Preliminar considerations}
 
+\begin{itemize}
+	\item multiple literature about the benefits of re-parametrization, but the procedure is trivial ( only separate random effects), but not on the benefits of a non-centered parametrization
+	\item No literature on recovery of IRT parameter of interest with samples below 250. Now is more important as non-centered parametrization might entail further benefits
+\end{itemize}
+
+
+Local independence is one of the key assumptions of Item Response Theory (IRT) models, and it is comprised of two parts: (i) local item independence, and (ii) local individual independence \cite{Baker_2001, Hambleton_et_al_1991a}. In the former case, the assumption entails that the individual's response to an item does not affect the probabilty of endorsing another item, after conditioning on the individual's ability. While in the case of the latter, the assumption considers that an individual's response to an item is independent of another person's response to that same item \cite{Reckase_2009}. 
+
+The literature has shown that IRT models are not robust to the violation of local independence. The transgression of the assumption affects model parameter estimates, inflates measurement reliabilities and test information, and underestimates standard errors (e.g. \citet{Yen_1984, Chen_et_al_1997, Jiao_et_al_2012}, among others). 
+
+However, item response data arising from educational assessments often display several type of dependencies, e.g. testlets, where items are constructed around a common stimulus \cite{Wainer_et_al_2007}; the measurement of multiple latent traits within individuals \cite{Reckase_2009}; cluster effects, where correlation among individuals results from the sampling and measurement mechanism used to gather the data \cite{Raudenbush_et_al_2002}; among others. A good motivating example is the reading comprehension sub-test, from the Peruvian public teaching career national assessment. The test is designed to measure three hierarchically nested sub-dimensions of reading comprehension: literal, inferential and reflective abilities. Furthermore, the items are bundled together in testlets related to a common text or passage. Finally, multiple cluster effects are present, e.g. district and regional clustering.
+
+Recent studies have proposed dual dependence models (DDM) to deal with the teslet and individual clustering dependencies observed in the data \cite{Fujimoto_2020, Fujimoto_2018a, Fujimoto_2018b, Jiao_et_al_2012, Flores_2012, Fox_2010, Reckase_2009, Bradlow_1999}. The majority of these representations have been developed under the bayesian framework, and they are similar in parametrization to multilevel models. On the other hand, an almost independent line of models, known as the Generalized Linear Latent and Mixed Models (GLLAMM) \cite{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}, have extended the capabilities for the estimation of multiple latent traits at different hierarchical levels. These developments have been observed mostly under the frequentist framework, and they are similar in parametrization to a hierarchical Structural Equation Model (SEM).
+
+Following the literature of these two sets of models, one can easily notice that both followed a multilevel approach to account for the clustering of persons within the samples (DDM), or the latent structures within the individuals (GLLAMM). Furthermore, DDM use a multidimensional approach to account for the item bundles. However, in some cases their model parametrization differs in a way, that some of them appear to be useful only under their specific contexts. Fortunately, their integration under the bayesian framework is not only trivial, but it can be motivated under either type of models.
+
+The benefits of the integration revolves around two facts: (i) the educational data often presents all of the aforementioned dependencies (as in the motivating example) and more; and (ii) in order to reach appropriate conclusions from the parameter estimates, IRT models need to account for all of these dependencies. The latter is particularly important under the context of policy analysis, as a researcher might be interested in produce inferences at the structural level of the model, i.e. how manifest variables explain the variability in the latent variables, or how the latent variables explain other manifest or latent variables, at different levels.
+
+
+
+moreover, no literature have been found on the befits of non-cenetring in psychometrics only in hierrarchical models (betancourt)
+
+
+
 {\color{red} (work in progress) \\
 	it needs to integrate comments \\
 	
