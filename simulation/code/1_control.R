@@ -36,24 +36,27 @@ for(i in 1:nrow(condition)){
 
 # 2. priors ####
 source('4_models_prior.R')
-run_prior( model_path = file.path(getwd(), 'models_prior'),
+
+model_path = file.path(getwd(), 'models_prior')
+model_list = list.files( model_path )
+model_list = model_list[ str_detect(model_list, '.stan') ]
+
+run_prior( models = model_list,
+           model_path = model_path,
            model_out = file.path(getwd(), 'chains_prior'),
            data_path = file.path(getwd(), 'data') )
-
-# # (to test)
-# fitfile = 'FOLV_CE_J100_l0.6_S1-1.csv'
-# stan_model = rstan::read_stan_csv( file.path(getwd(), 'priors', fitfile) )
-# traceplot_ulam(stan_model)
 
 
 
 # 3. posteriors ####
 source('5_models_post.R')
-run_post( model_path = file.path(getwd(), 'models_post'),
+
+model_path = file.path(getwd(), 'models_post')
+model_list = list.files( model_path )
+model_list = model_list[ str_detect(model_list, '.stan') ]
+model_list = model_list[c(1:2,5:6,3:4)]
+
+run_post( models = model_list,
+          model_path = model_path,
           model_out = file.path(getwd(), 'chains_post'),
           data_path = file.path(getwd(), 'data') )
-
-# # (to test)
-# fitfile = 'FOLV_CE_J100_l0.6_S1-1.csv'
-# stan_model = rstan::read_stan_csv( file.path(getwd(), 'priors', fitfile) )
-# traceplot_ulam(stan_model)

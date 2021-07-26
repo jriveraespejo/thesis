@@ -1,6 +1,202 @@
 \chapter{Additional Theory} \label{appA:additional}
 
-\section{Special cases for the GLAMM}
+\section{Other links and distributions}
+
+\begin{enumerate}
+	
+	\item \textbf{Continuous:} \\
+	It results form selecting an identity link function for the scaled mean response,
+	\begin{equation} \label{eq:link_cont}
+		\begin{split}
+			\mu^{*} &= E[y^{*} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\ 
+			&= v
+		\end{split}
+	\end{equation}
+	where $\mu^{*} = \mu \sigma^{-1}$, $y^{*} = y \sigma^{-1}$, and $\sigma$ denotes the standard deviation of the errors.
+	
+	On the other hand, the distributional part is defined by a Standard Normal distribution $\phi(x)=(2 \pi)^{-1/2} exp(-x^{2}/2)$,
+	\begin{equation} \label{eq:dist_cont}
+		\begin{split}
+			f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) &= \phi(\mu^{*}) \sigma^{-1} \\
+			&= \phi(v) \sigma^{-1}
+		\end{split}
+	\end{equation}
+	Notice that the same parametrization can be achieved considering $y^{*} = v + \epsilon^{*}$, and $\epsilon^{*} \sim N(0, 1)$.
+	Additionally, the decision to standardize the response variables has been made with the purpose of making the estimation process easier, as such distribution is free of unknown parameters.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Polytomous:} \\	
+	It results from selecting a generalized logistic inverse-link function \cite{Bock_1972} for the expected value of the response, which in this case, describe the probability of endorsing one of the $S$ unordered available categories,
+	\begin{equation} \label{eq:link_poly}
+		\begin{split}
+			\mu_{s} &= E[y=y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= P[y=y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			& = \pi_{s} \\
+			&= h(v_{s})
+		\end{split}
+	\end{equation}	
+	where $v_{s}$ is the linear predictor for category $s$ ($s=1, \dots, S$), and $h(\cdot)$ is defined as:
+	\begin{equation} \label{eq:response_poly}
+		h(x) = exp(x) \cdot \left[\sum_{s=1}^{S} exp(x)\right]^{-1}
+	\end{equation}
+	It is important to note that, as in the dichotomous case, the same parametrization can be achieved using the concept of underlying continuous responses in the form $y_{s}^{*} = v_{s} + \epsilon_{s}$, where $y = s$ if $y_{s}^{*} > y_{k}^{*}$ $\forall s, s \neq k$, $\epsilon_{s}$ have a Gumbel (extreme value type I) distribution, as the one defined in equation (\ref{eq:response_dich1}), and $y_{s}$ denotes the random utility for the $s$ category.
+	
+	
+	Finally, the distributional part is defined by a Multinomial distribution,
+	\begin{equation} \label{eq:dist_poly}
+		\begin{split}
+			f[y=\{y_{1}, \cdots, y_{S}\} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] &= \frac{n!}{y_{1}! \cdots y_{S}!} \prod_{s=1}^{S} \mu_{s}^{y_{s}} \\
+			&= \frac{n!}{y_{1}! \cdots y_{S}!} \prod_{s=1}^{S} \pi_{s}^{y_{s}}
+		\end{split}
+	\end{equation}
+	
+	where $y_{s}$ denotes the number of "successes" in category $s$.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Ordinal and discrete time duration:} \\
+	For the ordinal case, the linear predictor is "linked" to the probability of endorsing category $s$, against all previous categories, in the following form:
+	\begin{equation} \label{eq:link_ord1}
+		\begin{split}
+			\mu_{s} &= E[y = y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= P[y \leq y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[y \leq y_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= h(\kappa_{s} - v_{s}) - h(\kappa_{s-1} - v_{s-1})
+		\end{split}
+	\end{equation}
+	where $\kappa_{s}$ denotes the thresholds for category $s$. For discrete time duration, the linear predictor is "linked" to the probability of survival, in the $s$th time interval, as follows:
+	\begin{equation} \label{eq:link_ord2}
+		\begin{split}
+			\mu_{s} &= E[t_{s-1} \leq T \le t_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= P[T \leq t_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[T \leq t_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= h(v_{s} + t_{s}) - h(v_{s-1} + t_{s-1})
+		\end{split}
+	\end{equation}
+	where $T$ is the unobserved continuous time, and $t_{s}$ its observed discrete realization. Additionally, for both type of responses, $h(\cdot)$ can be defined as the logistic, standard normal, and Gumbel (extreme value type I) \textit{cumulative distributions}, as in equation (\ref{eq:response_dich1}).
+	
+	Similar to the dichotomous and polytomous case, the same parametrization can be achieved using the concept of underlying latent variables with $y_{s}^{*} = v_{s} + \epsilon_{s}$, where $y = s$ if $\kappa_{s-1} < y_{s}^{*} \le \kappa_{s}$, $\kappa_{0}=-\infty$, $\kappa_{1}=0$, $\kappa_{S}=+\infty$, $\epsilon_{s}$ has one of the distributions in equation (\ref{eq:response_dich1}), and $y_{s}$ denotes the random utility for the $s$ category.
+	
+	It is important to note, for discrete time duration responses, the logit link corresponds to a \textit{Proportional-Odds model}, while the complementary log-log link to a \textit{Discrete Time Hazards model} \cite{Rabe_et_al_2001}. Other models for ordinal responses, such as the \textit{Baseline Category Logit} or the \textit{Adjacent Category Logit} models can be specified as special cases of the generalized logistic response function, defined in equation (\ref{eq:response_poly}). 
+	
+	Finally, the distributional part is defined by a Multinomial distribution, as the one defined in equation (\ref{eq:dist_poly}).
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Counts and continuous time duration:} \\
+	It results from selecting an exponential inverse-link function (log link) for the expected value of the response,
+	\begin{equation} \label{eq:link_count}
+		\begin{split}
+			\mu &= E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= \lambda \\
+			&= exp(v)
+		\end{split}
+	\end{equation}
+	and a Poisson conditional distribution for the counts,
+	\begin{equation} \label{eq:dist_count}
+		\begin{split}
+			f[y| \mathbf{X}, \mathbf{Z}, \pmb{\eta}] &= exp(-\mu) \mu^{y} (y!)^{-1} \\
+			&= exp(-\lambda) \lambda^{y} (y!)^{-1}
+		\end{split}
+	\end{equation}
+	It is important to mention that unlike the models for dichotomous, polytomous and ordinal responses, model for counts cannot be written under the random utility framework.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Rankings and pairwise comparisons:} \\
+	Following \citet{Skrondal_et_al_2003a}, the parametrization for polytomous responses can serve as the building block for the conditional distribution of rankings. Selecting a "exploded logit" inverse-link function \cite{Chapaaan_et_al_1982} for the expected value of the response, which describes the probability of the full rankings of category $s$,
+	
+	{\color{red} (work in progress) \\
+		\begin{equation} \label{eq:link_rank}
+			\begin{split}
+				\mu_{s} &= P[\mathbf{R}_{s}= \{ r_{s}^{1}, \dots r_{s}^{1}\} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+				& = \pi_{s} \\
+				&= h(v_{s})
+			\end{split}
+		\end{equation}	
+		where $v_{s}$ is the linear predictor for category $s$ ($s=1, \dots, S$), and $h(\cdot)$ is defined as:
+		\begin{equation} \label{eq:response_rank}
+			h(x) = \prod_{s=1}^{S} exp(x^{s})\left[\sum_{s=1}^{S} exp(x^{s})\right]^{-1}
+		\end{equation}
+		
+		Again, as in specific previous cases, the same parametrization can be achieved using the concept of underlying latent variables.
+		
+		Finally, the distributional part is defined by a Multinomial distribution,
+		\begin{equation} \label{eq:dist_rank}
+			\begin{split}
+				f[y=\{y_{1}, \cdots, y_{S}\} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] &= \frac{n!}{y_{1}! \cdots y_{S}!} \prod_{s=1}^{S} \mu_{s}^{y_{s}} \\
+				&= \frac{n!}{y_{1}! \cdots y_{S}!} \prod_{s=1}^{S} \pi_{s}^{y_{s}}
+			\end{split}
+		\end{equation}
+		
+		where $y_{s}$ denotes the number of "success cases" in category $s$.
+	}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Mixtures:} \\
+	Given the previous definitions, the framework easily lends itself to model five additional settings:
+	
+	\begin{enumerate}
+		\item \textbf{Different links and distributions for different latent variables}. This can be easily achieved by setting different links and distributions for each of the $M_{2}$ latent variables located at level $2$.
+		
+		
+		\item \textbf{Left- or right-censored continuous responses}. Common in selection models (e.g. \cite{Hekman_1979}), they can be achieved by specifying an identity link and Normal distribution for the uncensored scaled responses, as in equations (\ref{eq:link_cont}) and (\ref{eq:dist_cont}); and a scaled probit link and Binomial distribution otherwise, as in equations (\ref{eq:response_dich1}) and (\ref{eq:dist_dich}).
+		
+		
+		\item \textbf{zero-inflated count responses}. where a log link and a Poisson distribution is set for the counts, as in equations (\ref{eq:link_count}) and (\ref{eq:dist_count}); and a logit link and Binomial distribution is specified to model the zero center of mass, as in equations (\ref{eq:link_dich}) and (\ref{eq:dist_dich}).
+		
+		
+		\item \textbf{Measurement error in covariates}. this setting occurs when standard models use variables, with measurement error, as covariates, e.g. a logistic regression with a continuous covariate that presents measurement error. For more details on this type of setting see \citet{Rabe_et_al_2003a, Rabe_et_al_2003b}, and \citet{Skrondal_et_al_2003b}.
+		
+		
+		\item \textbf{Composite links}. Useful for specifying proportional odds models for right-censored responses, for handling missing categorical covariates and many other model types. For more details on this type of settings see \citet{Skrondal_et_al_2004b}.
+	\end{enumerate}
+	
+\end{enumerate}
+
+
+
+\subsubsection{Heteroscedasticity and over-dispersion in the response} \label{ss_sect:het}
+
+Much like the Generalized Linear Mixed Model framework (GLMM), the GLLAMM allows to model heteroscedasticity, and over- or under-dispersion by adding random effects to the linear predictor, at level $1$. The types of responses, in which such characteristics can be modeled, are the following:
+
+\begin{enumerate}
+	\item \textbf{Continuous:} \\
+	We model \textbf{heteroscedasticity} in the following form:
+	\begin{equation} \label{eq:het_cont}
+		\sigma = exp(\pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+	\end{equation}
+	Notice that the previous formula implies that equation (\ref{eq:dist_cont}) can be re-written in the following form:
+	\begin{equation} \label{eq:dist_cont1}
+		f(y^{*}| \mathbf{X}, \mathbf{Z}, \pmb{\eta}) = \phi(v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+	\end{equation}
+	where $\mathbf{Z^{(1)}}$ is the design matrix that maps the random effects $\pmb{\alpha}$. Notice that equation (\ref{eq:dist_cont1}) effectively corresponds to a model that includes random intercepts at level $1$. 
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Ordinal, and discrete time duration:} \\
+	Similar to the dichotomous case, by including random intercepts at level $1$ in equation (\ref{eq:link_ord1}), we can model over- or under-dispersion:
+	\begin{equation} \label{eq:link_ord3}
+		\begin{split}
+			\mu_{s} &= P[y \leq y_{s} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] - P[y \leq y_{s-1} | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= h(\kappa_{s} - v_{s} + \pmb{\alpha}^{T}\mathbf{Z^{(1)}}) - h(\kappa_{s-1} - v_{s-1} + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+		\end{split}
+	\end{equation}
+	A similar parametrization can be used for discrete time duration.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\item \textbf{Counts, and continuous time duration:} \\
+	Finally, modifying equation (\ref{eq:link_count}) allow us to model over- or under-dispersion under a counts model:
+	\begin{equation} \label{eq:link_count1}
+		\begin{split}
+			\mu &= E[y | \mathbf{X}, \mathbf{Z}, \pmb{\eta}] \\
+			&= \lambda \\
+			&= exp(v + \pmb{\alpha}^{T}\mathbf{Z^{(1)}})
+		\end{split}
+	\end{equation}
+	
+\end{enumerate}
 
 
 

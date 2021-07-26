@@ -230,21 +230,18 @@ data_generation =function( J=100, loads=rep(0.1, 3), Ndata=1, file_dir,
 # description:  
 #     To run each prior simulation for each model
 # arguments:
+#     models = list of model to run located in model_path
 #     model_path = path where all models are located
 #     model_out = path where chains have to be saved
 #     data_path = path where data per condition is located
 
-run_prior = function(model_path, model_out, data_path){
+run_prior = function(models, model_path, model_out, data_path){
   
-  # # tests
+  # # test
+  # models = model_list
   # model_path = file.path(getwd(), 'models_prior')
-  # model_out = file.path(getwd(), 'priors')
+  # model_out = file.path(getwd(), 'chains_prior')
   # data_path = file.path(getwd(), 'data')
-  
-  # model list
-  model_list = list.files( model_path )
-  model_list = model_list[ str_detect(model_list, '.stan') ]
-  # length(model_list)
   
   # data list
   data_list = list.files( data_path )
@@ -252,15 +249,15 @@ run_prior = function(model_path, model_out, data_path){
   # length(data_list)
   
   # j=1
-  for(j in 1:length(model_list) ){
+  for(j in 1:length(models) ){
     
     # compile model
     set_cmdstan_path('~/cmdstan')
-    mod = cmdstan_model( file.path(model_path, model_list[j] ) )
+    mod = cmdstan_model( file.path(model_path, models[j] ) )
     
     # generate base name
     base_nam = str_replace( data_list[1], 'ListFormat_', 
-                            str_replace( model_list[j], '.stan', '_') )
+                            str_replace( models[j], '.stan', '_') )
     base_nam = str_replace( base_nam, '.RData', '' )
     
     # load data
@@ -283,21 +280,18 @@ run_prior = function(model_path, model_out, data_path){
 # description:  
 #     To run each model for each data in all conditions
 # arguments:
+#     models = list of model to run located in model_path
 #     model_path = path where all models are located
 #     model_out = path where chains have to be saved
 #     data_path = path where data per condition is located
 
-run_post = function(model_path, model_out, data_path){
+run_post = function(models, model_path, model_out, data_path){
   
   # # test
+  # models = model_list
   # model_path = file.path(getwd(), 'models_post')
   # model_out = file.path(getwd(), 'chains_post')
   # data_path = file.path(getwd(), 'data')
-  
-  # model list
-  model_list = list.files( model_path )
-  model_list = model_list[ str_detect(model_list, '.stan') ]
-  # length(model_list)
   
   # data list
   data_list = list.files( data_path )
@@ -305,18 +299,18 @@ run_post = function(model_path, model_out, data_path){
   # length(data_list)
   
   # j=1
-  # i=2
-  for(j in 1:length(model_list) ){
+  # i=1
+  for(j in 1:length(models) ){
     
     # compile model
     set_cmdstan_path('~/cmdstan')
-    mod = cmdstan_model( file.path(model_path, model_list[j] ) )
+    mod = cmdstan_model( file.path(model_path, models[j] ) )
     
     for(i in 1:length(data_list) ){
       
       # generate base name
       base_nam = str_replace( data_list[i], 'ListFormat_', 
-                              str_replace(model_list[j], '.stan', '_') )
+                              str_replace(models[j], '.stan', '_') )
       base_nam = str_replace( base_nam, '.RData', '' )
       
       # load data
@@ -331,7 +325,8 @@ run_post = function(model_path, model_out, data_path){
       t1 = proc.time()
       
       # saving time
-      start = str_locate(base_nam, 'J')[2] 
+      start = str_locate(base_nam, 'J')[2]
+      m = str_sub( base_nam, start=1, end=(start-2) )
       J = str_sub( base_nam, start=start+1, end=(start+3) )
       
       start = str_locate(base_nam, 'l')[2] 
@@ -343,9 +338,9 @@ run_post = function(model_path, model_out, data_path){
       elapsed = (t1-t0)
       
       if(j==1 & i==1){
-        time_elap = data.frame( J=J, load=l, data=S, time=unlist(elapsed['elapsed']) )
+        time_elap = data.frame( Model=m, J=J, load=l, data=S, time=unlist(elapsed['elapsed']) )
       } else{
-        time_elap = rbind(time_elap, c(J, l, S, unlist(elapsed['elapsed']) ) )
+        time_elap = rbind(time_elap, c(m, J, l, S, unlist(elapsed['elapsed']) ) )
       }
       
       # save time elapsed (saved at each iteration)

@@ -340,7 +340,11 @@ model{
     //# // model
     //# for( i in 1:N ) {
     //#   v = ( ind_j[ IDj[i] ] + dim_d[ IDd[i] ] ) -
-    //#       ( item_k[ IDk[i] ] + text_l[ IDl[i] ] );
+    //#       ( item_k[ IDk[i] ] + text_l[ IDl[i] ] ) + 
+    //#       a + b_G[ GE[i] ] + 
+    //#                 b_A * ( AG[i] - min(A) ) +
+    //#                 b_E[ ED[i] ] + 
+    //#                 b_X[ XP[i] ];
     //#   p = inv_logit(v);
     //#   y[i] ~ bernoulli(p);
     //# }
@@ -349,11 +353,15 @@ model{
 //#     vector[N] log_lik;
 //#     real v;
 //#     real p;
-//#     
+//# 
 //#     // likelihood
 //#     for( i in 1:N ) {
 //#       v = ( ind_j[ IDj[i] ] + dim_d[ IDd[i] ] ) -
-//#           ( item_k[ IDk[i] ] + text_l[ IDl[i] ] );
+//#           ( item_k[ IDk[i] ] + text_l[ IDl[i] ] ) + 
+//#           a + b_G[ GE[i] ] + 
+//#                     b_A * ( AG[i] - min(A) ) +
+//#                     b_E[ ED[i] ] + 
+//#                     b_X[ XP[i] ]
 //#       p = inv_logit(v);
 //#       log_lik[i] = bernoulli_lpmf( y[i] | p);
 //#     }
