@@ -2,10 +2,8 @@
 
 The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Rabe_et_al_2004c, Skrondal_et_al_2004a, Rabe_et_al_2012}, the method was motivated by the need of a Multilevel Structural Equation Model (SEM) that accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. 
 
-This chapter presents the definition, characteristics, assumptions and properties of such framework.
 
-
-\section{Definition} \label{sect:definition}
+\section{Definition of the Model} \label{sect:definition}
 Following \citet{Rabe_et_al_2004a, Rabe_et_al_2012}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a "wide" data format, and adopt a univariate approach, i.e. "long" or vectorized format. In that sense, for each unit, the response variables are "stacked" in a single response vector, with different variables distinguished from each other, by a design matrix. With this structure, we proceed to outline the three parts of the framework: 
 \begin{enumerate}
 	\item The response model, 
@@ -124,7 +122,7 @@ Furthermore, as in the hierarchical framework, it is assumed the latent variable
 
 
 
-\section{Model identification} \label{sect:identification}
+\subsection{Model identification} \label{sect:identification}
 {\color{red}(work in progress) \\
 	
 The structure of the latent variables is specified by the number of levels L and the number of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
@@ -140,7 +138,7 @@ The structure of the latent variables is specified by the number of levels L and
 The practical use of GLLAMM requires the estimation of the parameters associated with the items and the individuals' latent abilities. These can be obtained within two frameworks: the classical (frequentist), and the bayesian. The current chapter center its attention on describing the bayesian framework using the Markov Chain Monte Carlo method (MCMC). For a full development of GLLAMM under the frequentist estimation framework refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}.
 
 
-\section{Benefits and shortcomings}
+\subsection{Benefits and shortcomings}
 
 The reasons on why bayesian statistics is attractive to perform the estimation of the parameters of any model, and especially under the GLLAMM framework, are:
 
@@ -190,15 +188,15 @@ On the third point, the most common solution is to use regularizing priors, i.e.
 Finally, the fourth and fifth points can be considered as the `price' a scientist has to pay to be able to fit complex models, that are in more accordance with the observed data generating processes.
 
 
-\section{Bayesian framework}
+\subsection{Bayesian framework}
 
-\subsection{Prior distribution}
+\subsubsection{Prior distribution}
 
-\subsection{Initial start}
+\subsubsection{Initial start}
 
-\subsection{Likelihood}
+\subsubsection{Likelihood}
 
-\subsection{Posterior distribution}
+\subsubsection{Posterior distribution}
 
 
 \section{Computational implementation} \label{sect:comp_imp}
