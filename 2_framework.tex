@@ -1,23 +1,49 @@
 \chapter{The Bayesian GLLAMM for binary outcomes} \label{chap:framework}
 
-The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Rabe_et_al_2004c, Skrondal_et_al_2004a, Rabe_et_al_2012}, the method was motivated by the need of a Multilevel Structural Equation Model (SEM) that accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. 
+The Generalized Linear Latent and Mixed Model (GLLAMM) is a framework that unifies a wide range of latent variable models. Developed by Rabe-Hesketh, Skrondal and partners \cite{Rabe_et_al_2004a, Rabe_et_al_2004b, Rabe_et_al_2004c, Skrondal_et_al_2004a, Rabe_et_al_2012}, the method was motivated by the need of a Multilevel Structural Equation Model (MSEM, SEM) that accommodates for unbalanced data, noncontinuous responses and the use of cross-level effects among latent variables. The authors focused its development mainly from the frequentist perspective, however, they offered a general guidance on implementing the models under the bayesian framework (see \citet{Skrondal_et_al_2004a}).
+
+In this section we are going to motivate the model from an example. We will start describing the model from the IRT perspective, to later move into the unifying and easily extendable GLLAMM framework.
 
 
-\section{Definition of the Model} \label{sect:definition}
-Following \citet{Rabe_et_al_2004a, Rabe_et_al_2012}, we depart from the traditional multivariate framework for formulating factor and structural models, i.e. a "wide" data format, and adopt a univariate approach, i.e. "long" or vectorized format. In that sense, for each unit, the response variables are "stacked" in a single response vector, with different variables distinguished from each other, by a design matrix. With this structure, we proceed to outline the three parts of the framework: 
-\begin{enumerate}
-	\item The response model, 
-	\item The structural latent variable model, and 
-	\item The distribution of the latent variables. 
-\end{enumerate}
-For a detailed description of some of the special cases of multilevel SEM, that can be derived with this framework, refer to Appendix \ref{appA:additional}.
+\section{Model motivation} \label{sect:motivation}
+
+Consider a large standardized assessment composed of three sub-test designed to evaluate the reading comprehension, mathematical reasoning, and pedagogical knowledge of individuals; where each sub-test is composed of several dichotomously scored items. 
+
+Focusing now on the first sub-test, the items were designed to measure three hierarchically nested sub-dimensions of reading comprehension: literal, inferential, and reflective abilities. Therefore, the items ``point-out" only to one of the aforementioned scales. Furthermore, its is assumed that the three sub-dimensions are all that is needed to measure the reading comprehension ability, effectively making this scale the highest level latent variable in the model, similar to a hierarchical Confirmatory Factor Analysis (CFA). Finally, the items are bundled in groups of five to a common text or passage, i.e. testlets, that provides the stimulus over which the individual will be assessed. Figure \ref{fig:design} shows the path diagram of the hypothesized dimensional structure, for a hierarchical cross-classified IRT model corresponding with the aforementioned instrument design.
+
+\begin{figure}[h] \label{fig:design}
+	\centering
+	\includegraphics[width=0.85\textwidth]{instrument_design.png}
+	\caption{Path diagram of the dimensional structure for a hierarchical cross-classified IRT model, corresponding to the aforementioned instrument design. Squares represent dichotomous manifest variables, and circles represent latent variables. The figure is based on reduced set of items, while errors and scales of the latent variables are not represented. Different sub-dimensions in the individuals block represent the literal, inferential and reflective abilities, while in the items blocks represent the items' difficulties. The dimensions in the individuals block represent the reading comprehension ability, while in the items block represent the multiple testlets.}
+\end{figure}
+
+With the purpose of providing an easier motivation of the model, we will not consider yet the clustering effects; however, later in the presentation we will show how easy is to introduce them in the model. Just for future reference, under this example, one expects to observe clustering effects either due to the fact that the evaluation is not mandatory, or because is hypothesized that individuals from different regions did not have the same educational opportunities, effectively causing a regional clustering.
+
+The model departs from the traditional multivariate framework for formulating factor and structural models, i.e. a wide data format\footnote{ The subject’s repeated outcomes are stored in a single row, with multiple response vectors. Moreover, different variables are appended column-wise to the outcome data. }, and adopts a univariate approach, i.e. a long data format\footnote{ The subject’s repeated outcomes are stored in a single ``stacked" response vector with as many rows as there are repeated measurements. Moreover, different variables are appended column-wise to the outcome data, distinguished from each other, by a design matrix. }. 
+
+Under this setting, the outcomes are modeled at the first level. Additionally, the model consider that each individual is indexed with $j = 1, \dots, J$, where $J$ represents the total number of individuals in the sample, while each item is indexed with $k= 1, \dots, K$, where $K$ defines the total number of items. On the other hand, $I$ will represent the number of levels in the individuals block, and $M_{i}$ will represent the number of latent variables within the same block. From figure \ref{fig:design} we notice that $I=2$ levels, while $M_{2}=3$ and $M_{2}=1$, corresponding to the $3$ dimensions in the first level
+
+Each testlet is identified with $m=1, \dots, M$, where $M$ is the total number of common stimulus (texts or passages). Finally, each sub-dimensions of interest is be indexed by $d=1, \dots, D$ where $D$ is the total number of sub-dimensions of interest. 
+
+Following \citet{Rabe_et_al_2004a, Rabe_et_al_2004b}, the dichotomous items ($y_{jkmd}$) are modeled by a Bernoulli probability mass function $f(\cdot)$, in the following form:
+\begin{equation} \label{eq:outcome}
+	\begin{split}
+		f \left( y_{jkmd}=1 | \pmb{\beta}, \pmb{\lambda}, \pmb{\eta}, \mathbf{X}, \mathbf{Z} \right) &= \pi_{jkmd}^{n} (1-\pi_{jkmd})^{1-n}
+	\end{split}
+\end{equation}
+
+\noindent where $n$ denotes the number of successes in $n$ independent Bernoulli trials.
+
+\section{Model definition} \label{sect:definition}
+
+defined the model as comprised of two parts: (i) the response, and (ii) the latent structure. The response part of is set to directly model the outcome, whereas, the latent structure is responsible of modeling the latent variables.
+
+
 
 
 \subsection{Response model} \label{s_sect:response}
-As outlined by the authors, conditional on the latent variables, the response model is a Generalized Linear Model (GLM) defined by a systematic and a distributional part. For the systematic part, a linear predictor and a link function are selected, in accordance to the characteristics of the manifest variables. On the other hand, for the distributional part, a distribution from the exponential family is selected.
 
-In the following sections, we proceed to describe the linear predictor, the link function and the distributions accommodated by the framework.
-
+Conditional on the latent variables, the response model is a Generalized Linear Model (GLM) \cite{Nelder_et_al_1989} defined by: (i) a systematic part, composed of a linear predictor and a link function, and (ii) a distributional part. 
 
 \subsubsection{Linear predictor} \label{ss_sect:linear_predictor}
 For a model with $L$ levels and $M_{l}$ latent variables at $l>1$ levels, the linear predictor takes the following form:
