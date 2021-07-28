@@ -1,6 +1,9 @@
 \chapter{Additional Theory} \label{appA:additional}
 
-\section{Other links and distributions}
+\section{Other links and distributions} \label{appA1:links}
+As stated in chapter \ref{chap:framework}, the GLLAMM is a unifying framework for a wide range of latent models. This is possible thanks to the flexibility in the modeling of the outcomes, coming from defining the response model as a GLM \cite{Nelder_et_al_1989} (see section \ref{sect:definition}). 
+
+In the current section the author will try to briefly describe the most important link functions and outcomes distributions, that can be accommodated within the framework. For a more detailed approach on either of these, refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Rabe_et_al_2004c, Skrondal_et_al_2004a}, and \citet{Rabe_et_al_2012}.\\
 
 \begin{enumerate}
 	
@@ -140,7 +143,7 @@
 		\item \textbf{Different links and distributions for different latent variables}. This can be easily achieved by setting different links and distributions for each of the $M_{2}$ latent variables located at level $2$.
 		
 		
-		\item \textbf{Left- or right-censored continuous responses}. Common in selection models (e.g. \cite{Hekman_1979}), they can be achieved by specifying an identity link and Normal distribution for the uncensored scaled responses, as in equations (\ref{eq:link_cont}) and (\ref{eq:dist_cont}); and a scaled probit link and Binomial distribution otherwise, as in equations (\ref{eq:response_dich1}) and (\ref{eq:dist_dich}).
+		\item \textbf{Left- or right-censored continuous responses}. Common in selection models (e.g. \citet{Hekman_1979}), they can be achieved by specifying an identity link and Normal distribution for the uncensored scaled responses, as in equations (\ref{eq:link_cont}) and (\ref{eq:dist_cont}); and a scaled probit link and Binomial distribution otherwise, as in equations (\ref{eq:response_dich1}) and (\ref{eq:dist_dich}).
 		
 		
 		\item \textbf{zero-inflated count responses}. where a log link and a Poisson distribution is set for the counts, as in equations (\ref{eq:link_count}) and (\ref{eq:dist_count}); and a logit link and Binomial distribution is specified to model the zero center of mass, as in equations (\ref{eq:link_dich}) and (\ref{eq:dist_dich}).

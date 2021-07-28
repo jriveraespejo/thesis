@@ -1,0 +1,105 @@
+\chapter{The Bayesian estimation } \label{chap:estimation}
+
+The practical use of GLLAMM requires the estimation of the parameters associated with the items and the individuals' latent abilities. These can be obtained within two frameworks: the classical (frequentist), and the bayesian. The current chapter center its attention on describing the bayesian framework using the Markov Chain Monte Carlo method (MCMC). For a full development of GLLAMM under the frequentist estimation framework refer to \citet{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}.
+
+
+\subsection{Benefits and shortcomings}
+
+The reasons on why bayesian statistics is attractive to perform the estimation of the parameters of any model, and especially under the GLLAMM framework, are:
+
+\begin{enumerate}
+	\item The bayesian estimates are at least as good as the frequentist estimates \cite{Baker_1998, Wollack_2002, Hsieh_2010}. 
+	
+	\item It is built on a simulation-based estimation method, therefore, it can handle all kinds of priors and data-generating processes \cite{Fox_2010}. This is especially useful with highly complex and over-parameterized models, where other methods are unfeasible or work poorly \cite{Baker_1998, Kim_1999}. 
+	
+	\item The model definitions, i.e. the likelihood for the data and priors for the parameters, are used to estimate the corresponding posterior distributions. However, the definitions can also be used in a generative way, i.e. simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
+	
+	\item It allow us to integrate prior beliefs or knowledge about the parameters beyond the observed responses \cite{Fox_2010, Skrondal_et_al_2004a}. This is especially useful when we have issues of non-convergence or improper estimation of the parameters under the Maximum Likelihood methods (ML). Examples of these cases are:
+	
+	\begin{enumerate}
+		\item Estimating abilities when individuals have null scores or aberrant response patterns, i.e. examinees that answered some relatively difficult and discriminating items correctly, while answering some of the easiest incorrectly. \cite{Hambleton_et_al_1991a, Azevedo_2003}.
+		
+		\item Estimating parameters that need to be confined to a permitted parameter space, e.g. the estimation of positive unique factors variances, where the opposite is known as ‘Heywood cases’ \cite{Martin_et_al_1975}
+		
+		\item Estimating parameters under a sparse data structure, where the asymptotic theory is unlikely to hold \cite{Fox_2010};
+		
+	\end{enumerate}
+	
+\end{enumerate}
+
+\noindent Finally, in terms of shortcomings, the bayesian framework has the following inconveniences:
+
+\begin{enumerate}	
+	\item It exposes the user to arbitrary" decisions about the running of the chains, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thining procedure be performed? \cite{Skrondal_et_al_2004a}. 
+	
+	\item The user has many options to assess if the chain achieves stationarity, convergence or good mixing, and most of them are visual. This makes it hard to assess if the chain converges to a proper distribution \cite{Gelman_et_al_1996}.
+	
+	\item The procedure makes it hard to discover parameters' lack of identification \cite{Skrondal_et_al_2004a}. Inadequate mixing of the chain could lead us to think unidentified parameters have been estimated with precision, when in fact they have a `flat' posterior \cite{Keane_1992}.
+	
+	\item Sometimes the geometry of the model makes it hard to find proper solutions for the parameter space. This is especially true in hierarchical models. Under this circumstances, the scientist needs to re-parameterize the model to a non-centered form, i.e. remove the dependence of the parameters on other sampled parameters \cite{Gorinova_et_al_2019}. In those cases, the complexity of the transformation limit the ability of the scientist to communicate/share the implementation \cite{McElreath_2020}.
+	
+	\item The procedure requires more time to achieve a proper solution, compared to the classical methods. This is especially true in models with high complexity \cite{Tarazona_2013, Rivera_2019}.
+	
+\end{enumerate}
+
+\noindent Although some of the shortcomings has made the use of bayesian methods a "controversial" issue, most of these already have an acceptable solution. 
+
+For the first point, a popular approach to solve the issues is to use a large number of iterates, or multiple chains with different initial states. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling methods. However, as we will see in section \ref{sect:comp_imp}, the Hamiltonian Monte Carlo method (HMC) \cite{Betancourt_et_al_2013} implements a different sampling mechanism that is less reliant on these decisions. 
+
+About the second shortcoming, it is well accepted that the visual assessment of stationarity and convergence is easier, and this procedure usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. A popular approach to increase the possibility of a well mixed chain is to change the geometry of the model \cite{McElreath_2020}. However, the implementation of the approach does not necessarily ensure the required property.
+
+On the third point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one can achieve poor parameter estimates, even in the presence of `enough' data and regularizing priors, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}, but this is also applicable to the classical estimation procedures.
+
+Finally, the fourth and fifth points can be considered as the `price' a scientist has to pay to be able to fit complex models, that are in more accordance with the observed data generating processes.
+
+
+\subsection{Bayesian framework}
+
+\subsubsection{Prior distribution}
+
+\subsubsection{Initial start}
+
+\subsubsection{Likelihood}
+
+\subsubsection{Posterior distribution}
+
+
+\subsection{Model identification} \label{sect:identification}
+{\color{red}(work in progress) \\
+	
+	The structure of the latent variables is specified by the number of levels L and the number of latent variables Ml at each level. A particular level may coincide with a level of clustering in the hierarchical dataset. However, there will often not be a direct correspondence between the levels of the model and the levels of the data hierarchy.
+	
+}
+
+
+\subsection{Distribution of the latent variables} \label{s_sect:dist_lv}
+Finally, to fully specify the framework, and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$ or the latent variables $\pmb{\eta}$. If our research interest lies in the structural equation model, it is more convenient to make assumptions for the distribution of the disturbances; otherwise, we make assumptions for the distributions for the latent variables. 
+
+Furthermore, as in the hierarchical framework, it is assumed the latent variables at different levels are independent, whereas latent variables at the same level may present dependency. In that sense, we presume all latent variables at level $l$ to have a multivariate normal distribution with zero mean and covariance matrix $\Sigma_{l}$, i.e. $\pmb{\eta}^{(l)} \sim MVN(\mathbf{0}, \pmb{\Sigma}_{l})$. It is important to emphasize that, while the multivariate normal distribution is widely used in these settings, it is not the only distribution that can be assumed. \citet{Rabe_et_al_2003a} have provided evidence that it can be even left unspecified, by using non-parametric maximum likelihood estimation.
+
+
+
+\section{Computational implementation} \label{sect:comp_imp}
+
+{\color{red} (work in progress) \\
+	see \\
+	- Gelman et al (2011) - Handbook of Markov Chain Monte Carlo\\
+	- McElreath (2020) - Statistical Rethinking
+	
+	Rethinking: Warmup is not burn-in. Other MCMC algorithms and software often discuss burn-
+	in. With a sampling strategy like ordinary Metropolis, it is conventional and useful to trim off the
+	front of the chain, the “burn-in” phase. This is done because it is unlikely that the chain has reached
+	stationarity within the first few samples. Trimming off the front of the chain hopefully removes any
+	influence of which starting value you chose for a parameter. 156
+	But Stan’s sampling algorithms use a different approach. What Stan does during warmup is quite
+	different from what it does after warmup. The warmup samples are used to adapt sampling, to find
+	good values for the step size and the number of steps. Warmup samples are not representative of
+	the target posterior distribution, no matter how long warmup continues. They are not burning in,
+	but rather more like cycling the motor to heat things up and get ready for sampling. When real
+	sampling begins, the samples will be immediately from the target distribution, assuming adaptation
+	was successful.
+	
+}
+
+
+The procedure will be with the aid of \texttt{Stan} \cite{Stan2020} and \texttt{R} \cite{R2015, RStan2020} to retrieve . \\
