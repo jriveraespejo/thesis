@@ -16,7 +16,7 @@ The reasons on why bayesian statistics is attractive to perform the estimation o
 \begin{enumerate}	
 	\item It is built on a simulation-based estimation method, therefore, it can handle all kinds of priors and data-generating processes \cite{Fox_2010}. This is especially useful with highly complex and over-parameterized models, where other methods are unfeasible or work poorly \cite{Baker_1998, Kim_1999}. 
 	
-	\item The model definitions are used to estimate the corresponding posterior distributions, however, they can also be used in a generative way. The likelihood for the data, and priors for the parameters, form the basis to produce samples from the posterior distribution. However, they can also be used to simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
+	\item The model definitions are used to define the posterior sampling distributions, however, they can also be used in a generative way. The likelihood for the data, and priors for the parameters, form the basis to produce samples from the posterior distribution. However, they can also be used to simulate observations, allowing us to test the ability of the method/data to recover the parameters of interest \cite{McElreath_2020}.
 	
 	\item The Bayesian are at least as good as the Frequentist estimates \cite{Baker_1998, Wollack_2002, Hsieh_2010}. This is true when the method uses uninformative `flat' priors. However, because the method allow us to integrate prior beliefs or knowledge about the parameters, beyond the observed responses, the procedure can produce results even when the scenario raise issues of non-convergence or improper estimation under Maximum Likelihood methods (ML) \cite{Skrondal_et_al_2004a, Fox_2010, McElreath_2020}. Examples of such are: 
 	
@@ -41,35 +41,33 @@ Off course the Bayesian framework has shortcomings, among them:
 \begin{enumerate}	
 	\item It exposes the user to arbitrary decisions about the running of the chains, in order to ensure a proper performance, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thinning procedure be performed, if any?, should we follow the same procedure for all parameters of interest?, among others \cite{Skrondal_et_al_2004a}. 
 	
-	\item The user has multiple options to assess the performance of the method, and most of them are visual, making it hard to assess if a proper posterior investigation have been made \cite{Gelman_et_al_1996}. More specifically, the user has multiple options to assess if the chain achieves the three requirements for performance: stationarity, convergence, and good mixing \cite{McElreath_2020}. 
+	\item The user has multiple options to evaluate the performance of the method, and most of them are visual, making it hard to assess if a proper posterior investigation have been made \cite{Gelman_et_al_1996}. More specifically, the user has multiple options to assess if the chain achieves the three requirements for performance: stationarity, convergence, and good mixing \cite{McElreath_2020}. 
 	
 	\item The procedure makes it hard to discover parameters' lack of identification \cite{Skrondal_et_al_2004a}. Inadequate mixing of the chain could lead us to think unidentified parameters have been estimated with precision, when in fact what we have are `flat' posteriors \cite{Keane_1992}.
 	
-	\item Sometimes the posterior sampling geometry of the model makes it hard to find proper solutions for the parameter space, no matter the rotation/rescaling of the parameter, or the amount of data \cite{Betancourt_et_al_2013}. This is especially true in hierarchical models.
+	\item Oftentimes the posterior sampling geometry of the model makes it hard to find proper solutions for the parameter space, no matter the rotation/rescaling of the parameter, or the amount of data \cite{Betancourt_et_al_2013}. This is especially true in hierarchical models.
 	
 	\item The greater the complexity of the model, the harder it is to communicate/share the implementation with other scientist. This is especially true, when researcher re-parameterize the model to solve the previous point \cite{McElreath_2020}.
 	
 	\item The procedure usually requires more time to achieve a proper solution, compared to the classical methods. This is especially true in models with high complexity \cite{Tarazona_2013, Rivera_2019}.
 \end{enumerate}
 
-Although some of the previous shortcomings have made the Bayesian procedure a ``controversial" implementation, most of them already have an acceptable solution. 
+Although some of the previous shortcomings have made the Bayesian procedure a ``controversial" implementation, most of them already have acceptable solutions. 
 
 For the first point, a popular approach is to use a large number of iterates, or multiple chains with different initial states. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling methods. However, recent solutions like the Hamiltonian Monte Carlo method (HMC) \cite{Betancourt_et_al_2013} is less reliant on these decisions, as it implements a different sampling mechanism (see section \ref{sect:comp_imp}). 
 
 About the second point, it is well accepted that the visual assessment of stationarity and convergence is easier, and this procedure usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. A recent approach to increase the possibility of a well mixed chain is to change the posterior sampling geometry of the model \cite{Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, McElreath_2020} (see section \ref{sect:noncenter}).
 
-On the third point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one achieves poor parameter estimates, even in the presence of `enough' data and regularizing priors, but this is also applicable to the classical estimation procedures, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}.
+On the third point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one achieves poor parameter estimates, even in the presence of `enough' data and regularizing priors, but this shortcoming is also applicable to the classical estimation procedures, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}.
 
 About the fourth point, as it was mentioned in previous paragraphs, a recent approach to solve this issue is to change the posterior sampling geometry of the model. This means to re-parameterize the model in a way that removes the dependence of the parameters on other sampled parameters, or even, produce a sample mechanism that is located in a continuous between a centered (CP) and non-centered parametrization (NCP) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, Gorinova_et_al_2019} (see section \ref{sect:noncenter}).
 
-Finally, the fifth and sixth points can be considered the `price' a scientist has to pay to be able to fit complex models, that are in more accordance with the observed data generating processes. Although, recent developments are striving to improve upon the last one, e.g. HMC \cite{Betancourt_et_al_2013}, Interleaved HMC (iHMC), and Variationally Inferred Parameterisation (VIP) \cite{Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
+Finally, the fifth and sixth points can be considered the `price' a scientist has to pay, to be able to fit models that conforms better with the observed data generating processes. Although, recent developments are striving to improve upon the last one, e.g. HMC \cite{Betancourt_et_al_2013}, Interleaved HMC (iHMC), and Variational Inference (VI) \cite{Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Bayesian GLLAMM for dichotomous outcomes} \label{sect:model}
-
-\citet{Skrondal_et_al_2004a} indicated that in the Bayesian approach no distinction is made between latent variables and parameters, meaning they all are considered random quantities. 
 
 \subsection{Posterior distribution}
 
@@ -81,7 +79,7 @@ Denoting $\mathbf{Y}$ as the observed data and $\pmb{\Omega} = \{ \pmb{\beta}, \
 	\end{split}
 \end{equation}
 
-\noindent Since inference only requires representing the likelihood of the data $P( \mathbf{Y} \; | \; \pmb{\Omega} )$ and the prior distribution $P( \pmb{\Omega} )$; and because the denominator is just a (hard to calculate) constant, the posterior can be represented in the following form, without loss of generality:
+\noindent this is possible since in the Bayesian approach no distinction is made between latent variables and parameters, all of them are considered random quantities \cite{Skrondal_et_al_2004a}. Furthermore, since inference only requires representing the likelihood of the data $P( \mathbf{Y} \; | \; \pmb{\Omega} )$ and the prior distribution $P( \pmb{\Omega} )$; and because the denominator is just a (hard to calculate) constant, the posterior can be represented in the following form, without loss of generality:
 %
 \begin{equation} \label{eq:posterior2}
 	\begin{split}
@@ -93,7 +91,7 @@ Denoting $\mathbf{Y}$ as the observed data and $\pmb{\Omega} = \{ \pmb{\beta}, \
 
 \subsection{Prior distributions}
 
-Similar to \citet{Patz_et_al_1999}, we use an independent distributional structure for the joint priors of the parameters, at the highest level of the GLLAMM:
+Similar to \citet{Patz_et_al_1999}, we use an independent distributional structure for the joint priors of the parameters at the highest level of the GLLAMM:
 %
 \begin{equation} \label{eq:priors}
 	\begin{split}
@@ -105,21 +103,63 @@ Similar to \citet{Patz_et_al_1999}, we use an independent distributional structu
 	\end{split}
 \end{equation}
 
-\noindent However, giving the hierarchical and cross-classified structure of the model, the lower level parameters' priors will also depend on further parameters, e.g. variances and covariances of the latent variables\footnote{Because of this sequential model specification, it is said the priors also have a ``hierarchical" structure.}. These are known as \textit{hyperparameters}, and their prior distributions as \textit{hyperpriors}. Because of the previous, we are not going to detail their lower level representation, as they are highly dependent on the specifics of the model. 
+\noindent However, giving the hierarchical and cross-classified structure of the model, the lower level parameters' priors will also depend on further parameters, e.g. variances and covariances of the latent variables\footnote{Because of this sequential model specification, it is said the priors also have a ``hierarchical" structure.}. These are known as \textit{hyperparameters}, and their prior distributions as \textit{hyperpriors}. Because of the previous, we are not going to detail their lower level representation, as they are highly dependent on the specifics of the model.
 
-Finally, as recommended by several authors the priors will be mildly informative \cite{McElreath_2020, Fujimoto_2020, Tarazona_2013, Jiao_et_al_2012, Azevedo_2003, Wollack_2002}, model-specific and determined by the prior predictive investigation. Chapter \ref{chap:simulation} and \ref{chap:application} will show the process of prior elicitation in the context of a simulated and real dataset, respectively.
+Finally, as recommended by several authors the priors will be mildly informative \cite{McElreath_2020, Fujimoto_2020, Tarazona_2013, Jiao_et_al_2012, Azevedo_2003, Wollack_2002}, model-specific and determined by a prior predictive investigation. Chapter \ref{chap:simulation} and \ref{chap:application} will show the process of prior elicitation in the context of a simulated and real dataset, respectively.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Likelihood}
 
-Following \citet{Rabe_et_al_2004a}, with equations (\ref{eq:distributional}), (\ref{eq:systematic}), (\ref{eq:response_dich1}), (\ref{eq:linear_predictor1}), and assumptions (M1) and (M2) described in section \ref{s_sect:assump}, the likelihood function is build in a recursive way:
+Following \citet{Rabe_et_al_2004a}, the likelihood function is build in a recursive way. 
+
+First, we replace the structural model (\ref{eq:structural_model1}) into the linear predictor (\ref{eq:linear_predictor3}):
 %
-\begin{equation} \label{eq:likelihood}
-	f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta} \right) = \prod_{j=1}^{J} \prod_{d=1}^{D} \prod_{k=1}^{K} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta} \right)
+\begin{equation} \label{eq:lin_pred}
+	\begin{split}
+		v_{jkd} &= \mathbf{X}_{j} \pmb{\beta} + ( \mathbf{I} - \pmb{\Psi} )^{-1} \left[ \pmb{\Gamma} \mathbf{W} + \pmb{\zeta} \right] \; \pmb{\Lambda} \; \mathbf{H}_{j}
+	\end{split}
 \end{equation}
 
-{\color{red} SOMETHING'S WRONG}
+Second, the linear predictor and inverse-link function (\ref{eq:response_dich1}) are used to construct the systematic part of the response (\ref{eq:systematic}), i.e. its expected value. Here we use a logit link for pedagogical purposes:
+%
+\begin{equation} \label{eq:prob}
+	\begin{split}
+		\pi_{jkd} &= \frac{ e^{ (\tau_{k} + v_{jkd}) } }{ 1 + e^{ (\tau_{k} + v_{jkd}) } }
+	\end{split}	
+\end{equation}
+
+Third, the expected value is used in the distributional part (\ref{eq:distributional}), in the following form:
+%
+\begin{equation} \label{eq:dist}
+	\begin{split}
+		f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) &= \pi_{jkd}^{n} (1 - \pi_{jkd})^{1-n}
+	\end{split}
+\end{equation}
+
+Fourth, considering assumptions (M1) and (M2) described in section \ref{s_sect:assump}, we produce the level-1 likelihood:
+%
+\begin{equation} \label{eq:lik1}
+	f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \prod_{j=1}^{J} \prod_{d=1}^{D} \prod_{k=1}^{K} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
+\end{equation}
+
+Fifth, we define the likelihood at levels $l>1$, $m>1$ and $l=m$, in the following form:
+%
+\begin{equation} \label{eq:lik2}
+	f_{(l)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \int P( \pmb{\Theta}^{(l)} ) \left[ \prod_{k=1}^{K_{(m)}} \prod_{d=1}^{D_{(l)}} f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) \right] \; d\pmb{\Theta}^{(l)}
+\end{equation}
+
+where $P( \pmb{\Theta}^{(l)} )$ are the prior distributions at level $l$, with $\pmb{\Theta}^{(l)} = [\pmb{\eta}^{(m)}, \pmb{\theta}^{(l)}]$. Finally, we define the likelihood as:
+%
+\begin{equation} \label{eq:lik3}
+	\mathcal{L}(\mathbf{X}, \mathbf{W}, \pmb{\Omega}) = \prod_{m=2}^{M+1} \prod_{l=2}^{L+1} f_{(lm)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
+\end{equation}
+
+and the log-likelihood as:
+%
+\begin{equation} \label{eq:lik3}
+	\ell(\mathbf{X}, \mathbf{W}, \pmb{\Omega}) = \log \mathcal{L}(\mathbf{X}, \mathbf{W}, \pmb{\Omega})
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
