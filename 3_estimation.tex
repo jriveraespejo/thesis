@@ -71,7 +71,7 @@ Finally, the fifth and sixth points can be considered the `price' a scientist ha
 
 \subsection{Posterior distribution}
 
-Denoting $\mathbf{Y}$ as the observed data and $\pmb{\Omega} = \{ \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta}, \pmb{\Psi}, \pmb{\Gamma} \}$ as all the parameters declared in section \ref{s_sect:response} and \ref{s_sect:struct} (including latent variables), the posterior distribution is obtained using the Bayes theorem, in the following way:
+Denoting $\mathbf{Y}$ as the observed data and $\pmb{\Omega} = \{ \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta}, \pmb{\Psi}, \pmb{\Gamma} \}$, i.e. all the parameters declared in section \ref{s_sect:response} and \ref{s_sect:struct}; the posterior distribution is obtained using the Bayes theorem, in the following way:
 %
 \begin{equation} \label{eq:posterior1}
 	\begin{split}
@@ -113,7 +113,7 @@ Finally, as recommended by several authors the priors will be mildly informative
 
 Following \citet{Rabe_et_al_2004a}, the likelihood function is build in a recursive way. 
 
-First, we replace the structural model (\ref{eq:structural_model1}) into the linear predictor (\ref{eq:linear_predictor3}):
+\noindent First, we replace the structural model (\ref{eq:structural_model1}) into the linear predictor (\ref{eq:linear_predictor3}):
 %
 \begin{equation} \label{eq:lin_pred}
 	\begin{split}
@@ -121,15 +121,15 @@ First, we replace the structural model (\ref{eq:structural_model1}) into the lin
 	\end{split}
 \end{equation}
 
-Second, the linear predictor and inverse-link function (\ref{eq:response_dich1}) are used to construct the systematic part of the response (\ref{eq:systematic}), i.e. its expected value. Here we use a logit link for pedagogical purposes:
+\noindent Second, the linear predictor and inverse-link function (\ref{eq:response_dich1}) are used to construct the systematic part of the response (\ref{eq:systematic}), i.e. its expected value. Here we use a logit link for pedagogical purposes:
 %
 \begin{equation} \label{eq:prob}
 	\begin{split}
-		\pi_{jkd} &= \frac{ e^{ (\tau_{k} + v_{jkd}) } }{ 1 + e^{ (\tau_{k} + v_{jkd}) } }
+		\pi_{jkd} &= \frac{ \text{exp}(\tau_{k} + v_{jkd}) }{ 1 + \text{exp}(\tau_{k} + v_{jkd}) } = \frac{ \text{exp}(v_{jkd}) }{ 1 + \text{exp}(v_{jkd}) }
 	\end{split}	
 \end{equation}
 
-Third, the expected value is used in the distributional part (\ref{eq:distributional}), in the following form:
+\noindent Third, the expected value is used in the distributional part (\ref{eq:distributional}), in the following form:
 %
 \begin{equation} \label{eq:dist}
 	\begin{split}
@@ -137,27 +137,27 @@ Third, the expected value is used in the distributional part (\ref{eq:distributi
 	\end{split}
 \end{equation}
 
-Fourth, considering assumptions (M1) and (M2) described in section \ref{s_sect:assump}, we produce the level-1 likelihood:
+\noindent Fourth, considering assumptions (M1) and (M2) described in section \ref{s_sect:assump}, we produce the level-1 likelihood:
 %
 \begin{equation} \label{eq:lik1}
 	f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \prod_{j=1}^{J} \prod_{d=1}^{D} \prod_{k=1}^{K} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
 \end{equation}
 
-Fifth, we define the likelihood at levels $l>1$, $m>1$ and $l=m$, in the following form:
+\noindent Fifth, we define the marginal likelihood at levels $l$ and $m$, conditional on the latent variables at levels $l+1$ and $m+1$, in the following form:
 %
 \begin{equation} \label{eq:lik2}
-	f_{(l)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \int P( \pmb{\Theta}^{(l)} ) \left[ \prod_{k=1}^{K_{(m)}} \prod_{d=1}^{D_{(l)}} f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) \right] \; d\pmb{\Theta}^{(l)}
+	f^{(l)}_{(m)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \int \left[ \prod f^{(l-1)}_{(m-1)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) \right] \; P( \pmb{\Theta}^{(l)}_{(m)} ) \; d\pmb{\Theta}^{(l)}_{(m)}
 \end{equation}
 
-where $P( \pmb{\Theta}^{(l)} )$ are the prior distributions at level $l$, with $\pmb{\Theta}^{(l)} = [\pmb{\eta}^{(m)}, \pmb{\theta}^{(l)}]$. Finally, we define the likelihood as:
+\noindent where the product inside the brackets is over all units in level $(l-1)$ and $(m-1)$, and the first level is defined in equation (\ref{eq:lik1}); whereas $P( \pmb{\Theta}^{(l)}_{(m)} )$ are the prior distributions for the latent variables at level $l$ and $m$, with $\pmb{\Theta}^{(l)}_{(m)} = [\pmb{\eta}^{(m)}, \pmb{\theta}^{(l)}]$. Finally, we define the likelihood as:
 %
 \begin{equation} \label{eq:lik3}
-	\mathcal{L}(\mathbf{X}, \mathbf{W}, \pmb{\Omega}) = \prod_{m=2}^{M+1} \prod_{l=2}^{L+1} f_{(lm)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
+	\mathcal{L}(\mathbf{X}, \mathbf{W}, \pmb{\Omega}) = \prod_{m=2}^{M+1} \prod_{l=2}^{L+1} f^{(l)}_{(m)} \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
 \end{equation}
 
-and the log-likelihood as:
+\noindent and the log-likelihood as:
 %
-\begin{equation} \label{eq:lik3}
+\begin{equation} \label{eq:loglik}
 	\ell(\mathbf{X}, \mathbf{W}, \pmb{\Omega}) = \log \mathcal{L}(\mathbf{X}, \mathbf{W}, \pmb{\Omega})
 \end{equation}
 
@@ -166,9 +166,9 @@ and the log-likelihood as:
 
 \section{Model identification} \label{sect:identification}
 
-Following \citet{Rabe_et_al_2004a}, in order to fully specify the model and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$, the distribution of one or more of the latent variables $\pmb{\Theta}$, or set restrictions for one or more of the loadings in $\pmb{\Lambda}$.
+As indicated by \citet{Rabe_et_al_2004a}, in order to fully specify the model and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$, the distribution of one or more of the latent variables $\pmb{\Theta}$, or set restrictions for one or more of the loadings in $\pmb{\Lambda}$.
 
-Furthermore, as in the hierarchical framework, it is assumed the latent variables at different levels are independent from each other, whereas latent variables at the same level may present dependency. In case of the latter, we presume the latent variables at the same level have a multivariate normal distribution with a mean and covariance structure determined by equations (\ref{eq:structural_model2}) and (\ref{eq:structural_model3}). In the case of the covariance matrices, these are determined by the covariance of the specific disturbances.
+Furthermore, as it is hinted in equation (\ref{eq:lik3}), it is assumed the latent variables at different levels are independent from each other, whereas latent variables at the same level may present dependency. In case of the latter, we presume the latent variables at the same level have a multivariate normal distribution with a mean and covariance structure determined by equations (\ref{eq:structural_model2}) and (\ref{eq:structural_model3}). In the case of the covariance matrices, these are determined by the covariance of the specific disturbances.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -51,16 +51,16 @@ For the distributional part, the dichotomous items $y_{jkd}$ are modeled at the 
 	\end{split}	
 \end{equation}
 
-\noindent where $\tau_{k}$ is $k$'th item threshold, and the inverse-link function that can be defined in three ways:
+\noindent where $\tau_{k}$ is $k$'th item threshold, assumed to be zero for the binary case \cite{Rabe_et_al_2004a}, while the inverse-link function can be defined in three ways:
 %
 \begin{equation} \label{eq:response_dich1}
 	h(x) = 
 	\begin{cases}
-		exp(x)[1 + exp(x)]^{-1} \\
+		\text{exp}(x)[1 + \text{exp}(x)]^{-1} \\
 		%
 		\Phi(x)  \\
 		%
-		exp(-exp(x))
+		\text{exp}(-\text{exp}(x))
 	\end{cases}
 \end{equation}
 
@@ -78,25 +78,25 @@ Notice equation (\ref{eq:linear_predictor1}) can be re-written in matrix form in
 %
 \begin{equation} \label{eq:linear_predictor2}
 	\begin{split}
-		v_{jkd} &= \mathbf{X}_{j} \pmb{\beta} + \sum_{m=2}^{M+1} \pmb{\eta}^{(m)} \pmb{\alpha}^{(m)} \mathbf{A}_{j}^{(m)} + \sum_{l=2}^{L+1} \pmb{\theta}_{j}^{(l)} \pmb{\lambda}^{(l)} \mathbf{B}_{j}^{(l)}
+		v_{jkd} &= \mathbf{X}_{j} \; \pmb{\beta} + \sum_{m=2}^{M+1} \pmb{\eta}^{(m)} \pmb{\alpha}^{(m)} \mathbf{A}_{j}^{(m)} + \sum_{l=2}^{L+1} \pmb{\theta}_{j}^{(l)} \pmb{\lambda}^{(l)} \mathbf{B}_{j}^{(l)}
 	\end{split}
 \end{equation}
 
-\noindent where $\mathbf{X}_{j}$ represents the individual's design matrix of explanatory variables that maps the parameter vector $\pmb{\beta}$ to the linear predictor; and $\mathbf{X} = [ \mathbf{X}_{1}^{T}, \dots, \mathbf{X}_{J}^{T} ]^{T}$ the ``stacked" design matrix of $\mathbf{X}_{j}$. Moreover, $\pmb{\eta}^{(m)} = [ \eta_{1}^{(m)}, \dots, \eta_{K_{(m)}}^{(m)} ]^{T}$, and  $\pmb{\alpha}^{(m)} = [ \alpha_{1}^{(m)}, \dots, \alpha_{K_{(m)}}^{(m)} ]^{T}$ are the vectors of the item's latent dimensions with corresponding loadings at level $m$, mapped by a block matrix $\mathbf{A}_{j}^{(m)}$. Similarly, $\pmb{\theta}_{j}^{(l)} = [ \theta_{j1}^{(l)}, \dots, \theta_{jD_{(l)}}^{(l)} ]^{T}$, and  $\pmb{\lambda}^{(l)} = [ \lambda_{1}^{(l)}, \dots, \lambda_{D_{(l)}}^{(l)} ]^{T}$ are the vectors of the individuals's latent dimensions with corresponding loadings at level $l$, mapped by a block matrix $\mathbf{B}_{j}^{(l)}$.
+\noindent where $\mathbf{X}_{j}$ represents the individual's design matrix of explanatory variables that maps the parameter vector $\pmb{\beta}$ to the linear predictor; and $\mathbf{X} = [ \mathbf{X}_{1}^{T}, \dots, \mathbf{X}_{J}^{T} ]^{T}$ the ``stacked" design matrix of $\mathbf{X}_{j}$. Moreover, $\pmb{\eta}^{(m)} = [ \eta_{1}^{(m)}, \dots, \eta_{K_{(m)}}^{(m)} ]^{T}$, and  $\pmb{\alpha}^{(m)} = [ \alpha_{1}^{(m)}, \dots, \alpha_{K_{(m)}}^{(m)} ]^{T}$ are the vectors of the item's latent dimensions with corresponding loadings at level $m$, mapped by a block matrix $\mathbf{A}_{j}^{(m)}$. Similarly, $\pmb{\theta}_{j}^{(l)} = [ \theta_{j1}^{(l)}, \dots, \theta_{jD_{(l)}}^{(l)} ]^{T}$, and  $\pmb{\lambda}^{(l)} = [ \lambda_{1}^{(l)}, \dots, \lambda_{D_{(l)}}^{(l)} ]^{T}$ are the vectors of the individual's latent dimensions with corresponding loadings at level $l$, mapped by a block matrix $\mathbf{B}_{j}^{(l)}$.
 
 Finally, in order to have a more concise representation of the model, we can re-express equation (\ref{eq:linear_predictor2}) in the following way:
 %
 \begin{equation} \label{eq:linear_predictor3}
 	\begin{split}
-		v_{jkd} &= \mathbf{X}_{j} \pmb{\beta} + \pmb{\eta} \; \pmb{\alpha} \; \mathbf{A}_{j} + \pmb{\theta} \; \pmb{\lambda} \; \mathbf{B}_{j} \\
+		v_{jkd} &= \mathbf{X}_{j} \; \pmb{\beta} + \pmb{\eta} \; \pmb{\alpha} \; \mathbf{A}_{j} + \pmb{\theta} \; \pmb{\lambda} \; \mathbf{B}_{j} \\
 		%
-		&= \mathbf{X}_{j} \pmb{\beta} + \pmb{\Theta} \; \pmb{\Lambda} \; \mathbf{H}_{j}
+		&= \mathbf{X}_{j} \; \pmb{\beta} + \pmb{\Theta} \; \pmb{\Lambda} \; \mathbf{H}_{j}
 	\end{split}
 \end{equation}
 
 \noindent where $\pmb{\alpha} = [ \pmb{\alpha}^{(2)T}, \dots, \pmb{\alpha}^{(M+1)T} ]^{T}$ and $\pmb{\lambda} = [ \pmb{\lambda}^{(1)T}, \dots, \pmb{\lambda}^{(L+1)T} ]^{T}$ represent all the loadings corresponding to the items and individuals dimensions at all levels; whereas $\pmb{\eta} = [ \pmb{\eta}^{(2)T}, \dots, \pmb{\eta}^{(M+1)T} ]^{T}$ and $\pmb{\theta} = [ \pmb{\theta}^{(2)T}, \dots, \pmb{\theta}^{(L+1)T} ]^{T}$ represent the latent dimensions and sub-dimensions of items and individuals at all levels, respectively. Consequently, $\mathbf{A}_{j}$ and $\mathbf{B}_{j}$ are their mapping block matrices. Furthermore, $\pmb{\Lambda} = [ \pmb{\alpha}^{T}, \pmb{\lambda}^{T} ]^{T}$ and $\pmb{\Theta} = [ \pmb{\eta}^{T}, \pmb{\theta}^{T} ]^{T}$ to represent the ``stacked" vector of loadings, and dimensions, respectively; and $\mathbf{H}_{j}$ its mapping block matrix.
 
-Considering figure \ref{fig:design} as reference, we would have an empty level-1 covariates matrix $\mathbf{X}_{j}$, as we do not have explanatory variables ($P=0$). Moreover, we have $M=2$ levels at the items block, with $K_{2}=12$ and $K_{3}=3$. Consequently, $\pmb{\eta}^{(2)} = [ \eta_{1}^{(2)}, \dots, \eta_{12}^{(2)} ]^{T}$ and $\pmb{\eta}^{(3)} = [ \eta_{1}^{(3)}, \eta_{2}^{(3)}, \eta_{3}^{(3)} ]^{T}$ denotes the items' difficulties and testlet effects, respectively. On the other hand, we have $L=2$ levels in the individuals block, with $D_{2}=3$ and $D_{3}=1$. Therefore, $\pmb{\theta}^{(2)} = [ \theta_{1}^{(2)}, \theta_{2}^{(2)}, \theta_{3}^{(2)} ]^{T}$ which denotes the literal, inferential and reflective abilities; whereas $\pmb{\theta}^{(3)} = \theta_{1}^{(3)}$ represent the reading comprehension latent variable. Furthermore, since we are trying to express an IRT model, it makes sense to put some restrictions to the parameter set. In this case, we establish $\pmb{\alpha}^{(2)} = -\pmb{\lambda}^{(2)}$ with $ \pmb{\lambda}^{(2)} = [ \lambda_{1}^{(2)}, \dots, \lambda_{12}^{(2)} ]^{T}$ representing the item's discriminatory parameter, where $\pmb{\lambda}^{(2)} > \mathbf{0}$. In addition, $\pmb{\lambda}^{(3)} = [ \lambda_{1}^{(3)}, \lambda_{2}^{(3)}, \lambda_{3}^{(3)} ]^{T}$ would represent the loadings from reading comprehension to their respective sub-dimensions; whereas $\pmb{\alpha}^{(3)} = [ \alpha_{1}^{(3)}, \alpha_{2}^{(3)}, \alpha_{3}^{(3)} ]^{T}$ would represent the item-specific loadings from the testlets, usually set as $[1,1,1]^{T}$, indicating they explain directly the items difficulties at the lower level. Finally, the item thresholds $\pmb{\tau}^{(2)} = [ \tau_{1}, \dots, \tau_{12} ]$ defined in equation (\ref{eq:systematic}) are ususally assumed to be zero for the binary case \cite{Rabe_et_al_2004a}. However, in the presence of multiple groups, $\pmb{\tau}^{(2)}$ and $\pmb{\lambda}^{(2)}$ can assess if the scale fulfills strong measurement invariance \cite{Millsap_eta_al_2004, Svetina_et_al_2020}.
+Considering figure \ref{fig:design} as reference, we would have an empty level-1 covariates matrix $\mathbf{X}_{j}$, as we do not have explanatory variables ($P=0$). Moreover, we have $M=2$ levels at the items block, with $K_{2}=12$ and $K_{3}=3$. Consequently, $\pmb{\eta}^{(2)} = [ \eta_{1}^{(2)}, \dots, \eta_{12}^{(2)} ]^{T}$ and $\pmb{\eta}^{(3)} = [ \eta_{1}^{(3)}, \eta_{2}^{(3)}, \eta_{3}^{(3)} ]^{T}$ denotes the items' difficulties and testlet effects, respectively. On the other hand, we have $L=2$ levels in the individuals block, with $D_{2}=3$ and $D_{3}=1$. Therefore, $\pmb{\theta}^{(2)} = [ \theta_{1}^{(2)}, \theta_{2}^{(2)}, \theta_{3}^{(2)} ]^{T}$ which denotes the literal, inferential and reflective abilities; whereas $\pmb{\theta}^{(3)} = \theta_{1}^{(3)}$ represent the reading comprehension latent variable. Furthermore, since we are trying to express an IRT model, it makes sense to put some restrictions to the parameter set. In this case, we establish $\pmb{\alpha}^{(2)} = -\pmb{\lambda}^{(2)}$ with $ \pmb{\lambda}^{(2)} = [ \lambda_{1}^{(2)}, \dots, \lambda_{12}^{(2)} ]^{T}$ representing the item's discriminatory parameter, where $\pmb{\lambda}^{(2)} > \mathbf{0}$. This resemble to a multidimensional generalization of the linear predictor observed in the archetypical Rasch \cite{Rasch_1980}, or 2PL \cite{Lord_et_al_2008} models, i.e. $ \lambda^{(2)}_{d} (\theta^{(2)}_{jd} - \eta^{(2)}_{k} )$, where $| \lambda^{(2)}_{d} | = | \alpha^{(2)}_{k} |$ denotes the discriminatory power of item $k$, $\eta^{(2)}_{k}$ its difficulty, and $\theta^{(2)}_{jd}$ the ability of the individual at dimension $d$. In addition, $\pmb{\lambda}^{(3)} = [ \lambda_{1}^{(3)}, \lambda_{2}^{(3)}, \lambda_{3}^{(3)} ]^{T}$ would represent the loadings from reading comprehension to their respective sub-dimensions; whereas $\pmb{\alpha}^{(3)} = [ \alpha_{1}^{(3)}, \alpha_{2}^{(3)}, \alpha_{3}^{(3)} ]^{T}$ would represent the item-specific loadings from the testlets, usually set as $[1,1,1]^{T}$, indicating they explain directly the items difficulties at the lower level.
 
 Finally, notice that trough the use of $\mathbf{A}_{j}$ and $\mathbf{B}_{j}$ design block matrices, and more generally with $\mathbf{H}_{j}$, the model departs from the traditional multivariate framework for formulating structural models, i.e. a wide data format; and adopts a univariate approach, i.e. a long data format. The former stores the subject’s repeated outcomes in a single row, with multiple response vectors and explanatory variables appended column-wise to the outcome data. The later stores the subject’s repeated outcomes in a single ``stacked" response vector with as many rows as there are repeated measurements, and explanatory variables appended column-wise to the outcome data, distinguished from each other, by a design block matrix. 
 
@@ -156,7 +156,7 @@ However, notice that because in the IRT framework $\pmb{\eta}$ and $\pmb{\theta}
 
 \noindent where $\pmb{\Psi}_{\eta}$, $\pmb{\Psi}_{\theta}$, $\pmb{\Gamma}_{\eta}$, and $\pmb{\Gamma}_{\theta}$ are the dimension-specific parameter matrices that map the relationship between the corresponding latent variables $\pmb{\eta}$ and $\pmb{\theta}$; with  $\pmb{\zeta}_{\eta}$ and $\pmb{\zeta}_{\theta}$ being the dimension-specific vector of disturbances. Finally, the matrices $\mathbf{W}_{\eta}$ and $\mathbf{W}_{\theta}$ would be the dimension-specific covariates. 
 
-Considering figure \ref{fig:design} as reference, we did not specified structural relationships, like $\pmb{\Psi}$ in equation (\ref{eq:structural_model1}); nor declare any additional covariates $\mathbf{W}$ explaining other latent variables. However, chapter \ref{chap:simulation} and \ref{chap:application} will show an implementation where a set of covariates is declared.
+Considering figure \ref{fig:design} as reference, we did not specified any structural relationships $\pmb{\Psi}$; nor declare any additional covariates $\mathbf{W}$. However, chapter \ref{chap:simulation} and \ref{chap:application} will show an implementation where we hypothesized a set of covariates explain the variability on some of the latent variables.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,7 +178,7 @@ Following \citet{Skrondal_et_al_2004a}, the framework has two main assumptions:
 	\noindent where $f \left( \mathbf{y} = \mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)$ denotes the level-1 conditional likelihood, and $\mathbf{y}$ the vector of all responses at the first level. It is important to mention that equation (\ref{eq:independence}) results from the union of two parts \cite{Reckase_2009, Baker_2001, Hambleton_et_al_1991a}: 
 	%
 	\begin{enumerate}
-		\item \textbf{Local item independence,} which entails the individual's response to an item does not affect the probability of endorsing another item, after conditioning on the individual's ability. This can be expressed in the following form:
+		\item \textbf{Local item independence,} which entails the individual's response to an item does not affect the probability of endorsing another item, after conditioning on the individual's ability. This is expressed in the following mathematical form:
 		%
 		\begin{equation}
 			f \left( y_{j..}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \prod_{d=1}^{D} \prod_{k=1}^{K} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
@@ -186,7 +186,7 @@ Following \citet{Skrondal_et_al_2004a}, the framework has two main assumptions:
 		%
 		where $y_{j..} = [ y_{j11}, \dots, y_{jKD}]$ is the vector of all items for individual $j$ and, as previously defined, $K = \sum_{m} K_{m}$ and $D = \sum_{l} D_{l}$. \\
 		%
-		\item \textbf{Local individual independence,} which entails that an individual's response to an item is independent of another person's response to that same item. The assumption can be expressed in the following form:
+		\item \textbf{Local individual independence,} which entails that an individual's response to an item is independent of another person's response to that same item. The assumption is expressed in the following form:
 		%
 		\begin{equation}
 			f \left( y_{.kd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \prod_{j=1}^{J} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
