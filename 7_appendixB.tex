@@ -1,1 +1,57 @@
 \chapter{Code}
+
+\section{To center or not to center} \label{app:noncenter}
+
+\subsection{The devil's funnel, centered parametrization.} 
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real theta[J];
+		real v;
+	}
+	model {
+		v ~ normal(0, 3);
+		theta ~ normal(0, exp(v));
+	}
+\end{lstlisting}
+
+
+\subsection{The devil's funnel, centered parametrization with priors.} 
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real theta[J];
+		real v;
+	}
+	model {
+		v ~ normal(0, 1);
+		theta ~ normal(0, exp(v));
+	}
+\end{lstlisting}
+
+
+\subsection{The devil's funnel, non-centered parametrization.} 
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real ztheta[J];
+		real v;
+	}
+	transformed parameters{
+		vector[J] theta;
+		theta = exp(v) * to_vector( ztheta );
+	}
+	model {
+		v ~ normal(0, 3);
+		ztheta ~ normal(0, 1);
+	}
+\end{lstlisting}

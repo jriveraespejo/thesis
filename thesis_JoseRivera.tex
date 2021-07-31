@@ -27,6 +27,16 @@
 \usepackage{enumerate} 						% numbered lines
 \usepackage{cases} 							% numbered cases equations
 \usepackage{color, soul}					% highlight text
+\usepackage{listings} 						% to insert R code easily
+\lstset{language=R, 						% to set the style of the code
+	basicstyle=\small\ttfamily,
+	stringstyle=\color{Green},
+	otherkeywords={0,1,2,3,4,5,6,7,8,9},
+	morekeywords={TRUE,FALSE},
+	deletekeywords={data,frame,length,as,character,R},
+	keywordstyle=\color{black},
+	commentstyle=\color{DarkGreen},
+}
 %
 %
 %\addbibresource{bibliography.bib}			% Biber bibliography
@@ -165,8 +175,8 @@ Espero llenarlos de orgullo.
 %--------------------------------------------------------------------------
 % ----------------------- acknowledgment ---------------------------------
 %--------------------------------------------------------------------------
-\chapter*{Acknowledgment}
-{\color{red}(work in progress)}
+%\chapter*{Acknowledgment}
+%
 %
 %
 %--------------------------------------------------------------------------
@@ -204,11 +214,13 @@ Espero llenarlos de orgullo.
 	GLM		& Generalized Linear Model. \\
 	GLMM	& Generalized Linear Mixed Model. \\
 	HMC		& Hamiltonian Monte Carlo.\\
+	iHMC	& Interleaved Hamiltonian Monte Carlo.\\
 	IRT		& Item Response Theory models. \\
 	MCMC	& Markov Chain Monte Carlo.\\
 	ML		& Maximum Likelihood.\\
 	MSEM	& Multilevel Structural Equation Model.\\
 	SEM		& Structural Equation Model. \\
+	VI		& Variational Inference.
 	
 \end{tabular}
 %
