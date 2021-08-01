@@ -273,7 +273,7 @@ As one can see from the figure, the joint posterior distribution is not explored
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Wasn't HMC the solution to this?}
+\subsection{Wasn't HMC the solution to this?}
 
 HMC is a powerful MCMC algorithm, and its benefits stand the test of other scenarios, as detailed by multiple authors \cite{McElreath_2020, Gelman_et_al_2014}. However, the issue with this example goes a little bit farther than what the algorithm can actually overcome, and this is true also for the Metropolis and Gibbs sampler. Nevertheless, we will see HMC still manages to be efficient within the constrains of the problem.
 
@@ -296,11 +296,13 @@ Finally, although HMC did not fully explore the posterior joint distribution, at
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{So, how can we solve it?}
+\subsection{So, how can we solve it?}
 
-There are two proposed solutions: (i) use regularizing priors, and (ii) change the posterior sampling geometry. This section will outline the benefits of the first, as it is already a well study result; while is going to advocate for the benefits of the second in the context of IRT models. \\
+There are two proposed solutions: (i) use regularizing priors, and (ii) change the posterior sampling geometry. This section will outline the benefits of the first, as it is already a well study result; while is going to advocate for the benefits of the second in the context of IRT models.
 
-\noindent \textbf{Regularizing priors.} It turns out that the benefits of using regularizing priors can also be explained from a geometrical perspective. Consider the following change to equation (\ref{eq:devil}):
+\subsubsection{Regularizing priors}
+
+It turns out that the benefits of using regularizing priors can also be explained from a geometrical perspective. Consider the following change to equation (\ref{eq:devil}):
 %
 \begin{equation} \label{eq:devil_prior}
 	\begin{split}	
@@ -349,9 +351,11 @@ Finally, we notice a mild improvement on the trace, tranks and ACF plots in figu
 	\label{fig:devil_prior}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsubsection{Non-Centered Parametrization}
 
-\noindent \textbf{Non-Centered Parametrization.} Finally, we can change the posterior geometry by using a Non-Centered Parametrization (NCP). One important thing to mention here is that the second solution does not apply indifferently of the problem at hand, in fact, several authors have point out that this 
+Finally, we can change the posterior geometry by using a Non-Centered Parametrization (NCP). One important thing to mention here is that the second solution does not apply indifferently of the problem at hand, in fact, several authors have point out that this 
 
 
 {\color{red} WORK IN PROGRESS \\
