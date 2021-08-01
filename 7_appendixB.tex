@@ -1,85 +1,46 @@
-\chapter{Code}
+\chapter{Additional plots} \label{appB:additional}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Chapter 3: Bayesian estimation} \label{app:chapter3}
+\section{Chapter 3: Bayesian estimation} \label{appB1:chapter3}
 
-\subsection{To center or not to center} \label{app:noncenter}
-
-\subsubsection{The devil's funnel, centered parametrization.} 
-\begin{lstlisting}[language=R]
-	transformed data {
-		int<lower=0> J;
-		J = 1;
-	}
-	parameters {
-		real theta[J];
-		real v;
-	}
-	model {
-		v ~ normal(0, 3);
-		theta ~ normal(0, exp(v));
-	}
-\end{lstlisting}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsubsection{The devil's funnel, centered parametrization with priors.} 
-\begin{lstlisting}[language=R]
-	transformed data {
-		int<lower=0> J;
-		J = 1;
-	}
-	parameters {
-		real theta[J];
-		real v;
-	}
-	model {
-		v ~ normal(0, 1);
-		theta ~ normal(0, exp(v));
-	}
-\end{lstlisting}
+\subsection{To center or not to center} \label{appB1:noncenter}
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{1_jags_CE_simple}
+	%
+	\caption[The Devil's funnel. Centered Parametrization. JAGS]%
+	{The Devil's funnel. Centered Parametrization implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
+	\label{fig:devil_CE_simple_jags}
+\end{figure}
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{2_jags_CE_priors}
+	%
+	\caption[The Devil's funnel. Centered Parametrization with mildly informative priors. JAGS]%
+	{The Devil's funnel. Centered Parametrization with mildly informative priors implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
+	\label{fig:devil_CE_prior_jags}
+\end{figure}
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{3_jags_NC}
+	%
+	\caption[The Devil's funnel. Non-Centered Parametrization. JAGS]%
+	{The Devil's funnel. Non-Centered Parametrization implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
+	\label{fig:devil_CE_NC_jags}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{The devil's funnel, non-centered parametrization.} 
-\begin{lstlisting}[language=R]
-	transformed data {
-		int<lower=0> J;
-		J = 1;
-	}
-	parameters {
-		real ztheta[J];
-		real v;
-	}
-	transformed parameters{
-		vector[J] theta;
-		theta = exp(v) * to_vector( ztheta );
-	}
-	model {
-		v ~ normal(0, 3);
-		ztheta ~ normal(0, 1);
-	}
-\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Chapter 4: Simulation study} \label{app:chapter4}
-
-\subsection{Simulated data} \label{app:sim}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Models} \label{app:models}
-
-\subsubsection{FOLV} 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsubsection{SOLV} 
+\section{Chapter 4: Simulation study} \label{appB2:chapter4}
 
 

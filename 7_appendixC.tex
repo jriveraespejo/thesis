@@ -1,0 +1,129 @@
+\chapter{Code} \label{appC:additional}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Chapter 3: Bayesian estimation} \label{appC1:chapter3}
+
+\subsection{To center or not to center} \label{appC1_1:noncenter}
+
+\subsubsection{The devil's funnel, centered parametrization.} 
+
+\textbf{Stan} \\
+%
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real theta[J];
+		real v;
+	}
+	model {
+		v ~ normal(0, 3);
+		theta ~ normal(0, exp(v));
+	}
+\end{lstlisting}
+
+
+\noindent \textbf{JAGS} \\
+%
+\begin{lstlisting}[language=R]
+	model{
+		v ~ dnorm(0,3)
+		theta ~ dnorm(0, exp(v))
+	}
+\end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{The devil's funnel, centered parametrization with priors.} 
+
+\textbf{Stan} \\
+%
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real theta[J];
+		real v;
+	}
+	model {
+		v ~ normal(0, 1);
+		theta ~ normal(0, exp(v));
+	}
+\end{lstlisting}
+
+
+\noindent \textbf{JAGS} \\
+%
+\begin{lstlisting}[language=R]
+	model{
+		v ~ dnorm(0,1)
+		theta ~ dnorm(0, exp(v))
+	}
+\end{lstlisting}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{The devil's funnel, non-centered parametrization.}
+
+\textbf{Stan} \\
+%
+\begin{lstlisting}[language=R]
+	transformed data {
+		int<lower=0> J;
+		J = 1;
+	}
+	parameters {
+		real ztheta[J];
+		real v;
+	}
+	transformed parameters{
+		vector[J] theta;
+		theta = exp(v) * to_vector( ztheta );
+	}
+	model {
+		v ~ normal(0, 3);
+		ztheta ~ normal(0, 1);
+	}
+\end{lstlisting}
+
+
+\noindent \textbf{JAGS} \\
+%
+\begin{lstlisting}[language=R]
+	model{
+		v ~ dnorm(0,1)
+		ztheta ~ dnorm(0,1)
+		theta = v * ztheta
+	}
+\end{lstlisting}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Chapter 4: Simulation study} \label{appC2:chapter4}
+
+\subsection{Simulated data} \label{appC2_1:sim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Models} \label{appC2_2:models}
+
+\subsubsection{FOLV} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{SOLV} 
+
+
