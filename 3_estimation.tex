@@ -235,7 +235,7 @@ Since the method requires starting values for the parameters, the author decided
 
 As it was point out by \citet{Betancourt_et_al_2013}, even the most simple hierarchical models present formidable pathologies, that no simple correction can be performed to visit the posterior distribution properly. This is true no matter the rotation/rescaling of the parameter, or the amount of data. 
 
-A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel, where the author shows that you do not need a complex model to start observing issues. As an example, consider the following joint distribution:
+A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel, where the author shows that you do not need a complex model to start observing these issues. Consider the following joint distribution:
 %
 \begin{equation} \label{eq:devil}
 	\begin{split}	
@@ -244,13 +244,13 @@ A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel
 	\end{split}
 \end{equation}
 
-\noindent where $v$ can be interpreted as the \textit{hyperprior} of $\theta$, and $\theta$ as dependent on the samples of $v$. The latter is what the literature dubbed as the Centered Parametrization (CP).
+\noindent where $v$ can be interpreted as the \textit{hyperprior} of $\theta$, and $\theta$ as dependent on the samples of $v$. The latter is what the literature dubbed as the centered parametrization (CP).
 
-This joint distribution might seem familiar, as Bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar to what is required for multiple parameters in an IRT setting. Moreover, it seems that any MCMC procedure would not have any issues exploring the posterior distribution of these parameters, as there are only two of them, but we would be wrong. The reader can find the \texttt{stan} and \texttt{jags} implementations in Appendix \ref{appC1_1:noncenter}.
+This joint distribution might seem familiar, as Bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar types of requirements can be observed in IRT models. Moreover, it seems that any MCMC procedure would not have any issues exploring the posterior distribution of these parameters, as they are normally distributed and there are only two of them, but we would be wrong. The reader can find the \texttt{stan} and \texttt{jags} implementations in Appendix \ref{appC1_1:noncenter}.
 
 Figure \ref{fig:devil_CE} show the chains resulting from implementing the model on equation (\ref{eq:devil}), through HMC (\texttt{stan}). For pedagogical purposes, the example was run without data, as the author wanted to emphasize the pathologies are present even before we feed the data to our model. However, its easy to extrapolate that these issues will remain present when data is available.
 
-As one can see from the figure, the joint posterior distribution is not explored properly. The chains show no sign of being ``healthy", i.e. they do not show stationarity or convergence (top panels), nor a good mixing (middle and bottom panels). This is further supported by the \texttt{Rhat} \cite{Gelman_et_al_2014}, and effective sample sizes estimates \texttt{n\_eff} \cite{Gelman_et_al_2014}. The \texttt{Rhat} for all parameters were above one (recommended threshold), indicating the chains did not achieve convergence: the between-chain variability was larger than the within-chain variability. Furthermore, the effective samples sizes were $34$ and $293$ for $v$ and $\theta$, respectively; indicating the values of the chains remained highly correlated. This is striking as one could expect to have effective sample sizes closer to the actual number of iterations $3000$ ($1000$ samples for each of the $3$ chains, after warm-up).
+As one can see from the figure, the joint posterior distribution is not explored properly. The chains show no sign of being ``healthy", i.e. they do not show stationarity or convergence (top panels), nor a good mixing (middle and bottom panels). This is further supported by the \texttt{Rhat} \cite{Gelman_et_al_2014}, and effective sample sizes estimates \texttt{n\_eff} \cite{Gelman_et_al_2014}. The \texttt{Rhat} for all parameters were above one (recommended threshold), indicating the chains did not achieve convergence: the between-chain variability was larger than the within-chain variability. Furthermore, the effective samples sizes were $34$ and $293$ for $v$ and $\theta$, respectively; indicating the values of the chains remained highly correlated. This is striking as one could expect effective sample sizes closer to the actual number of iterations $3,000$ ($3$ chains with $1,000$ samples each, after warm-up).
 %
 \begin{figure}[h]
 	\centering
@@ -276,29 +276,30 @@ As one can see from the figure, the joint posterior distribution is not explored
 \subsection{Wasn't HMC the solution to this?}
 
 HMC is a powerful MCMC algorithm, and its benefits stand the test of other scenarios, as detailed by multiple authors \cite{McElreath_2020, Gelman_et_al_2014}. However, the issue with this example goes a little bit farther than what the algorithm can actually overcome, and this is true also for the Metropolis and Gibbs sampler. Nevertheless, we will see HMC still manages to be efficient within the constrains of the problem.
-
-Figure \ref{fig:devil_CE_geom} shows the posterior sampling geometry of the model in equation (\ref{eq:devil}), for the HMC algorithm (\texttt{stan}) and Metropolis/Gibbs sampler (\texttt{jags}). 
-
-The first thing to notice is the complexity of the joint posterior geometry, with a steep funnel shape as the values of $v$ gets smaller and smaller. This makes sense, as the exponential of larger negative values, force the standard deviation of $\theta$ to be narrower and narrower around its mean (zero). 
-
-The second thing to notice is that HMC manages to successfully explore the parameter space of $v$ and $\theta$, albeit some parts are less visited ($\theta>0$). This does not happen under the Metropolis-Hastings or Gibbs sampler algorithms. In fact, \texttt{jags} did not managed to escape the narrow funnel shape, no matter the number of iterations used the adaptation, burn-in and sampling procedures\footnote{\texttt{stan} used $3$ chains with $1,000$ iterations for adaptation, and $1,000$ iterations for sampling. \texttt{jags} used $3$ chains with $5,000$ iterations for adaptation, $5,000$ iterations for burn-in, and $5,000$ iterations for sampling.} (see panel B). Moreover, as shown in figure \ref{fig:devil_CE_simple_jags} (appendix), the traceplots indicate the chains are ``healthy", ignoring the clear lack of exploration.
-
-Finally, although HMC did not fully explore the posterior joint distribution, at least the method let us know which parts of the distribution did not manage to visit appropriately (see red points indicating divergent transitions). The last is important, because HMC gives us the opportunity to identify where can we improve our parametrization, something that is not available on other algorithms.
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\linewidth]{1_funnel_CE_simple}
+	\includegraphics[width=0.9\linewidth]{1_funnel_CE_simple}
 	%
 	\caption[Posterior sampling geometry. Centered Parametrization.]%
 	{Posterior sampling geometry. Centered Parametrization. (A) HMC exploration, blue points are accepted samples, red points denote divergent transitions. (B) Metropolis/Gibbs exploration, blue points are samples.}
 	\label{fig:devil_CE_geom}
 \end{figure}
 
+Figure \ref{fig:devil_CE_geom} shows the posterior sampling geometry of the model in equation (\ref{eq:devil}), for the HMC algorithm (\texttt{stan}) and Metropolis/Gibbs sampler (\texttt{jags}). 
+
+The first thing to notice is the complexity of the joint posterior geometry, with a steep funnel shape as the values of $v$ gets smaller and smaller. This makes sense, as the exponential of larger negative values, force the standard deviation of $\theta$ to be narrower and narrower around its mean (zero). 
+
+The second thing to notice is that HMC still manages to successfully explore the steep parameter space of $v$ and $\theta$, albeit some parts are less visited ($\theta>0$). This does not happen under the Metropolis-Hastings or Gibbs sampler algorithms. In fact, \texttt{jags} did not managed to escape the narrow funnel shape, no matter the number of iterations used the adaptation, burn-in and sampling procedures\footnote{\texttt{stan} used $3$ chains with $1,000$ iterations for adaptation, and $1,000$ iterations for sampling. \texttt{jags} used $3$ chains with $5,000$ iterations for adaptation, $5,000$ iterations for burn-in, and $5,000$ iterations for sampling.} (panel B). Moreover, as shown in figure \ref{fig:devil_CE_simple_jags} (appendix), the traceplots indicate the chains are ``healthy", ignoring the clear lack of exploration of the posterior distribution.
+
+Finally, although HMC did not fully explore the posterior, at least the method let us know which parts of the distribution did not manage to visit appropriately (see red points indicating divergent transitions). The last is important, because HMC gives us the opportunity to identify where can we improve our parametrization, something that is not available on Metropolis or Gibbs.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{So, how can we solve it?}
+\subsection{So, how can we solve this?}
 
-There are two proposed solutions: (i) use regularizing priors, and (ii) change the posterior sampling geometry. This section will outline the benefits of the first, as it is already a well study result; while is going to advocate for the benefits of the second in the context of IRT models.
+There are two proposed solutions for this issue: (i) use regularizing priors, and (ii) change the posterior sampling geometry. This section will outline the benefits of the first, as it is already a well study result; while is going to advocate for the benefits of the second, in the context of IRT models.
 
 \subsubsection{Regularizing priors}
 
@@ -311,11 +312,11 @@ It turns out that the benefits of using regularizing priors can also be explaine
 	\end{split}
 \end{equation}
 
-\noindent notice the only thing we changed is the setting of a mildly informative prior for $v$. 
+\noindent notice we chose a mildly informative prior for $v$. 
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\linewidth]{2_funnel_CE_priors}
+	\includegraphics[width=0.9\linewidth]{2_funnel_CE_priors}
 	%
 	\caption[Posterior sampling geometry. Centered Parametrization with mildly informative priors.]%
 	{Posterior sampling geometry. Centered Parametrization with mildly informative priors. (A) HMC exploration, blue points are accepted samples, red points denote divergent transitions. (B) Metropolis/Gibbs exploration, blue points are samples.}
@@ -324,9 +325,9 @@ It turns out that the benefits of using regularizing priors can also be explaine
 
 Figure \ref{fig:devil_prior_geom} shows the joint posterior sampling geometry of equation (\ref{eq:devil_prior}), for the HMC algorithm (\texttt{stan}) and Metropolis/Gibbs sampler (\texttt{jags}), respectively. 
 
-The first thing to notice from the figure is that the geometry available for exploration seems more broad. What is actually happening is that by adding information about $v$, we are ``zooming" into the posterior geometry observed in figure \ref{fig:devil_CE_geom}, according to the range of the new priors. This further benefits the exploration of the posterior (for any algorithm), as extreme ranges don't have to be visited anymore, e.g. the narrow funnel in the range $[-6,-2]$.
+The first thing to notice from the figure is that the geometry available for exploration seems more broad. However, what is actually happening is that by adding information about $v$, we are ``zooming" into the posterior geometry observed in figure \ref{fig:devil_CE_geom}, according to the range of the new priors. This further benefits the exploration of the posterior, as extreme ranges don't have to be visited from the start, e.g. the narrow funnel in the range $[-6,-2]$ in figure \ref{fig:devil_CE_geom}.
 
-The second thing one can notice is that HMC does not ``loose time" exploring sections of the posterior distribution that are not needed. Surprisingly in contrast, the Gibbs sampler explore non-useful sections and leaves the useful ones unexplored. Again, this is true no matter the number of iterations used the adaptation, burn-in and sampling procedures\footnote{the author used the same settings as in the previous example.}. Moreover, the chains in figure \ref{fig:devil_CE_prior_jags} (appendix) seem ``healthy", ignoring the clear lack of exploration, as in the previous example.
+The second thing one can notice is that HMC does not ``loose time" exploring sections of the posterior distribution that are not needed. Surprisingly in contrast, the Gibbs sampler explore non-useful sections and leaves the useful ones unexplored. Again, this is true no matter the number of iterations used the adaptation, burn-in and sampling procedures\footnote{the author used the same settings as in the previous example.}. Moreover, the chains in figure \ref{fig:devil_CE_prior_jags} (appendix) seem ``healthy", ignoring the clear lack of exploration of the posterior, as in the previous example.
 
 Third, we see that using regularizing priors reduced the number of \texttt{stan}'s divergent transitions from $150$ (in the previous example) to $50$. Although we still observe them in the steepest part of the geometry. Such information is not provided in \texttt{jags}.
 
@@ -355,16 +356,22 @@ Finally, we notice a mild improvement on the trace, tranks and ACF plots in figu
 
 \subsubsection{Non-Centered Parametrization}
 
-Finally, we can change the posterior geometry by using a Non-Centered Parametrization (NCP). One important thing to mention here is that the second solution does not apply indifferently of the problem at hand, in fact, several authors have point out that this 
+It would seem that, increasing the regularizing power of the priors is the answer to get rid of the sampling issues, raised by a complex posterior sampling geometry. However, there is a limit on the information a prior can contain, without imposing strong assumptions about the parameters in a model. Furthermore, sometimes researchers want the information on the data dominates the posterior parameter space. In those cases, imposing even mildly informative priors is a solution that is out of the picture.
 
+In this context, \citet{Betancourt_et_al_2013} indicated that prior information can be included in the model, not only through the prior distributions, but also by encoding it in the model itself, i.e. changing the posterior sampling geometries, taking advantage of the hierarchical structure explicitly. 
 
-{\color{red} WORK IN PROGRESS \\
-	
-It is important to keep in mind that, the success of the latter is highly dependent on the specifics of the model \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, Gorinova_et_al_2019}. 
- 
-Although it seems that increasing the regularizing power of the priors is the answer to get rid of the sampling issues, raised by a complex posterior sampling geometry; there is a limit of information a prior can contain without imposing strong assumptions about the parameters in a model.
+Under the Bayesian framework, a change in geometry consist on a re-parameterization of the model, that seeks to remove the dependence of the parameters on other sampled parameters, therefore favoring the performance of the MCMC chains. This is what the literature has dubbed as the non-centered parametrization (NCP).
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{3_funnel_NC}
+	%
+	\caption[Posterior sampling geometry. Non-Centered Parametrization.]%
+	{Posterior sampling geometry. Non-Centered Parametrization. (A1, B1) geometry defined by the independent parameters $v$ and $z$. (A2, B2) Original sampling geometry defined by $v$ and $\theta$. (A1, A2) HMC algorithm (\texttt{stan}). (B1, B2) Metropolis/Gibbs sampler (\texttt{jags}). Blue points are accepted samples. Red points denote divergent transitions.}
+	\label{fig:devil_NC_geom}
+\end{figure}
 
-In this context, several authors \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013} showed that prior information can be included in the model, not only through the prior distributions but also by encoding it in the model itself, changing the posterior sampling geometries by removing the dependence of the parameters on other sampled parameters, favoring the performance of MCMC chains. This is what the literature knows as the Non-Centered Parametrization (NCP). Consider the following modification to equation (\ref{eq:devil}):
+In our case, changing the posterior sampling geometry means to modify equation (\ref{eq:devil}) in the following way:
 %
 \begin{equation} \label{eq:devil_NC}
 	\begin{split}	
@@ -374,18 +381,11 @@ In this context, several authors \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, P
 	\end{split}
 \end{equation}
 
-\noindent notice we have break the dependence between $\theta$ and $v$. The idea comes from standardizing a variable, where $(\theta - \mu)/( \text{exp}(v) ) = z$, therefore $z \sim N(0,1)$, then $\theta = \mu + \text{exp}(v) * z = \text{exp}(v) * z$ when $\mu=0$ by design. More importantly, this can be extended to the multivariate case in a simple way, through the use of the Cholesky decomposition.
+\noindent notice $v$ has the original assumed variability, but now $\theta$ is defined in a way, that is no longer sample dependent on $v$, i.e. we no longer sample $\theta$ directly but $z$, and transform it back.
 
-Figure \ref{fig:devil_NC_geom} show the posterior sampling geometry of the model; while figure \ref{fig:devil_NC} shows the trace, trank and acf plots for the non-centered parametrization of the model. Notice there are no divergent transitions, the exploration of the posterior distribution is done without any issues, and finally that get reflected in chains that clearly achieved stationarity, convergence and good mixing.
-%
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1\linewidth]{3_funnel_NC}
-	%
-	\caption[Posterior sampling geometry. Non-Centered Parametrization.]%
-	{Posterior sampling geometry. Non-Centered Parametrization. (Left) Sampling geometry defined by the independent parameters $v$ and $z$. (Right) Original sampling geometry defined by $v$ and $\theta$. Blue points are accepted samples. Red points denote divergent transitions.}
-	\label{fig:devil_NC_geom}
-\end{figure}
+The idea of this re-parametrization comes from the calculation of the standard score (z-sore). Notice that if $\theta \sim N(\mu_{\theta}, \sigma_{\theta})$ where $\sigma_{\theta} = \text{exp}(v)$, then $(\theta - \mu_{\theta})/\sigma_{\theta} = z$ and $z \sim N(0,1)$. Using this process in reverse, we get that $\theta = \mu_{\theta} + \sigma_{\theta} z = \text{exp}(v) \; z$ when $\mu_{\theta}=0$, then $\theta \sim N(0, \text{exp}(v))$. As the previous, there are transformation that can be done for other distributions, and they can even be extended to the multivariate normal case, through the use of the Cholesky decomposition \cite{McElreath_2020}.
+
+For our current application however, figure \ref{fig:devil_NC_geom} show the posterior sampling geometry for the HMC and Gibbs sampler. Notice both algorithms manage to explore more successfully the posterior distribution, although HMC does it a bit better on the extremes of $v$. Moreover, HMC shows no divergent transitions, meaning the posterior is ``visited" without issues; as shown on figure \ref{fig:devil_NC}, where the chains show clear signs of stationarity, convergence and good mixing.
 %
 \begin{figure}[h]
 	\centering
@@ -405,4 +405,7 @@ Figure \ref{fig:devil_NC_geom} show the posterior sampling geometry of the model
 	{The Devil's funnel. Non-centered Parametrization. (Top) It shows the traceplot for the iterations on three chains. (Middle) It shows the trankplot for the same data. (Bottom) It shows the Auto-correlation Functions (ACF) of the iterations.}
 	\label{fig:devil_NC}
 \end{figure}
-}
+
+Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither strategy is more ``optimal" than the other. The author point out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements have been obtained by leveraging on the ``best of both world", e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
+
+Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of non-centered parametrization in the context of the simulated and real dataset, respectively.
