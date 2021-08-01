@@ -362,7 +362,7 @@ In this context, \citet{Betancourt_et_al_2013} indicated that prior information 
 
 Under the Bayesian framework, a change in geometry consist on a re-parameterization of the model, that seeks to remove the dependence of the parameters on other sampled parameters, therefore favoring the performance of the MCMC chains. This is what the literature has dubbed as the non-centered parametrization (NCP).
 %
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\linewidth]{3_funnel_NC}
 	%
@@ -383,9 +383,10 @@ In our case, changing the posterior sampling geometry means to modify equation (
 
 \noindent notice $v$ has the original assumed variability, but now $\theta$ is defined in a way, that is no longer sample dependent on $v$, i.e. we no longer sample $\theta$ directly but $z$, and transform it back.
 
-The idea of this re-parametrization comes from the calculation of the standard score (z-sore). Notice that if $\theta \sim N(\mu_{\theta}, \sigma_{\theta})$ where $\sigma_{\theta} = \text{exp}(v)$, then $(\theta - \mu_{\theta})/\sigma_{\theta} = z$ and $z \sim N(0,1)$. Using this process in reverse, we get that $\theta = \mu_{\theta} + \sigma_{\theta} z = \text{exp}(v) \; z$ when $\mu_{\theta}=0$, then $\theta \sim N(0, \text{exp}(v))$. As the previous, there are transformation that can be done for other distributions, and they can even be extended to the multivariate normal case, through the use of the Cholesky decomposition \cite{McElreath_2020}.
+The motivation for this re-parametrization have seeds in the calculation of the standard score (z-sore). Notice that if $\theta \sim N(\mu_{\theta}, \sigma_{\theta})$ where $\sigma_{\theta} = \text{exp}(v)$, then $(\theta - \mu_{\theta})/\sigma_{\theta} = z$ and $z \sim N(0,1)$. Using this process in reverse, we notice $\theta = \mu_{\theta} + \sigma_{\theta} z = \text{exp}(v) \; z$ when $\mu_{\theta}=0$, then $\theta \sim N(0, \text{exp}(v))$. As the previous, there are transformation that can be done for other distributions, and they can even be extended to the multivariate normal case, through the use of the Cholesky decomposition \cite{McElreath_2020}.
 
-For our current application however, figure \ref{fig:devil_NC_geom} show the posterior sampling geometry for the HMC and Gibbs sampler. Notice both algorithms manage to explore more successfully the posterior distribution, although HMC does it a bit better on the extremes of $v$. Moreover, HMC shows no divergent transitions, meaning the posterior is ``visited" without issues; as shown on figure \ref{fig:devil_NC}, where the chains show clear signs of stationarity, convergence and good mixing.
+For our current application however, figure \ref{fig:devil_NC_geom} show the posterior sampling geometry for the HMC and Gibbs sampler. Notice both algorithms manage to explore more successfully the posterior distribution, although HMC does it a bit better on the extremes of $v$. Moreover, HMC shows no divergent transitions, meaning the posterior is ``visited" without issues; as seen on figure \ref{fig:devil_NC}, where the chains show clear signs of stationarity, convergence and good mixing.
+
 %
 \begin{figure}[h]
 	\centering
@@ -406,6 +407,6 @@ For our current application however, figure \ref{fig:devil_NC_geom} show the pos
 	\label{fig:devil_NC}
 \end{figure}
 
-Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither strategy is more ``optimal" than the other. The author point out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements have been obtained by leveraging on the ``best of both world", e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
+Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither strategy is more ``optimal" than the other. The author pointed out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements can be obtained by leveraging on the ``best of both worlds", e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
 
-Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of non-centered parametrization in the context of the simulated and real dataset, respectively.
+Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of non-centered parametrization in the context of an IRT model.
