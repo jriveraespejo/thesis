@@ -5,7 +5,7 @@ This project contains the preliminary version of the *Thesis* presented in fulfi
 ## Status
 **_In progress_**
 
-The preliminary document can be donwloaded from [**here**](https://raw.githubusercontent.com/jriveraespejo/thesis/master/thesis_JoseRivera.pdf)
+The preliminary document can be donwloaded from [**HERE**](https://raw.githubusercontent.com/jriveraespejo/thesis/master/thesis_JoseRivera.pdf)
 
 
 ## General information

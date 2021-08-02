@@ -409,7 +409,7 @@ par(mfrow=c(2, 2))
 
 # stan
 # actual sample space
-plot(NULL, xlim=range(z), ylim=range(v), xlab='ztheta', ylab='v')
+plot(NULL, xlim=range(z), ylim=range(v), xlab='z', ylab='v', main='(A1)')
 for ( l in c(0.1,0.3,0.5,0.8,0.99) ){
   lines( ellipse( diag( c(1, 3) ), centre=c(0,0), level=l), 
          col=col.alpha('black', 0.3))
@@ -419,7 +419,7 @@ points(stan_example[ stan_example$divergent==1, 1:2], col=col.alpha('red', 0.3),
 mtext( paste0('# divergent = ', sum(stan_example$divergent)), side=3, adj=0, cex=1)
 
 # final sample space
-plot(NULL, xlim=range(theta), ylim=range(v), xlab='theta', ylab='v')
+plot(NULL, xlim=range(theta), ylim=range(v), xlab='theta', ylab='v', main='(A2)')
 for(i in 1:ncol(theta)){
   lines(x=theta[,i], y=v, col=col.alpha('black', 0.3))
 }
@@ -430,7 +430,7 @@ mtext( paste0('# divergent = ', sum(stan_example$divergent)), side=3, adj=0, cex
 
 # jags
 # actual sample space
-plot(NULL, xlim=range(z), ylim=range(v), xlab='ztheta', ylab='v')
+plot(NULL, xlim=range(z), ylim=range(v), xlab='z', ylab='v', main='(B1)')
 for ( l in c(0.1,0.3,0.5,0.8,0.99) ){
   lines( ellipse( diag( c(1, 3) ), centre=c(0,0), level=l), 
          col=col.alpha('black', 0.3))
@@ -438,7 +438,7 @@ for ( l in c(0.1,0.3,0.5,0.8,0.99) ){
 points(jags_example[,c(3,1)], col=col.alpha('blue', 0.1), pch=16)
 
 # final sample space
-plot(NULL, xlim=range(theta), ylim=range(v), xlab='theta', ylab='v')
+plot(NULL, xlim=range(theta), ylim=range(v), xlab='theta', ylab='v', main='(B2)')
 for(i in 1:ncol(theta)){
   lines(x=theta[,i], y=v, col=col.alpha('black', 0.3))
 }
