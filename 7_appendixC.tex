@@ -118,19 +118,19 @@ model{
 \noindent \textbf{Data generation}
 %
 \begin{lstlisting}[language=R]
-S = 10
+S = 10 # ten data sets
 condition = expand_grid( J = c(100, 250, 500), load=0.95)
 for(i in 1:nrow(condition)){
 	for(s in 1:S){
 		with(condition[i,],
 			data_generation( J=J, loads=rep(load, 3), 
-				Ndata=s, seed=4587+s+i,
+				Ndata=s, seed=4587+s+i, # different seeds
 				file_dir=file.path(getwd(), 'data') ) )
 	}
 }
 \end{lstlisting}
 
-\noindent \textbf{Generation function}
+\noindent \textbf{Data generation function}
 %
 \begin{lstlisting}[language=R]
 # function:

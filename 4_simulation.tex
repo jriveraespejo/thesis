@@ -16,9 +16,9 @@ A simulation study was conducted to assess three attributes of the bayesian impl
 
 \noindent In this context, a fully crossed design with $3 \times 2 \times 2$ experimental conditions was proposed. 
 
-First, the author used three different samples sizes to generate the data under analysis: $500$, $250$, and $100$. The literature on IRT models present several implementations with samples sizes above $250$, however, few present samples lower than that. The author decided to use a sample size of a $100$ to fill in this gap. Moreover, the decision was also supported by the notion that the change of the posterior sampling geometries could benefit the performance and recovery capacity of the implementation, under this setting.
+First, the author used three different samples sizes to generate the data under analysis: $500$, $250$, and $100$. The literature on IRT models present several implementations with samples sizes above $250$, however, few present samples lower than that. The author decided to use a sample size of a $100$ to fill in this gap. Moreover, the decision was also supported by the notion that the change of the posterior sampling geometries could benefit the performance, and recovery capacity of the implementation, under this setting.
 
-Second, as expected, the author used two parametrization of the models: CP and NCP. To the author's knowledge, the IRT literature do not use the change of posterior sampling geometries, as an alternative to improve the performance of the bayesian implementation of said models. This research is set to fill in part of this gap.
+Second, as expected, the author used two parametrization of the models: CP and NCP. To the author's knowledge, the IRT literature do not use the change of posterior sampling geometries, as an alternative to improve the performance of the bayesian implementation of said models. This study is set to fill in part of this gap.
 
 Third, the author evaluated the performance, recovery capacity and retrodictive accuracy of a first-order and second-order latent variable models (FOLV and SOLV, respectively). The decision was based on the literature of Confirmatory Factor Analysis (CFA), where before fitting a SOLV model (figure \ref{fig:SOLV_model}), the researcher need to asses if the correlation structure at the first level of the FOLV model (figure \ref{fig:FOLV_model}) justifies the decision.
 
@@ -28,15 +28,15 @@ Therefore, ten ($10$) data sets were generated for each study condition, followi
 
 \section{Algorithm} \label{sub_sect:algorithm}
 
-Each data replication was simulated following a six-step procedure. First, the author randomly simulated a collection of pseudo-covariates $\mathbf{W}_{\theta}$, motivated by a similar information set present in the reading comprehension sub-test. The generated covariates were: (i) a binary ``gender" variable, describing males and females, (ii) an integer ``age" variable with range $[30, 65]$, the latter corresponding to the age of retirement, (iii) a three-level categorical ``education" variable, indicating the type of education the individual received: institute only, university only, or both; and finally (iv) a four-level categorical ``experience" variable, denoting the individual's years of work experience, where the higher the category, the higher the individual's years of experience. Associated with these, the author defined their regression parameters $\mathbf{\Gamma}_{\theta}$ where: (i) $\Gamma_{gender} = [\gamma_{m}, \gamma_{f}] = [0, 1]$, for males and females, respectively; (ii) $\Gamma_{age} = -0.01$, indicating that the individuals loose ability with age, in a linear manner; (iii) $\Gamma_{edu} = [\gamma_{io}, \gamma_{uo}, \gamma_{b}] = [-0.5, 0.5, 0]$, assuming individuals with university degree have better ability levels, followed by individuals with both educations, and last individuals with institute degrees; (iv) $\Gamma_{exp} = [\gamma_{0y}, \gamma_{5y}, \gamma_{10y}, \gamma_{11+y}] = [-0.5, 0, 0.35, 0.5]$, implying experience has decreasing returns on abilities; and finally (v) $\Gamma_{0} = 0$, indicating the absence of an intercept;  
+Each data replication was simulated following a six-step procedure. First, the author randomly simulated a collection of pseudo-covariates $\mathbf{W}_{\theta}$, motivated by a similar information set present in the reading comprehension sub-test. The generated covariates were: (i) a binary ``gender" variable, describing males and females, (ii) an integer ``age" variable with range $[30, 65]$, the latter corresponding to the age of retirement, (iii) a three-level categorical ``education" variable, indicating the type of education the individual received: institute only, university only, or both; and finally (iv) a four-level categorical ``experience" variable, denoting the individual's years of work experience, where the higher the category, the higher the individual's years of experience. Associated with these, the author defined their regression parameters $\mathbf{\Gamma}_{\theta} = [\Gamma_{1}, \Gamma_{2}, \Gamma_{3}, \Gamma_{4}]$ where: (i) $\Gamma_{1} = \Gamma_{gender} = [\gamma_{m}, \gamma_{f}] = [0, 1]$, for males and females, respectively; (ii) $\Gamma_{2} = \Gamma_{age} = -0.01$, indicating that the individuals loose ability with age, in a linear manner; (iii) $\Gamma_{3} = \Gamma_{edu} = [\gamma_{io}, \gamma_{uo}, \gamma_{b}] = [-0.5, 0.5, 0]$, assuming individuals with university degree have better ability levels, followed by individuals with both educations, and last individuals with institute degrees; (iv) $\Gamma_{4} = \Gamma_{exp} = [\gamma_{0y}, \gamma_{5y}, \gamma_{10y}, \gamma_{11+y}] = [-0.5, 0, 0.35, 0.5]$, implying experience has decreasing returns on abilities; and finally (v) $\Gamma_{0} = 0$, indicating the absence of an intercept;  
 
-Second, the study simulated the second- and first-order latent variables, corresponding to the reading comprehension ability and its three sub-dimensions: literal, inferential and reflective. Reading comprehension ($\theta^{(3)}_{j}$) was generated from a normal distribution $N( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} )$, with $\mu^{(3)}_{j} = \pmb{\Gamma}_{\theta} \; \mathbf{W}_{\theta}$, i.e. the linear combination of the simulated covariates and its corresponding regression parameters, and $\sigma^{(3)}_{\theta}=0.5$. On the other hand, the three sub-dimensions were generated from a multivariate normal distribution $MVN( \mu^{(2)}_{j.} , \Sigma^{(2)})$, with $\mu^{(2)}_{j.} = [\lambda^{(2)}_{1} \theta^{(3)}_{j}, \; \lambda^{(2)}_{2} \theta^{(3)}_{j}, \; \lambda^{(2)}_{3} \theta^{(3)}_{j} ]$, and $\Sigma^{(2)} = S^{(2)} R^{(2)} S^{(2)}$. To ensure the FOLV model in figure \ref{fig:FOLV_model} lead us to the SOLV in figure \ref{fig:SOLV_model}, the author assumed loadings $[\lambda^{(2)}_{1}, \lambda^{(2)}_{2}, \lambda^{(2)}_{3}] = [0.95, 0.95, 0.95]$. Finally, $S^{(2)} = \sigma^{(2)}_{\theta} I$, i.e a diagonal standard deviation matrix with $\sigma^{(2)}_{\theta} = 0.5$; whereas $R^{(2)} = I$, i.e an identity correlation matrix, implying the sub-dimensions are independent after accounting reading comprehension.
+Second, the study simulated the second- and first-order latent variables, corresponding to the reading comprehension ability and its three sub-dimensions: literal, inferential and reflective. Reading comprehension ($\theta^{(3)}_{j}$) was generated from a normal distribution $N( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} )$, with $\mu^{(3)}_{j} = \pmb{\Gamma}_{\theta} \; \mathbf{W}_{\theta}$, i.e. the linear combination of the simulated covariates and its corresponding regression parameters, and $\sigma^{(3)}_{\theta}=0.5$. On the other hand, the three sub-dimensions were generated from a multivariate normal distribution $MVN( \mu^{(2)}_{j.} , \Sigma^{(2)})$, with $\mu^{(2)}_{j.} = [\lambda^{(2)}_{1} \theta^{(3)}_{j}, \; \lambda^{(2)}_{2} \theta^{(3)}_{j}, \; \lambda^{(2)}_{3} \theta^{(3)}_{j} ]$, and $\Sigma^{(2)} = S^{(2)} R^{(2)} S^{(2)}$. Additionally, in order to ensure the FOLV model in figure \ref{fig:FOLV_model} lead us to the SOLV in figure \ref{fig:SOLV_model}, the author assumed loadings $\pmb{\lambda}^{(2)} = [\lambda^{(2)}_{1}, \lambda^{(2)}_{2}, \lambda^{(2)}_{3}] = [0.95, 0.95, 0.95]$. Finally, $S^{(2)} = \sigma^{(2)}_{\theta} I$, i.e. a diagonal standard deviation matrix with $\sigma^{(2)}_{\theta} = 0.5$; whereas $R^{(2)} = I$, i.e. an identity correlation matrix, implying the sub-dimensions are independent after accounting reading comprehension.
 
 Third, the author defined five ($5$) common stimulus or texts for the items, where the mean difficulty for the texts $\pmb{\eta}^{(3)} = [\eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5}] = [-1.50, -0.75, 0, 0.75, 1.50]$; whereas the deviation from said mean difficulties were $\sigma^{(3)}_{\eta} = 0.5$ for all texts. 
 
-Fourth, $25$ items were randomly generated from independent normal distributions $N( \mu^{(2)}_{k}, \sigma^{(2)}_{k} ) $, with $\mu^{(2)}_{k} = \pmb{\eta}^{(3)} \mathbf{A}$ and $\sigma^{(2)}_{k} = \sigma^{(3)}_{\eta}$, where $\mathbf{A}$ is a block design matrix that maps the items to its corresponding passage defined in the previous step. Finally, we generated at random the dimensions the items were designed to measure.
+Fourth, $25$ items were randomly generated from independent normal distributions $N( \mu^{(2)}_{k}, \sigma^{(2)}_{k} ) $, with $\mu^{(2)}_{k} = \pmb{\eta}^{(3)} \mathbf{A}$ and $\sigma^{(2)}_{k} = \sigma^{(3)}_{\eta}$, where $\mathbf{A}$ is a block design matrix that maps the items to its corresponding passage defined in the previous step. Finally, the dimensions the items were designed to measure were also generated at random.
 
-Fifth, the author calculated the linear predictor $v_{jkd}$ and probability of endorsing an item $\pi_{jkd}$, according to equations (\ref{eq:linear_predictor2}), (\ref{eq:systematic}), and (\ref{eq:response_dich1}), respectively. The probabilty was calculated using the logit inverse-link function.
+Fifth, the author calculated the linear predictor $v_{jkd}$ and probability of endorsing an item $\pi_{jkd}$, for each individual $j$ on item $k$ (belonging to dimension $d$), according to equations (\ref{eq:linear_predictor2}), (\ref{eq:systematic}), and (\ref{eq:response_dich1}), respectively. The probabilty was calculated using the logit inverse-link function.
 	
 Sixth and last, the outcome $y_{jkd}$ was simulated from a Bernoulli distribution as in equation (\ref{eq:distributional}), with its probability calculated in the previous step.
 
@@ -47,33 +47,57 @@ The code associated with the full simulation process can be found in Appendix \r
 
 \section{Evaluation criteria}
 
-La precisión de los estimados fue evaluada usando la Raíz del Error Cuadrático Medio (RMSE) y el Error Absoluto Medio (MAE) para cada réplica (acorde con los diseños establecidos en \ref{sec:cond_simulacion}). \\
+As stated in previous paragraphs, the study evaluated the capacity of the bayesian implementation to recover the regression parameters ($\pmb{\Gamma}_{\theta}$), latent variables ($\pmb{\eta}^{(m)}$ and $\pmb{\theta}^{(l)}$) and loadings ($\pmb{\lambda}^{(2)}$). Notice in the case of the FOLV model in figure \ref{fig:SOLV_model}, no loading recovery can be assessed. However, using Wright's tracing rules \cite{Beaujean_2014}, we evaluated the implied correlation structure between the sub-dimensions, resulting from having a second-order latent variable.
 
-El RMSE es definido como la raíz cuadrada del promedio de las diferencias entre los valores reales y los estimados al cuadrado, de la siguiente manera:
+Therefore, the recovery capacity was assessed using the root mean squared error (RMSE), i.e. the extent of the deviation the posterior means exhibited from the true generating values, in all replicate simulations:
+%
 \begin{align}
 	%
-	RMSE \left( \eta^{(m)}_{kd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} (\hat{\eta}^{(m)}_{kd} - \eta^{(m)}_{kd} )^2} \\
+	RMSE \left( \eta^{(m)}_{k} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\eta}^{(m)}_{kr} - \eta^{(m)}_{kr} \right)^2} \\
 	%
-	RMSE \left( \theta^{(l)}_{jd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} (\hat{\theta}^{(l)}_{jdr}-\theta^{(l)}_{jd})^2}
+	RMSE \left( \theta^{(l)}_{jd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\theta}^{(l)}_{jdr} - \theta^{(l)}_{jd} \right)^2} \\
+	%
+	%
+	RMSE \left( \Gamma_{w} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\Gamma}_{wr} - \Gamma_{w} \right)^2} \\
+	%
+	%
+	RMSE \left( \lambda^{(l)}_{d} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\lambda}^{(l)}_{dr} - \lambda^{(l)}_{d} \right)^2}
 	%
 \end{align}
 
-Tal y como se observa en las fórmulas, los criterios serán aplicados a los parámetros de ítem e individuos. Sin embargo, dado que en el NRM, el impacto de cada categoría depende ampliamente de los valores y comportamiento de las otras, en determinados casos se podría observar diferencias entre el parámetro real y estimado que no necesariamente corresponderían con un error en la estimación de la elección de la categoría por parte del individuo \citep{Wollack2002}. Así, para corregir este inconveniente se comparará no solo los estimados de los parámetros de los ítems e individuos, sino también las probabilidades condicionales asociadas a la elección de cada alternativa específica \cite{Yen_1987, Wollack_2002}. De este modo, dado que las probabilidades $P_{jk}(\theta_{i})$ difieren entre sí, no solo por los parámetros de los ítems ($a_{jk}$ y $c_{jk}$) sino también en función de las habilidades ($\theta_i$), para el análisis de las diferencias entre las probabilidades estimadas y las reales, se planteó utilizar los dos criterios (RMSE y MAE) con algunos ajustes:
+\noindent where the ``hat" parameters with index $r$ described the posterior mean in replication $r=1, \dots, R$, and $R=10$.
 
+However, since IRT models are known to be invariant to the shift of the linear predictor \cite{Baker_et_al_1992, Bock_1972}, i.e. the addition/subtraction of a constant to the abilities and difficulties results in the same probability value, it could happen that we observe substantial differences in the recovery of the parameters that not necessarily implies a classification error  \cite{Wollack_2002}. 
+%
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{ c|c|c|cc|c| } 
+		& \multicolumn{2}{c}{Predicted outcome} \\
+		\hline
+		\hline
+		True outcome 	& Positive ($1$) 	& Negative ($0$) 	& Total \\
+		\hline
+		\hline
+		Positive 		& TP 				& FP 				& P \\ 
+		Negative 		& FN 				& TN 				& N \\ 
+	\end{tabular}
+	\caption{Confusion matrix of predicted values}
+	\label{tab:confusion_matrix}
+\end{table}
+
+Therefore, to avoid this inconvenience, the study will also assess the mean retrodictive accuracy ($\overline{ACC}$), true positive rate ($\overline{TPR}$, sensitivity) and true negative rate ($\overline{TNR}$, specificity) of the model, based on all simulated replicas. Consider the confusion matrix in table \ref{tab:confusion_matrix}, the statistics we calculated as follows:
+%
 \begin{align}
 	%
-	RMSE \left( \pi_{jkd} \right) &=\sqrt{ \frac{1}{n} \sum_{i=1}^{n} \left[ \frac{1}{R} \sum_{r=1}^{R} (\hat{\pi}_{jkdr} - \pi_{jkd})^2 \right]} \\
+	\overline{ACC} &= \sum_{r=1}^{R} \frac{TP_{r} + TN_{r}}{ P + N} \\
+	%
+	\overline{TPR} &= \sum_{r=1}^{R} \frac{TP_{r}}{P} \\
+	%
+	\overline{TNR} &= \sum_{r=1}^{R} \frac{TN_{r}}{N}
 	%
 \end{align}
 
-\noindent donde $\hat{\pi}_{jkdr}$ es el estimado de las probabilidades condicionales en la réplica $r = 1, \dots, R$.\\
-
-\noindent Como se observa en las formulas $(4.7)$ y $(4.8)$, las diferencias entre probabilidades se agregan y promedian a nivel de replicas y posteriormente a nivel de individuos en cada una de las réplicas ($R=20$). De esta manera, se tienen una medida global de ajuste a los datos. \\
-
-
-additionally we are going to use predictive accuracy, sensitivity and the other
-binary case. Based on a confussion matrix 
-
+\noindent where the statistics for each replica were calculated using the posterior means of the parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
