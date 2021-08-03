@@ -1,83 +1,46 @@
 \chapter{Simulation Study} \label{chap:simulation}
 
-\section{Simulation}
+\section{Conditions}
 
-\subsection{Conditions}
-
-In order to examine the effectiveness of bayesian GLLAMM model, defined in previous chapters, a $3 \times 2 \times 2$ simulation design was performed. The design involved the following conditions:
+A simulation study was conducted to assess three attributes of the bayesian implementation of the GLLAMM, for dichotomous outcomes:
 %
-\begin{itemize}
+\begin{enumerate}
 	%
-	\item \textbf{Sample size.} the author used three sample sizes: $500$, $250$, and $100$. The data was generated following the algorithm in section \ref{sub_sect:algorithm}. The parameters remained unchanged throughout the simulations.
+	\item \textbf{Performance.} The study assessed the performance of the MCMC chains, in terms of achieving stationarity, convergence and good mixing,  under centered (CP) and non-centered parametrization (NCP), respectively.
 	%
-	\item \textbf{Models.} as defined in figures \ref{fig:FOLV_model} and \ref{fig:SOLV_model}.
+	\item \textbf{Recovery capacity.} The study evaluated the capacity to recover the parameters of interest, e.g. regression parameters, latent variables and loadings. However, it centered its focus on the recovery of the regression parameters, as they are highly relevant for making appropriate inferences at the individual level.
 	%
-	\item \textbf{Parametrization.} it considered the centered (CP) and non-centered parametrization (NCP). 
+	\item \textbf{Retrodictive accuracy.} The study appraised the capacity of the implementation to retrodict the data of interest.
 	%
-\end{itemize}
+\end{enumerate} 
 
-ten ($10$) data sets were generated for each study condition. Each data set resembled responses to $25$ items scored on binary scale, conforming to a second-order latent variable model (SOLV) as defined by figure \ref{fig:SOLV_model}. The model was motivated by the hypothesized structure for the real educational data set corresponding to teacher assessments (see chapter \ref{chap:application}). The latent structure remained unchanged
-%
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{4_SOLV_dag}
-	%
-	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
-	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters for priors. Large Squares represent nesting in specific units.}
-	\label{fig:SOLV_model}
-\end{figure}
+\noindent In this context, a fully crossed design with $3 \times 2 \times 2$ experimental conditions was proposed. 
 
+First, the author used three different samples sizes to generate the data under analysis: $500$, $250$, and $100$. The literature on IRT models present several implementations with samples sizes above $250$, however, few present samples lower than that. The author decided to use a sample size of a $100$ to fill in this gap. Moreover, the decision was also supported by the notion that the change of the posterior sampling geometries could benefit the performance and recovery capacity of the implementation, under this setting.
+
+Second, as expected, the author used two parametrization of the models: CP and NCP. To the author's knowledge, the IRT literature do not use the change of posterior sampling geometries, as an alternative to improve the performance of the bayesian implementation of said models. This research is set to fill in part of this gap.
+
+Third, the author evaluated the performance, recovery capacity and retrodictive accuracy of a first-order and second-order latent variable models (FOLV and SOLV, respectively). The decision was based on the literature of Confirmatory Factor Analysis (CFA), where before fitting a SOLV model (figure \ref{fig:SOLV_model}), the researcher need to asses if the correlation structure at the first level of the FOLV model (figure \ref{fig:FOLV_model}) justifies the decision.
+
+Therefore, ten ($10$) data sets were generated for each study condition, following the algorithm in section \ref{sub_sect:algorithm}. Each data set resembled responses to $25$ binary scored items, conforming to the SOLV model defined in figure \ref{fig:SOLV_model}. The model was motivated by the hypothesized structure for the reading comprehension sub-test, from the Peruvian public teaching career national assessment (see chapter \ref{chap:application}). The latent structure, regression parameters and loadings remained unchanged throughout the simulation replicas to reduce experimental error \cite{Kieftenbeld_et_al_2012}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Algorithm} \label{sub_sect:algorithm}
+\section{Algorithm} \label{sub_sect:algorithm}
 
-the data was simulated from the latent structure as defined by figure \ref{fig:SOLV_model} following the next steps:
+Each data replication was simulated following a six-step procedure. First, the author randomly simulated a collection of pseudo-covariates $\mathbf{W}_{\theta}$, motivated by a similar information set present in the reading comprehension sub-test. The generated covariates were: (i) a binary ``gender" variable, describing males and females, (ii) an integer ``age" variable with range $[30, 65]$, the latter corresponding to the age of retirement, (iii) a three-level categorical ``education" variable, indicating the type of education the individual received: institute only, university only, or both; and finally (iv) a four-level categorical ``experience" variable, denoting the individual's years of work experience, where the higher the category, the higher the individual's years of experience. Associated with these, the author defined their regression parameters $\mathbf{\Gamma}_{\theta}$ where: (i) $\Gamma_{gender} = [\gamma_{m}, \gamma_{f}] = [0, 1]$, for males and females, respectively; (ii) $\Gamma_{age} = -0.01$, indicating that the individuals loose ability with age, in a linear manner; (iii) $\Gamma_{edu} = [\gamma_{io}, \gamma_{uo}, \gamma_{b}] = [-0.5, 0.5, 0]$, assuming individuals with university degree have better ability levels, followed by individuals with both educations, and last individuals with institute degrees; (iv) $\Gamma_{exp} = [\gamma_{0y}, \gamma_{5y}, \gamma_{10y}, \gamma_{11+y}] = [-0.5, 0, 0.35, 0.5]$, implying experience has decreasing returns on abilities; and finally (v) $\Gamma_{0} = 0$, indicating the absence of an intercept;  
 
-\begin{enumerate}	
-	%
-	\item \textbf{Covariates:} four pseudo-covariates were simulated motivated for the real data set. We report also their regression parameters:
-	%
-	\begin{enumerate}
-		%
-		\item \textit{gender}, binary variable. $\beta_{G}=[\beta_{G(1)}, \beta_{G(2)}] = [0, 1]$
-		%
-		\item \textit{age}, integer variable with range $[30, 65]$, $\beta_{Ac} = -0.01$
-		%
-		\item \textit{education}, categorical variable with three categories. $\beta_{E}=[\beta_{E(1)}, \beta_{E(2)}, \beta_{E(3)}] = [-0.5, 0.5, 0]$
-		%
-		\item \textit{experience}, categorical variable with four categories. $\beta_{X}=[\beta_{X(1)}, \beta_{X(2)}, \beta_{X(3)}] = [-0.5, 0, 0.35, 0.5]$
-		%
-	\end{enumerate}
-	%
-	\item \textbf{Dimensions:} 
-	%
-	\begin{enumerate}
-		%
-		\item \textit{one SOLV} was generated by a normal distribution with a mean defined by a linear combination of the simulated covariates and its corresponding regression parameters. Additionally it assumed a standard deviation $\sigma^{(3)}_{\theta}=0.5$.
-		%
-		\item \textit{three FOLV} are generated by a multivariate normal distribution with a mean vector defined by multiplying the loadings $[0.95, 0.95, 0.95]$ times the simulated SOLV $\theta_{j}$. It was assumed the three FOLV were independent between each other after consider the influence the higer-level latent variable, therefore the covariance matrix was defined as a diagonal matrix with diagonal $\sigma^{(2)}_{\theta}=0.5$.
-		%
-	\end{enumerate}
-	%
-	\item \textbf{Items:} 
-	%
-	\begin{enumerate}
-		%
-		\item \textit{texts} the mean difficulty for $5$ texts was defined in the following way: $\eta^{3}_{k} = [-1.50, -0.75, 0, 0.75, 1.50]$. While the deviation form the mean difficulty was assumed $\sigma^{(3)}_{\eta}=0.5$
-		%
-		\item \textit{25 items} were generated from independent normal distribution with mean equal to the mean difficulty and deviation equal to the deviation corresponding to their respective texts. We made the items pointed out to one of the three latent dimension by random sample.
-		%
-	\end{enumerate}
-	%
-	\item \textbf{Probabilities:} the probability $\pi_{jkd}$ was calculated through the logit inverse-link function as defined in equation (\ref{eq:systematic}) and (\ref{eq:response_dich1}).
+Second, the study simulated the second- and first-order latent variables, corresponding to the reading comprehension ability and its three sub-dimensions: literal, inferential and reflective. Reading comprehension ($\theta^{(3)}_{j}$) was generated from a normal distribution $N( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} )$, with $\mu^{(3)}_{j} = \pmb{\Gamma}_{\theta} \; \mathbf{W}_{\theta}$, i.e. the linear combination of the simulated covariates and its corresponding regression parameters, and $\sigma^{(3)}_{\theta}=0.5$. On the other hand, the three sub-dimensions were generated from a multivariate normal distribution $MVN( \mu^{(2)}_{j.} , \Sigma^{(2)})$, with $\mu^{(2)}_{j.} = [\lambda^{(2)}_{1} \theta^{(3)}_{j}, \; \lambda^{(2)}_{2} \theta^{(3)}_{j}, \; \lambda^{(2)}_{3} \theta^{(3)}_{j} ]$, and $\Sigma^{(2)} = S^{(2)} R^{(2)} S^{(2)}$. To ensure the FOLV model in figure \ref{fig:FOLV_model} lead us to the SOLV in figure \ref{fig:SOLV_model}, the author assumed loadings $[\lambda^{(2)}_{1}, \lambda^{(2)}_{2}, \lambda^{(2)}_{3}] = [0.95, 0.95, 0.95]$. Finally, $S^{(2)} = \sigma^{(2)}_{\theta} I$, i.e a diagonal standard deviation matrix with $\sigma^{(2)}_{\theta} = 0.5$; whereas $R^{(2)} = I$, i.e an identity correlation matrix, implying the sub-dimensions are independent after accounting reading comprehension.
+
+Third, the author defined five ($5$) common stimulus or texts for the items, where the mean difficulty for the texts $\pmb{\eta}^{(3)} = [\eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5}] = [-1.50, -0.75, 0, 0.75, 1.50]$; whereas the deviation from said mean difficulties were $\sigma^{(3)}_{\eta} = 0.5$ for all texts. 
+
+Fourth, $25$ items were randomly generated from independent normal distributions $N( \mu^{(2)}_{k}, \sigma^{(2)}_{k} ) $, with $\mu^{(2)}_{k} = \pmb{\eta}^{(3)} \mathbf{A}$ and $\sigma^{(2)}_{k} = \sigma^{(3)}_{\eta}$, where $\mathbf{A}$ is a block design matrix that maps the items to its corresponding passage defined in the previous step. Finally, we generated at random the dimensions the items were designed to measure.
+
+Fifth, the author calculated the linear predictor $v_{jkd}$ and probability of endorsing an item $\pi_{jkd}$, according to equations (\ref{eq:linear_predictor2}), (\ref{eq:systematic}), and (\ref{eq:response_dich1}), respectively. The probabilty was calculated using the logit inverse-link function.
 	
-	\item \textbf{Outcome:} the outcome is simulated from a Bernoulli distribution as in equation (\ref{eq:distributional}), with probability calculated in the previous step.
-\end{enumerate}
+Sixth and last, the outcome $y_{jkd}$ was simulated from a Bernoulli distribution as in equation (\ref{eq:distributional}), with its probability calculated in the previous step.
 
-\noindent The code associated with the full simulation process can be found in Appendix \ref{appC2_1:sim}. \\
-
-
+The code associated with the full simulation process can be found in Appendix \ref{appC2_1:sim}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,7 +90,15 @@ following the CFA model construction we are going to evaluate two models that ca
 	{Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV). Circles represent latent variables. Squares represent parameters for priors. Large Squares represent nesting in specific units.}
 	\label{fig:FOLV_model}
 \end{figure}
-
+%
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{4_SOLV_dag}
+	%
+	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
+	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters for priors. Large Squares represent nesting in specific units.}
+	\label{fig:SOLV_model}
+\end{figure}
 
 \subsection{FOLV CP}
 
