@@ -204,13 +204,13 @@ Off course, this comes with a cost. The methods is more computationally intensiv
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Where can I find this magical software?}
+\subsection{Where can I find this magical software?} \label{sub_sect:software}
 
 \texttt{Stan} \cite{Stan2020} is the software package that will provide us with the machinery of HMC. Furthermore, the results produced from the software will be analyzed with \texttt{R} \cite{R2015, RStan2020}, and its integration packages. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{What about burn-in and thinning?}
+\subsection{What about burn-in and thinning?} \label{sub_sect:burn}
 
 Since HMC uses a different approach and produces more informative proposals, setting specific burn-in and thinning processes is no longer necessary.
 
@@ -223,7 +223,7 @@ In the current research, we will use the default values set in the software, i.e
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Initial starts}
+\subsection{Initial starts} \label{sub_sect:starts}
 
 Since the method requires starting values for the parameters, the author decided to allow the software to sample these from the priors defined in the model.
 
