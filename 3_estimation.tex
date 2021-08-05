@@ -242,9 +242,9 @@ Multiple studies have pointed out the benefits of using mildly informative prior
 %
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.85\textwidth]{prior_elicitation}
+	\includegraphics[width=1\textwidth]{prior_elicitation}
 	\caption[Prior predictive simulation. Examples of uninformative and mildly informative priors.]%
-	{Prior predictive simulation. Examples of uninformative and mildly informative priors. The panels show the density of the probability of a binary outcome under: (A) uninformative prior on equation (\ref{eq:prior_el1}); (B) uninformative prior on equation (\ref{eq:prior_el2}); (C) mildly informative prior on equation (\ref{eq:prior_el3}); and (D) mildly informative prior on equation (\ref{eq:prior_el4}).}
+	{Prior predictive simulation. Examples of uninformative and mildly informative priors. The panels show the density of the probability of a binary outcome under: (A) uninformative prior on equation (\ref{eq:prior_el1}) and mildly informative prior on equation (\ref{eq:prior_el3}); and (B) uninformative prior on equation (\ref{eq:prior_el2}) and mildly informative prior on equation (\ref{eq:prior_el4}). Uninformative (black continuous lines), and mildly informative (blue discontinuous lines).}
 	\label{fig:prior_elicitation}
 \end{figure}
 
@@ -259,7 +259,7 @@ In the case pertaining our implementation, the reasons why we are using mildly i
 
 \noindent where $\theta$ denotes a latent dimension, and $p$ denotes the probability of a binary outcome, defined by the logit-link function. For pedagogical purposes, we did not declared the distribution of the responses, as we wanted to see what this prior implied for their probability, i.e. the expected value of a Bernoulli distribution.
 
-Panel (A), from figure \ref{fig:prior_elicitation}, shows the uninformative prior in equation (\ref{eq:prior_el1}) forces an unintended assumption on the expected value of the outcome, i.e. the model is now highly `skeptical' of probabilities that are not zero or one. Moreover, this means that we are effectively using highly regularizing priors, but in a way that is opposite on how they are supposed to be used, i.e. to avoid visiting non-likely parameter spaces.
+Panel (A), from figure \ref{fig:prior_elicitation}, shows the uninformative prior in equation (\ref{eq:prior_el1}) forces an unintended assumption on the expected value of the outcome (black continuous line), i.e. the model is now highly `skeptical' of probabilities that are not zero or one. Moreover, this means that we are effectively using highly regularizing priors, but opposite on how they are supposed to be used, i.e. to avoid visiting non-likely parameter spaces.
 
 The scenario only gets equally bad with the presence of hyper-parameters, and even less extreme assumptions. Consider the following example:
 %
@@ -271,9 +271,9 @@ The scenario only gets equally bad with the presence of hyper-parameters, and ev
 	\end{split}
 \end{equation}
 
-\noindent where $v$ is distributed as a log-normal distribution ($v>0$). Figure \ref{fig:prior_elicitation}, panel (B), shows the uninformative priors in equation (\ref{eq:prior_el2}) forces another unintended assumption on the expected value of the outcome, i.e. the model is now highly `skeptical' of probabilities that are not $p = \{0, 0.5, 1\}$. Again is like using regularizing priors ``in reverse".
+\noindent where $v$ is distributed as a log-normal distribution ($v>0$). Figure \ref{fig:prior_elicitation}, panel (B), shows the uninformative priors in equation (\ref{eq:prior_el2}) forces another unintended assumption on the expected value of the outcome (black solid line), i.e. the model is now highly `skeptical' of probabilities that are not $p = \{0, 0.5, 1\}$. Again is like using regularizing priors ``in reverse".
 
-Luckily, this can be solved using mildly informative priors, i.e. prior distributions that are not supplying any controversial information, are consistent with the likelihood, and are strong enough to pull the data away from inappropriate inferences \cite{Gelman_et_al_2014}. Consider the following change to equation (\ref{eq:prior_el1}):
+Luckily, this can be solved using mildly informative priors, i.e. prior distributions that are not supplying any controversial information, that are consistent with the likelihood, and are strong enough to pull the data away from inappropriate inferences \cite{Gelman_et_al_2014}. Consider the following change to equation (\ref{eq:prior_el1}):
 %
 \begin{equation} \label{eq:prior_el3}
 	\begin{split}	
@@ -282,7 +282,7 @@ Luckily, this can be solved using mildly informative priors, i.e. prior distribu
 	\end{split}
 \end{equation}
 
-\noindent where $\theta$ has a prior that is not only consistent with common applications on IRT, but it also does not force the expected value of the outcome, to be as extreme as in panel (A) of figure \ref{fig:prior_elicitation} (see panel (C)). Notice the probability can be in the $[0,1]$ space, with extreme probability values being less likely.
+\noindent where $\theta$ has a prior that is not only consistent with common applications on IRT, but it also does not force the expected value of the outcome to be as extreme as in the uninformative case. Notice the probability can be in the $[0,1]$ space, where extreme probability values are assumed less likely (see blue discontinuous line vs black solid line on panel (A) in figure \ref{fig:prior_elicitation}).
 
 Similarly, in the presence of hyper-parameters we can set mildly informative priors in the following form:
 %
@@ -294,7 +294,7 @@ Similarly, in the presence of hyper-parameters we can set mildly informative pri
 	\end{split}
 \end{equation}
 
-\noindent where panel (D) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value scale.
+\noindent where the blue discontinuous line on panel (B) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value scale.
 
 One can imagine that the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value, as in the aforementioned examples.
 

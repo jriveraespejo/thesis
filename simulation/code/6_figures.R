@@ -47,17 +47,18 @@ p3 = inv_logit(theta)
 
 # example 4
 sigma = rlnorm(n, 0, 0.5)
-theta = rnorm(n, 0, exp(v))
+theta = rnorm(n, 0, sigma)
 p4 = inv_logit(theta)
 
 
-png(file.path(file_save, 'prior_elicitation.png'), units='cm', width=25, height=20, res=100)
+png(file.path(file_save, 'prior_elicitation.png'), units='cm', width=25, height=12, res=100)
 
-par(mfrow=c(2,2))
+par(mfrow=c(1,2))
 dens( p1 , adj=0.2, xlab='Probability', main='(A)' )
-dens( p2 , adj=0.2, xlab='Probability', main='(B)' )
-dens( p3 , adj=0.2, xlab='Probability', main='(C)' )
-dens( p4 , adj=0.2, xlab='Probability', main='(D)' )
+dens( p3 , adj=0.2, lty=3, lwd=1.5, col='blue', add=T )
+
+dens( p2 , adj=0.2, xlab='Probability', main='(B)')
+dens( p4 , adj=0.2, lty=3, lwd=1.5, col='blue', add=T )
 par(mfrow=c(1,1))
 
 dev.off()
