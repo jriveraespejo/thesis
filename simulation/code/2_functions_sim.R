@@ -26,7 +26,7 @@
 #     seed = seed used to generate the simulation (default 1)
 #     prec = rounding in abilities and item generation parameters (default 3)
 
-data_generation =function( J=100, loads=rep(0.1, 3), Ndata=1, file_dir,
+data_generation =function( J=100, loads=rep(0.95, 3), Ndata=1, file_dir,
                            s_theta=0.5, s_text=0.5,
                            D=3, K=25, L=5, seed=1, prec=3){
 

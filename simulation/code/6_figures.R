@@ -19,15 +19,56 @@ setwd('~/Desktop/simulations/#final')
 
 # extras
 source('3_functions_extra.R')
-file_save = file.path(getwd(), 'figures')
 opar = par()
 
 
 # Chapter 3 ####
 
-## 1. Devil's funnel ####
+file_save = file.path(getwd(), 'figures1')
 
-### 1.1 model ####
+
+
+## 1. informative priors ####
+n = 1000
+set.seed(1235)
+
+# example 1
+theta = rnorm(n, 0, 100)
+p1 = inv_logit(theta)
+
+# example 2
+sigma = rlnorm(n, 0, 3)
+theta = rnorm(n, 0, sigma)
+p2 = inv_logit(theta)
+
+# example 3
+theta = rnorm(n, 0, 1)
+p3 = inv_logit(theta)
+
+# example 4
+sigma = rlnorm(n, 0, 0.5)
+theta = rnorm(n, 0, exp(v))
+p4 = inv_logit(theta)
+
+
+png(file.path(file_save, 'prior_elicitation.png'), units='cm', width=25, height=20, res=100)
+
+par(mfrow=c(2,2))
+dens( p1 , adj=0.2, xlab='Probability', main='(A)' )
+dens( p2 , adj=0.2, xlab='Probability', main='(B)' )
+dens( p3 , adj=0.2, xlab='Probability', main='(C)' )
+dens( p4 , adj=0.2, xlab='Probability', main='(D)' )
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+
+## 2. Devil's funnel ####
+
+### 2.1 model ####
 
 #### stan ####
 mcmc_code <- "
@@ -91,7 +132,7 @@ summary(jags_CE)[,c('Mean','SD','Lower95','Upper95','SSeff','psrf')]
 
 
 
-### 1.2 figures ####
+### 2.2 figures ####
 
 png(file.path(file_save, '1_trace_CE_simple.png'), units='cm', width=25, height=10, res=100)
 idx = c('theta[1]', 'v')
@@ -158,9 +199,9 @@ dev.off()
 
 
   
-## 2. Devil's funnel vs priors ####
+## 3. Devil's funnel vs priors ####
 
-### 2.1 model ####
+### 3.1 model ####
 
 #### stan ####
 mcmc_code <- "
@@ -223,7 +264,7 @@ summary(jags_CE)[,c('Mean','SD','Lower95','Upper95','SSeff','psrf')]
 
 
 
-### 2.2 figures ####
+### 3.2 figures ####
 
 png(file.path(file_save, '2_trace_CE_priors.png'), units='cm', width=25, height=10, res=100)
 idx = c('theta[1]', 'v')
@@ -291,9 +332,9 @@ dev.off()
 
 
 
-## 3. Devil's funnel vs NC ####
+## 4. Devil's funnel vs NC ####
 
-### 3.1 model ####
+### 4.1 model ####
 
 #### stan ####
 
@@ -363,7 +404,7 @@ summary(jags_CE)[,c('Mean','SD','Lower95','Upper95','SSeff','psrf')]
 
 
 
-### 3.2 figures ####
+### 4.2 figures ####
 
 png(file.path(file_save, '3_trace_NC.png'), units='cm', width=35, height=10, res=100)
 idx = c('theta[1]','ztheta[1]', 'v')
@@ -453,3 +494,59 @@ dev.off()
 
 
 # Chapter 4 ####
+
+## 1.1 Performance ####
+
+### chains ####
+chains_path = file.path(getwd(), 'chains_post')
+models_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+chains_list = file_id(chains_path, models_int)
+
+# plots
+figures_plot(c_list=chains_list, 
+             chains_path=chains_path, 
+             file_save=file.path(getwd(), 'figures2'))
+
+
+### Rhat ####
+
+
+# stan model 1 (centered)
+
+c_list = chains_list
+
+models_int = unique(c_list$model)
+sample_sizes = unique(c_list$sample)
+data_number = unique(c_list$data)
+
+
+idx_files = with(chains_list, model==models_int[m] & 
+                   sample==sample_sizes[s] &
+                   data == data_number[d])
+fit_files = chains_list[idx_files, 1]
+
+# load stan data
+stan_model = rstan::read_stan_csv( file.path(chains_path, fit_files ) )
+
+
+precis1 = precis(stan_object1, depth=4)
+idx1 = detect_parameter(precis1, est_par)
+
+# stan model 2 (non-centered)
+precis2 = precis(stan_object2, depth=4)
+idx2 = detect_parameter(precis2, est_par)
+
+# plot
+neff_table = data.frame(
+  centered=precis1$n_eff[idx1],
+  non_centered=precis2$n_eff[idx2]
+)
+
+
+### n_eff ####
+
+
+
+
+
+

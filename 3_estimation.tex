@@ -9,7 +9,7 @@ The current chapter center its attention on describing the bayesian estimation p
 
 \section{Benefits and shortcomings}
 
-\subsection{Why Bayesian?}
+\subsection{Why Bayesian?} \label{sub_sect:goods}
 
 The reasons on why bayesian statistics is attractive to perform the parameters' estimation of any model, and especially for the GLLAMM developed in chapter \ref{chap:framework}, are:
 
@@ -35,13 +35,15 @@ The reasons on why bayesian statistics is attractive to perform the parameters' 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Are you sure there's nothing wrong?}
+\subsection{Are you sure there's nothing wrong?} \label{sub_sect:bads}
 Off course the bayesian framework has shortcomings, among them:
 
 \begin{enumerate}	
-	\item It exposes the user to arbitrary decisions about the running of the chains, in order to ensure a proper performance, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thinning procedure be performed, if any?, should we follow the same procedure for all parameters of interest?, among others \cite{Skrondal_et_al_2004a}. 
+	\item It exposes the user to somewhat-arbitrary decisions about the running of the chains, in order to ensure a proper performance, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thinning procedure be performed, if any?, should we follow the same procedure for all parameters of interest?, among others \cite{Skrondal_et_al_2004a}. 
 	
-	\item The user has multiple options to evaluate the performance of the method, and most of them are visual, making it hard to assess if a proper posterior investigation have been made \cite{Gelman_et_al_1996}. More specifically, the user has multiple options to assess if the chain achieves the three requirements of a good performance: stationarity, convergence, and good mixing \cite{McElreath_2020}. 
+	\item The user can include all type of information through the priors distributions, apparently making their elicitation convenient for manipulation, towards the use of highly informative priors.
+	
+	\item Multiple options are available to evaluate the performance of the method, and most of them are visual, making it hard to assess if a proper posterior investigation have been made \cite{Gelman_et_al_1996a}. More specifically, the user has multiple options to assess if the chain achieves the three requirements of a good performance: stationarity, convergence, and good mixing \cite{McElreath_2020}. 
 	
 	\item The procedure makes it hard to discover parameters' lack of identification \cite{Skrondal_et_al_2004a}. Inadequate mixing of the chain could lead us to think unidentified parameters have been estimated with precision, when in fact what we have are `flat' posteriors \cite{Keane_1992}.
 	
@@ -54,15 +56,17 @@ Off course the bayesian framework has shortcomings, among them:
 
 Although some of the previous shortcomings have made the Bayesian procedure a ``controversial" implementation, most of them already have acceptable solutions. 
 
-For the first point, a popular approach is to use a large number of iterates, or multiple chains with different initial states. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling methods. However, recent solutions like the Hamiltonian Monte Carlo method (HMC) \cite{Betancourt_et_al_2013} is less reliant on these decisions, as it implements a different sampling mechanism (see section \ref{sect:comp_imp}). 
+For the first point, a popular approach is to use a large number of iterates, burn-in and thinning processes. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling algorithms. However, recent solutions, like the Hamiltonian Monte Carlo (HMC) \cite{Betancourt_et_al_2013}, is less reliant on the decision of selecting these features, as it implements a different sampling mechanism (see section \ref{sub_sect:hmc}). 
 
-About the second point, it is well accepted that the visual assessment of stationarity and convergence is easier, and this procedure usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. Recent approaches have taken a more proactive stance on the latter, seeking to increase the possibility of a well mixed chain by changing the posterior sampling geometry of the model \cite{Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, McElreath_2020} (see section \ref{sect:noncenter}).
+On the second point, the literature has indicated that priors can be used in a subjective manner\footnote{see \citet{McElreath_2020} (Chapter 2, pp. 36), Rethinking section ``Prior, prior pants on fire", for an interesting stance contrary to this statement.}. However, because they can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model, through the use of prior predictive simulations and/or sensitivity analysis \cite{McElreath_2020} (see section \ref{sub_sect:prior_pred}).
 
-On the third point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one achieves poor parameter estimates, even in the presence of `enough' data and regularizing priors, but this shortcoming is also applicable to the classical estimation procedures, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}.
+About the third point, it is well accepted that the visual assessment of stationarity and convergence is easier, and these procedures usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. Recent approaches have taken a more proactive stance on the latter, seeking to increase the possibility of a well mixed chain by changing the posterior sampling geometry of the model \cite{Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, McElreath_2020} (see section \ref{sect:noncenter}).
 
-About the fourth point, as it was mentioned in previous paragraphs, a recent approach to solve this issue is to change the posterior sampling geometry of the model. This means to re-parameterize the model in a way that removes the dependence of the parameters on other sampled parameters, or even, produce sample mechanisms located in a continuous between a centered (CP) and non-centered parametrization (NCP), e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, Gorinova_et_al_2019} (see section \ref{sect:noncenter}).
+On the fourth point, the most common solution is to use regularizing priors, i.e. priors that are more `skeptical' of wider parameter spaces \cite{McElreath_2020}. However, it is important to mention, there are scenarios where one achieves poor parameter estimates, even in the presence of `enough' data and regularizing priors, but this shortcoming is also applicable to the classical estimation procedures, e.g. the estimation of the variance parameters in random effects models \cite{Skrondal_et_al_2004a}.
 
-Finally, the fifth and sixth points can be considered the `price' a scientist has to pay, to be able to fit models that conforms better with the observed data generating processes. Although, recent developments are striving to improve upon reducing its running time.
+About the fifth point, as it was mentioned in previous paragraphs, a recent approach to solve this issue is to change the posterior sampling geometry of the model. This means to re-parameterize the model in a way that removes the dependence of the parameters on other sampled parameters, or even, produce sample mechanisms located in a continuous between a centered (CP) and non-centered parametrization (NCP), e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, Gorinova_et_al_2019} (see section \ref{sect:noncenter}).
+
+Finally, the sixth and seventh points can be considered the `price' a scientist has to pay, to be able to fit models that conforms better with the observed data generating processes. Although, recent developments are striving to improve upon reducing the latter, i.e. the required running time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,9 +93,9 @@ Denoting $\mathbf{Y}$ as the observed data and $\pmb{\Omega} = \{ \pmb{\beta}, \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Prior distributions}
+\subsection{Prior distributions} \label{sub_sect:priors}
 
-Similar to \citet{Patz_et_al_1999}, the author use an independent distributional structure for the joint priors of the parameters, at the highest level of the GLLAMM:
+Similar to \citet{Patz_et_al_1999}, we use an independent distributional structure for the joint priors of the parameters, at the highest level of the GLLAMM:
 %
 \begin{equation} \label{eq:priors}
 	\begin{split}
@@ -103,11 +107,11 @@ Similar to \citet{Patz_et_al_1999}, the author use an independent distributional
 	\end{split}
 \end{equation}
 
-\noindent However, giving the hierarchical and cross-classified structure of the model, the lower level priors will also depend on further parameters\footnote{Because of this sequential model specification, it is said the priors also have a ``hierarchical" structure.}, e.g. variances and covariances of the latent variables. These are known as \textit{hyperparameters}, and their prior distributions as \textit{hyperpriors}. Because of the previous, we are not going to detail their lower level representation, as they are highly dependent on the specifics of the model.
+However, giving the hierarchical and cross-classified structure of the model, the lower level priors will also depend on further parameters\footnote{Because of this sequential model specification, it is said the priors also have a ``hierarchical" structure.}, e.g. variances and covariances of the latent variables. These are known as \textit{hyper-parameters}, and their prior distributions as \textit{hyper-priors}. Because of the previous, we are not going to detail their lower level representation, as they are highly dependent on the specifics of the model.
 
-Finally, as recommended by several authors the priors will be mildly informative \cite{McElreath_2020, Fujimoto_2020, Tarazona_2013, Jiao_et_al_2012, Azevedo_2003, Wollack_2002}, model-specific and determined by a prior predictive investigation. 
+Finally, as recommended by several authors the priors will be mildly informative \cite{McElreath_2020, Fujimoto_2020, Tarazona_2013, Jiao_et_al_2012, Azevedo_2003, Wollack_2002}, model-specific and determined by a prior predictive investigation. See section \ref{sub_sect:prior_pred} for the prior elicitation procedure followed in the current research. 
 
-Chapter \ref{chap:simulation} and \ref{chap:application} will show the process of prior elicitation in the context of a simulated and real data set, respectively.
+Chapter \ref{chap:simulation} and \ref{chap:application} will show the elicitation of priors, in the context of a simulated and real data set, respectively.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -166,7 +170,7 @@ Following \citet{Rabe_et_al_2004a}, the likelihood function is build in a recurs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Model identification} \label{sect:identification}
+\subsection{Model identification} \label{sect:identification}
 
 As indicated by \citet{Rabe_et_al_2004a}, in order to fully specify the model and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$, or the distribution of one or more of the latent variables $\pmb{\Theta}$. On the other hand, as point out by \citet{Fujimoto_2018b} and several others authors, we could also set restrictions for one or more of the loadings in $\pmb{\Lambda}$. The last is more prevalent in frequentist software packages like Winsteps \cite{Winsteps2021}.
 
@@ -180,7 +184,7 @@ Chapter \ref{chap:simulation} and \ref{chap:application} will show the model ide
 
 \section{Computational implementation} \label{sect:comp_imp}
 
-\subsection{Hamiltonian Monte Carlo}
+\subsection{Hamiltonian Monte Carlo} \label{sub_sect:hmc}
 
 For years the state-of-the-art platform for Bayesian statistical modeling have been the BUGS\footnote{Bayesian inference Using Gibbs Sampling} project \cite{Lunn_et_al_2000, Lunn_et_al_2009}, with its WinBUGS and OpenBUGS implementations. However, a more recent participant JAGS\footnote{Just Another Gibbs Sampling} \cite{Plummer_2003} has gain traction, due to its cross-platform capabilities. In any case, both platforms are not that different form each other. Both use two of the most popular and successful algorithms for performing MCMC: the Metropolis-Hastings \cite{Metropolis_et_al_1953, Hastings_1970} and Gibbs Sampling \cite{Geman_et_al_1984} algorithms.
 
@@ -229,13 +233,81 @@ Since the method requires starting values for the parameters, the author decided
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Prior elicitation} \label{sub_sect:prior_pred}
+
+As stated in section \ref{sub_sect:bads}, because priors can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model \cite{McElreath_2020}. On the other hand, as declared section \ref{sub_sect:priors}, the priors used in this research will be mildly informative \cite{McElreath_2020, Fujimoto_2020, Tarazona_2013, Jiao_et_al_2012, Azevedo_2003, Wollack_2002}, model-specific, and determined by a prior predictive investigation.
+
+Multiple studies have pointed out the benefits of using mildly informative priors to reduce over-fitting, while allowing the model to learn regular features of the data, e.g. \citet{McElreath_2020, Gelman_et_al_1996b} and \citet{Jaynes_1985}. In contrast, the literature has emphasized the unintended consequences on the posterior, resulting from using highly uninformative priors, e.g. \citet{Seaman_et_al_2012}, and \citet{Gelman_1996}. 
+%
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{prior_elicitation}
+	\caption[Prior predictive simulation. Examples of uninformative and mildly informative priors.]%
+	{Prior predictive simulation. Examples of uninformative and mildly informative priors. The panels show the density of the probability of a binary outcome under: (A) uninformative prior on equation (\ref{eq:prior_el1}); (B) uninformative prior on equation (\ref{eq:prior_el2}); (C) mildly informative prior on equation (\ref{eq:prior_el3}); and (D) mildly informative prior on equation (\ref{eq:prior_el4}).}
+	\label{fig:prior_elicitation}
+\end{figure}
+
+In the case pertaining our implementation, the reasons why we are using mildly informative priors, can be understood with a simple illustration. Consider an example similar to one outlined by \citet{Seaman_et_al_2012} and \citet{McElreath_2020}, where a simple latent model is defined as follows:
+%
+\begin{equation} \label{eq:prior_el1}
+	\begin{split}	
+		\theta &\sim N(0, 100) \\
+		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+	\end{split}
+\end{equation}
+
+\noindent where $\theta$ denotes a latent dimension, and $p$ denotes the probability of a binary outcome, defined by the logit-link function. For pedagogical purposes, we did not declared the distribution of the responses, as we wanted to see what this prior implied for their probability, i.e. the expected value of a Bernoulli distribution.
+
+Panel (A), from figure \ref{fig:prior_elicitation}, shows the uninformative prior in equation (\ref{eq:prior_el1}) forces an unintended assumption on the expected value of the outcome, i.e. the model is now highly `skeptical' of probabilities that are not zero or one. Moreover, this means that we are effectively using highly regularizing priors, but in a way that is opposite on how they are supposed to be used, i.e. to avoid visiting non-likely parameter spaces.
+
+The scenario only gets equally bad with the presence of hyper-parameters, and even less extreme assumptions. Consider the following example:
+%
+\begin{equation} \label{eq:prior_el2}
+	\begin{split}
+		v &\sim \log N(0, 3) \\	
+		\theta &\sim N(0, v) \\
+		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+	\end{split}
+\end{equation}
+
+\noindent where $v$ is distributed as a log-normal distribution ($v>0$). Figure \ref{fig:prior_elicitation}, panel (B), shows the uninformative priors in equation (\ref{eq:prior_el2}) forces another unintended assumption on the expected value of the outcome, i.e. the model is now highly `skeptical' of probabilities that are not $p = \{0, 0.5, 1\}$. Again is like using regularizing priors ``in reverse".
+
+Luckily, this can be solved using mildly informative priors, i.e. prior distributions that are not supplying any controversial information, are consistent with the likelihood, and are strong enough to pull the data away from inappropriate inferences \cite{Gelman_et_al_2014}. Consider the following change to equation (\ref{eq:prior_el1}):
+%
+\begin{equation} \label{eq:prior_el3}
+	\begin{split}	
+		\theta &\sim N(0, 1) \\
+		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+	\end{split}
+\end{equation}
+
+\noindent where $\theta$ has a prior that is not only consistent with common applications on IRT, but it also does not force the expected value of the outcome, to be as extreme as in panel (A) of figure \ref{fig:prior_elicitation} (see panel (C)). Notice the probability can be in the $[0,1]$ space, with extreme probability values being less likely.
+
+Similarly, in the presence of hyper-parameters we can set mildly informative priors in the following form:
+%
+\begin{equation} \label{eq:prior_el4}
+	\begin{split}
+		v &\sim \log N(0, 0.5) \\	
+		\theta &\sim N(0, v) \\
+		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+	\end{split}
+\end{equation}
+
+\noindent where panel (D) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value scale.
+
+One can imagine that the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value, as in the aforementioned examples.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{To center or not to center} \label{sect:noncenter}
 
-As it was point out by \citet{Betancourt_et_al_2013}, even the most simple hierarchical models present formidable pathologies, that no simple correction can be performed to visit the posterior distribution properly. This is true no matter the rotation/rescaling of the parameter, or the amount of data. 
+As pointed out by \citet{Betancourt_et_al_2013}, even the most simple hierarchical models present formidable pathologies, that no simple correction can be performed to visit the posterior distribution properly. This is true no matter the rotation/rescaling of the parameter, or the amount of data. 
 
-A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel, where the author shows that you do not need a complex model to start observing these issues. Consider the following joint distribution:
+A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel (depicted in figure \ref{fig:devil_CE_geom}), where the author shows that you do not need a complex model to start observing these issues. Consider the following joint distribution:
 %
 \begin{equation} \label{eq:devil}
 	\begin{split}	
@@ -246,7 +318,7 @@ A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel
 
 \noindent where $v$ can be interpreted as the \textit{hyperprior} of $\theta$, and $\theta$ as dependent on the samples of $v$. The latter is what the literature dubbed as the centered parametrization (CP).
 
-This joint distribution might seem familiar, as bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar types of requirements permeate IRT models. Moreover, it seems that any MCMC procedure would not have any issues exploring the posterior distribution of these parameters, as they are normally distributed and there are only two of them, but we would be wrong. The reader can find the \texttt{stan} and \texttt{jags} implementations for these examples in Appendix \ref{appC1_1:noncenter}.
+This joint distribution might seem familiar, as bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar types of requirements permeate IRT models. Moreover, it seems that any MCMC procedure would not have any issues exploring the posterior distribution of these parameters, as they are normally distributed and there are only two of them, but we would be wrong. The reader can find the \texttt{stan} and \texttt{jags} implementations for these examples in Appendix \ref{appC1_1:noncenter}. The \texttt{stan} implementation replicates the example stated by \citet{Betancourt_et_al_2013}.
 
 Figure \ref{fig:devil_CE} show the chains resulting from implementing the model on equation (\ref{eq:devil}), through HMC (\texttt{stan}). For pedagogical purposes, the example was run without data, as the author wanted to emphasize the pathologies are present even before we feed the data to our model. However, its easy to extrapolate that these issues will remain present when data is available.
 
@@ -267,7 +339,7 @@ As one can see from the figure, the joint posterior distribution is not explored
 	\end{subfigure}
 	%
 	\caption[The Devil's funnel. Centered Parametrization. Stan.]%
-	{The Devil's funnel. Centered Parametrization. (Top) It shows the traceplot for the iterations on three chains. (Middle) It shows the trankplot for the same data. (Bottom) It shows the Auto-correlation Functions (ACF) of the iterations.}
+	{The Devil's funnel. Centered Parametrization. (Top) Trace plots for the iterations on three chains. (Middle) Trank plots for the same data. (Bottom) Auto-correlation Functions (ACF) plot for the iterations.}
 	\label{fig:devil_CE}
 \end{figure}
 
@@ -290,7 +362,7 @@ Figure \ref{fig:devil_CE_geom} shows the posterior sampling geometry of the mode
 
 The first thing to notice is the complexity of the joint posterior geometry, with a steep funnel shape as the values of $v$ gets smaller and smaller. This makes sense, as the exponential of larger negative values, force the standard deviation of $\theta$ to be narrower and narrower around its mean (zero). 
 
-The second thing to notice is that HMC still manages to successfully explore the steep parameter space of $v$ and $\theta$, albeit some parts are less visited ($\theta>0$). This does not happen under the Gibbs sampler. In fact, \texttt{jags} did not managed to escape the narrow funnel shape, no matter the number of iterations used in the adaptation, burn-in and sampling procedures\footnote{\texttt{stan} used $3$ chains with $1,000$ iterations for adaptation, and $1,000$ iterations for sampling. \texttt{jags} used $3$ chains with $5,000$ iterations for adaptation, $5,000$ iterations for burn-in, and $5,000$ iterations for sampling.} (panel B). Moreover, as shown in figure \ref{fig:devil_CE_simple_jags} (appendix), the traceplots indicate the chains are ``healthy", ignoring the clear lack of exploration of the posterior distribution.
+The second thing to notice is that HMC (left panel) still manages to successfully explore the steep parameter space of $v$ and $\theta$. This can be observed through the blue points that are scattered in most of the geometry, albeit some parts are less visited (the geometry corresponding to $\theta>0$). This does not happen under the Gibbs sampler. In fact, \texttt{jags} did not managed to escape the narrow funnel shape, no matter the number of iterations used in the adaptation, burn-in and sampling procedures\footnote{\texttt{stan} used $3$ chains with $1,000$ iterations for adaptation, and $1,000$ iterations for sampling. \texttt{jags} used $3$ chains with $5,000$ iterations for adaptation, $5,000$ iterations for burn-in, and $5,000$ iterations for sampling.} (panel B). Moreover, as shown in figure \ref{fig:devil_CE_simple_jags} (appendix), the traceplots indicate the chains are ``healthy", ignoring the clear lack of exploration of the posterior distribution.
 
 Finally, although HMC did not fully explore the posterior, at least the method let us know which parts of the distribution did not manage to visit appropriately (see red points indicating divergent transitions). The last is important, because HMC gives us the opportunity to identify where can we improve our parametrization, something that is not available on Metropolis or Gibbs.
 
@@ -348,7 +420,7 @@ Finally, we notice a mild improvement on the trace, tranks and ACF plots in figu
 	\end{subfigure}
 	%
 	\caption[The Devil's funnel. Centered Parametrization with prior information.]%
-	{The Devil's funnel. Centered Parametrization with mildly informative priors. (Top) It shows the traceplot for the iterations on three chains. (Middle) It shows the trankplot for the same data. (Bottom) It shows the Auto-correlation Functions (ACF) of the iterations.}
+	{The Devil's funnel. Centered Parametrization with mildly informative priors. (Top) Trace plots for the iterations on three chains. (Middle) Trank plots for the same data. (Bottom) Auto-correlation Functions (ACF) plot for the iterations.}
 	\label{fig:devil_prior}
 \end{figure}
 
@@ -403,7 +475,7 @@ For our current application however, figure \ref{fig:devil_NC_geom} show the pos
 	\end{subfigure}
 	%
 	\caption[The Devil's funnel. Non-centered Parametrization.]%
-	{The Devil's funnel. Non-centered Parametrization. (Top) It shows the traceplot for the iterations on three chains. (Middle) It shows the trankplot for the same data. (Bottom) It shows the Auto-correlation Functions (ACF) of the iterations.}
+	{The Devil's funnel. Non-centered Parametrization. (Top) Trace plots for the iterations on three chains. (Middle) Trank plots for the same data. (Bottom) Auto-correlation Functions (ACF) plots for the iterations.}
 	\label{fig:devil_NC}
 \end{figure}
 

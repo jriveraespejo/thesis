@@ -332,112 +332,175 @@ mar_IIC = function(sim_IIC_object){
 
 
 # function:
-#     trank_plot
+#     trace_plot
 # description:  
-#     It creates a trank plot for a jags object 
+#     It creates a trace plot for a stanfit object 
 # arguments:
-#     jags_object = object produced after using run.jags
-#     pars = character vector with the names of parameters to choose
-#     wide = controls the number of iterations (in the chain) considered.
-#           (default 50)
+#     stan_object = object produced after using run.jags
+#     pars = character with the name of a parameter
 #
-trank_plot = function(jags_object, pars, wide=50){
+trace_plot = function(stan_object, pars) {
   
   # # test
-  # jags_object = jags_model
-  # pars = idx
-  # wide = 50
+  # stan_object = stan_model
+  # pars = idx[4]
   
-  # for colors
+  # packages 
   require(RColorBrewer)
   require(rethinking)
   
-  # previous details
-  jags_mcmc = jags_object$mcmc[,pars]
-  n_chains = length(jags_mcmc)
-  n_pars = length(pars)
+  # posterior
+  post = rstan::extract(stan_object, pars=pars, permuted=FALSE)
+  # str(post)
   
-  jags_summ = summary(jags_object)
-  jags_SSeff = jags_summ[ rownames(jags_summ) %in% pars, 'SSeff'] 
-  jags_SSeff = round( jags_SSeff / n_chains, 0 )
-  
-  ranks = list()
-  xrange = rep(1:wide, each=2)
-  yrange = vector('list', 4)
+  # parameters
+  n_chains = dim(post)[2]
+  chain.cols = rep_len(rethink_palette, n_chains)
+  wstart = 1
+  wend = dim(post)[1]
+  ylim = range(post[wstart:wend, , ])
+  ytick = (ylim[2] - ylim[1])/6
+  yaxis = round( seq(ylim[1], ylim[2], by=ytick), 2)
+  neff = summary(stan_object)$summary[, "n_eff"]
+  neff_use <- neff[names(neff) == pars]
   
   # plot
+  plot(NULL, type="l", xlim=c(wstart, wend), ylim=ylim,
+       xlab="", ylab="", axes=F)
+  box(bty="l")
+  axis(side=1, at=seq(0, wend, by=100))
+  axis(side=2, at=yaxis, las=1 )
+  # mtext(paste("n_eff =", round(neff_use, 0)), 3, adj = 1, cex = 1.1)
+  mtext(pars, 3, adj = 0, cex=1.1)
   for(c in 1:n_chains){
-    ranks[[c]] = apply(jags_mcmc[[c]][1:(wide+1),], 2, rank)
-    
-    for(p in 1:n_pars){
-      yran = c()
-      for(i in 2:(wide+1)){
-        yran = c(yran, c(ranks[[c]][i-1, p], ranks[[c]][i, p] ) )
-      }
-      
-      if(p==1){
-        y_ran = yran 
-      } else{
-        y_ran = cbind(y_ran, yran)
-      }
-      
-    }
-    yrange[[c]] = y_ran
+    lines(1:wend, post[, c, ], col=chain.cols[c], lwd = 0.5)
   }
   
-  # plot
-  trank_col = rethink_palette[1:n_chains]
-  
-  for(p in 1:n_pars){
-    plot(NULL, type='l', xlim=c(0, wide+1), ylim=c(0, wide+1),
-         xlab="", ylab="", xaxt ="n", yaxt ="n", axes=F)
-    box(bty="l")
-    for(c in 1:n_chains){
-      lines(xrange, yrange[[c]][,p], col=trank_col[c], lwd=1.5)  
-    }
-    mtext( names(jags_SSeff)[p], side=3, adj=0, cex=1)
-    mtext( paste("n_eff =", jags_SSeff[p]), side=3, adj=1, cex=1)
-  }
 }
 
 
 
 # function:
-#     acf_plot
+#     trank_plot
 # description:  
-#     It creates a acf plot for a mcmc object 
+#     It creates a trank plot for a stanfit object 
 # arguments:
-#     mcmc_object = object containing either stanfit or mcmc (jags) object   
-#     pars = character vector with the names of parameters to choose
+#     stan_object = object produced after using run.jags
+#     pars = character with the name of a parameter
+#     wide = controls the number of iterations (in the chain) considered.
+#           (default 50)
 #
-acf_plot = function(mcmc_object, pars){
+trank_plot = function(stan_object, pars, wide=50){
   
-  # mcmc_object = stan_model
-  n_pars = length(pars)
+  # # test
+  # stan_object = stan_model
+  # pars = idx[1]
+  # wide=50
   
-  if(class(mcmc_object) == 'stanfit'){
-    sim_object = mcmc_object@sim[[1]][[1]]
-    
-    for(p in 1:n_pars){
-      acf(sim_object[pars[p]][[1]], main='', 
-          xlab='', ylab='', mar = c(0, 0, 0, 0) )
-      mtext( pars[p], side=3, adj=0, cex=1)
-      # mtext( paste("n_eff =", sim_object[p]), side=3, adj=1, cex=1)
+  # for colors
+  require(RColorBrewer)
+  require(rethinking)
+  
+  # posterior
+  post = rstan::extract(stan_object, pars=pars, permuted=FALSE)
+  # str(post)
+  
+  # parameters
+  n_chains = dim(post)[2]
+  chain.cols = rep_len(rethink_palette, n_chains)
+  wstart = 1
+  wend = dim(post)[1]
+  neff = summary(stan_object)$summary[, "n_eff"]
+  neff_use <- neff[names(neff) == pars]
+  
+  # rank calculation
+  ranks = list()
+  xrange = rep(1:wide, each=2)
+  yrange = vector('list', n_chains)
+  for(c in 1:n_chains){
+    ranks[[c]] = rank( post[1:(wide+1), c, ] )
+    y_ran = c()
+    for(i in 2:(wide+1)){
+      y_ran = c(y_ran, c( ranks[[c]][i-1], ranks[[c]][i] ) )
     }
-    
-  } else{
-    sim_object = mcmc_object$mcmc[[1]]
-    
-    for(p in 1:n_pars){
-      acf(sim_object[colnames(sim_object) == pars[p]], 
-          main='', xlab='', ylab='', mar = c(0, 0, 0, 0) )
-      mtext( pars[p], side=3, adj=0, cex=1)
-      # mtext( paste("n_eff =", sim_object[p]), side=3, adj=1, cex=1)
-    }
-    
+    yrange[[c]] = y_ran
+  }
+  
+  
+  # plot
+  plot(NULL, type='l', xlim=c(0, wide+1), ylim=c(0, wide+1),
+       xlab="", ylab="", xaxt ="n", yaxt ="n", axes=F)
+  box(bty="l")
+  # mtext(paste("n_eff =", round(neff_use, 0)), 3, adj = 1, cex = 0.9)
+  # mtext(pars, 3, adj = 0, cex = 1)
+  for(c in 1:n_chains){
+    lines(xrange, yrange[[c]], col=chain.cols[c], lwd=1.5)  
   }
   
 }
+
+
+# function:
+#     acf_plot
+# description:  
+#     It creates a acf plot for a stanfit object 
+# arguments:
+#     stan_object = object produced after using run.jags
+#     pars = character with the name of a parameter
+#
+acf_plot = function(stan_object, pars){
+  
+  # # test
+  # stan_object = stan_model
+  # pars = idx[1]
+  
+  # posterior
+  post = rstan::extract(stan_object, pars=pars, permuted=FALSE)
+  # str(post)
+  
+  # plot
+  acf( post[, 1, ], main='', xlab='', ylab='', mar = c(0, 0, 0, 0) )
+  # mtext(paste("n_eff =", round(neff_use, 0)), 3, adj = 1, cex = 0.9)
+  # mtext(pars, 3, adj = 0, cex = 1)
+  
+}
+
+
+# function:
+#     tri_plot
+# description:  
+#     it plots trace, trank, and ACF plots for a maximul of 5 parameters
+# arguments:
+#     stan_object = object containing a 'precis' object   
+#     pars = character VECTOR with the names of parameters of interest
+#             only plots a maximum of five (5) parameters.
+#
+
+tri_plot = function(stan_object, pars){
+
+  # # test
+  # stan_object = stan_model
+  # pars = paste0('m_b[',1:5,']')
+  
+  # ensure there is only 5 paramaters
+  if(length(pars)>5){
+    pars = pars[1:5]
+  }
+  
+  # plot
+  par(mfrow=c(length(pars), 3), mar=c(3,3.5,1.5,1)+0.1)
+  for(i in 1:length(idx)){
+    trace_plot(stan_model, pars=idx[i]) 
+    trank_plot(stan_model, pars=idx[i])
+    acf_plot(stan_model, pars=idx[i])
+  }
+  par(mfrow=c(1,1), mar=opar$mar)
+  
+}
+
+
+
+
 
 
 # function:
@@ -462,6 +525,239 @@ detect_parameter = function(precis_object, est_par){
   
   return(idx)
 }
+
+
+
+# function:
+#     file_id
+# description:  
+#     it detects all stanfit object of interest in a folder
+#     (it only applies for a study simulation with multiple conditions)
+# arguments:
+#     chains_path = location of csv files corresponding to stanfit objects   
+#     model_int = character VECTOR with the names of the models of interest
+#
+file_id = function(chains_path, model_int){
+  
+  # # test
+  # chains_path = file.path(getwd(), 'chains_post')
+  # model_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+  
+  # list all files
+  chains_list = list.files( chains_path )
+  
+  # identify files of interest
+  for(i in 1:length(model_int)){
+    if(i==1){
+      idx = which(str_detect(chains_list, model_int[i]))
+    } else{
+      idx = c(idx, which(str_detect(chains_list, model_int[i])) )
+    }
+  }
+  chains_list = chains_list[idx]
+  
+  
+  # sort files by replicate and chain
+  list_model = data.frame(model_string=chains_list)
+  list_model$model = str_sub(chains_list, start=1, end=7)
+  
+  start = str_locate(chains_list, 'J')[,2]
+  list_model$sample = as.integer(str_sub(chains_list, start=start+1, end=start+3))
+  
+  start = str_locate(chains_list, 'Ndata')[,2]
+  end = str_locate(chains_list, '-')[,1]
+  list_model$data = as.integer(str_sub(chains_list, start=start+1, end=end-1))
+  
+  start = str_locate(chains_list, '-')[,1]
+  list_model$chain = as.integer(str_sub(chains_list, start=start+1, end=start+1))
+  
+  list_model = list_model[with(list_model, order(model, sample, data, chain)),]
+  # str(list_model)
+  
+  return(list_model)
+}
+
+
+# function:
+#     figures_plot
+# description:  
+#     it plot all specific parameters for the simulations
+# arguments:
+#     c_list = data.frame generated with file_id() function
+#     chains_path = location of csv files corresponding to stanfit objects
+#     file_save = location to save images
+#
+figures_plot = function(c_list, chains_path, file_save){
+  
+  # # test
+  # c_list=chains_list
+  # chains_path=chains_path
+  # file_save=file.path(getwd(), 'figures2')
+  
+  # parameters
+  models_int = unique(c_list$model)
+  sample_sizes = unique(c_list$sample)
+  data_number = unique(c_list$data)
+  
+  # m=1
+  # s=1
+  # d=1
+  # figures
+  for(m in 1:length(models_int)){
+    for(s in 1:length(sample_sizes)){
+      for(d in 1:length(data_number)){
+        
+        # identify files
+        idx_files = with(chains_list, model==models_int[m] & 
+                           sample==sample_sizes[s] &
+                           data == data_number[d])
+        fit_files = chains_list[idx_files, 1]
+        
+        # load stan data
+        stan_model = rstan::read_stan_csv( file.path(chains_path, fit_files ) )
+        
+        
+        # figures
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'mb', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('m_b[',1:5,']')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'sb', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('s_b[',1:5,']')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'bk1', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('b_k[',1:4,']')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'bk2', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('b_k[',5:8,']')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'bk3', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('b_k[',9:12,']')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'reg1', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = c('a', paste0('b_G[',1:2,']'), 'b_A')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'reg2', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = c( paste0('b_E[',1:3,']') )
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'reg3', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = c( paste0('b_X[',1:4,']') )
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'Rho', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = c('Rho_theta_sub[1,2]', 'Rho_theta_sub[1,3]', 'Rho_theta_sub[2,3]')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        # selecting sample of individuals
+        idx_num = round( seq(1, sample_sizes[s], length.out=5), 0)
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'theta_sub1', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('theta_sub[', idx_num, ',1]')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'theta_sub2', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('theta_sub[', idx_num, ',2]')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                           '_', 'theta_sub3', '.png')
+        file_dir = file.path(file_save, file_name)
+        png(file_dir, units='cm', width=30, height=30, res=100)
+        idx = paste0('theta_sub[', idx_num, ',3]')
+        tri_plot(stan_model, pars=idx)
+        dev.off()
+        
+        
+        if( str_detect(models_int[m], 'SOLV') ){
+          
+          file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                             '_', 'loads', '.png')
+          file_dir = file.path(file_save, file_name)
+          png(file_dir, units='cm', width=30, height=30, res=100)
+          idx = paste0('loads[', 1:3, ']')
+          tri_plot(stan_model, pars=idx)
+          dev.off()
+          
+          
+          file_name = paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d],
+                             '_', 'theta', '.png')
+          file_dir = file.path(file_save, file_name)
+          png(file_dir, units='cm', width=30, height=30, res=100)
+          idx = paste0('theta[', idx_num, ']')
+          tri_plot(stan_model, pars=idx)
+          dev.off()
+          
+        }
+        
+        print( paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d]) )
+      }
+    }
+  }
+  
+}
+
 
 # function:
 #     parameter_recovery
