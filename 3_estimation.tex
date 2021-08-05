@@ -327,15 +327,15 @@ As one can see from the figure, the joint posterior distribution is not explored
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{1_trace_CE_simple}
+		\includegraphics[width=.75\linewidth]{1_trace_CE_simple}
 	\end{subfigure}
 	%
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{1_trank_CE_simple}
+		\includegraphics[width=.75\linewidth]{1_trank_CE_simple}
 	\end{subfigure}
 	%
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{1_acf_CE_simple}
+		\includegraphics[width=.75\linewidth]{1_acf_CE_simple}
 	\end{subfigure}
 	%
 	\caption[The Devil's funnel. Centered Parametrization. Stan.]%
@@ -351,7 +351,7 @@ HMC is a powerful MCMC algorithm, and its benefits stand the test of other scena
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{1_funnel_CE_simple}
+	\includegraphics[width=1\linewidth]{1_funnel_CE_simple}
 	%
 	\caption[Posterior sampling geometry. Centered Parametrization.]%
 	{Posterior sampling geometry. Centered Parametrization. (A) HMC exploration, blue points are accepted samples, red points denote divergent transitions. (B) Metropolis/Gibbs exploration, blue points are samples.}
@@ -388,7 +388,7 @@ It turns out that the benefits of using regularizing priors can also be explaine
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{2_funnel_CE_priors}
+	\includegraphics[width=1\linewidth]{2_funnel_CE_priors}
 	%
 	\caption[Posterior sampling geometry. Centered Parametrization with mildly informative priors.]%
 	{Posterior sampling geometry. Centered Parametrization with mildly informative priors. (A) HMC exploration, blue points are accepted samples, red points denote divergent transitions. (B) Metropolis/Gibbs exploration, blue points are samples.}
@@ -408,15 +408,15 @@ Finally, we notice a mild improvement on the trace, tranks and ACF plots in figu
 \begin{figure}[h] 
 	\centering
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{2_trace_CE_priors}
+		\includegraphics[width=.75\linewidth]{2_trace_CE_priors}
 	\end{subfigure}
 	%
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{2_trank_CE_priors}
+		\includegraphics[width=.75\linewidth]{2_trank_CE_priors}
 	\end{subfigure}
 	%
 	\begin{subfigure}
-		\includegraphics[width=.7\linewidth]{2_acf_CE_priors}
+		\includegraphics[width=.75\linewidth]{2_acf_CE_priors}
 	\end{subfigure}
 	%
 	\caption[The Devil's funnel. Centered Parametrization with prior information.]%
@@ -436,7 +436,7 @@ Under the Bayesian framework, a change in geometry consist on a re-parameterizat
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{3_funnel_NC}
+	\includegraphics[width=1\linewidth]{3_funnel_NC}
 	%
 	\caption[Posterior sampling geometry. Non-Centered Parametrization.]%
 	{Posterior sampling geometry. Non-Centered Parametrization. (A1, B1) geometry defined by the independent parameters $v$ and $z$. (A2, B2) Original sampling geometry defined by $v$ and $\theta$. (A1, A2) HMC algorithm (\texttt{stan}). (B1, B2) Metropolis/Gibbs sampler (\texttt{jags}). Blue points are accepted samples. Red points denote divergent transitions.}
