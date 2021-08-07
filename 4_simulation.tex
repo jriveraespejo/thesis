@@ -23,6 +23,24 @@ Second, as expected, the author used two parametrization of the models: CP and N
 Third, the author evaluated the performance, recovery capacity and retrodictive accuracy of a first-order and second-order latent variable models (FOLV and SOLV, respectively). The decision was based on the literature of Confirmatory Factor Analysis (CFA), where before fitting a SOLV model (figure \ref{fig:SOLV_model}), the researcher need to asses if the correlation structure at the first level of the FOLV model (figure \ref{fig:FOLV_model}) justifies the decision.
 
 Therefore, ten ($10$) data sets were generated for each study condition, following the algorithm in section \ref{sect:algorithm}. Each data set resembled responses to $25$ binary scored items, conforming to the SOLV model defined in figure \ref{fig:SOLV_model}. The model was motivated by the hypothesized structure for the reading comprehension sub-test, from the Peruvian public teaching career national assessment (see chapter \ref{chap:application}). The latent structure, regression parameters, and loadings remained unchanged throughout the simulation replicas, to reduce experimental error \cite{Kieftenbeld_et_al_2012}. 
+%
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{4_FOLV_dag}
+	%
+	\caption[Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV).]%
+	{Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
+	\label{fig:FOLV_model}
+\end{figure}
+%
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{4_SOLV_dag}
+	%
+	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
+	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
+	\label{fig:SOLV_model}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -83,7 +101,36 @@ On the other hand, the same authors defined the IIF as a function that measured 
 \noindent where $\pi_{jkd}$ is defined as in the previous equation.
 
 With the tools defined as above, it will also be useful to enumerate the full set of priors an hyper-priors used in the aforementioned models.
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_ICC_prior}
+	%
+	\caption[First-Order latent variable model (FOLV). Item Characteristic Curve (ICC) and Item Information Function (IIF).]%
+	{First-Order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
+	\label{fig:FOLV_ICC_prior}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_HitRate1}
+	%
+	\caption[First-Order latent variable model (FOLV). Hit rate per dimensions of interest.]%
+	{First-Order latent variable model (FOLV). Aggregated endorsement rate per: (A) individuals, (B) items, (C) text or passage, and (D) measured dimension.}
+	\label{fig:FOLV_hitrate1}
+\end{figure}
+%
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_HitRate2}
+	%
+	\caption[First-Order latent variable model (FOLV). Hit rate per simulated covariate.]%
+	{First-Order latent variable model (FOLV). Aggregated endorsement rate per simulated covariate: (A) gender, (B) age, (C) education, and (D) experience.}
+	\label{fig:FOLV_hitrate2}
+\end{figure}
 
+
+similar results are assumed for the SOLV, as seen in figures (\ref{fig:SOLV_ICC_prior}), (\ref{fig:SOLV_hitrate1}), and (\ref{fig:SOLV_hitrate1}) in Appendix \ref{appB2:chapter4}.
 
 
 
@@ -102,19 +149,19 @@ Second, to evaluate the recovery capacity for all parameters $\pmb{\Omega} = \{ 
 %
 \begin{align}
 	%
-	RMSE \left( \eta^{(m)}_{k} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \frac{1}{H} \sum_{h=1}^{H} \left( \hat{\eta}^{(m)}_{krh} - \eta^{(m)}_{k} \right)^2} \\
+	RMSE \left( \eta^{(m)}_{k} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\eta}^{(m)}_{kr} - \eta^{(m)}_{k} \right)^2} \\
 	%
-	RMSE \left( \theta^{(l)}_{jd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \frac{1}{H} \sum_{h=1}^{H} \left( \hat{\theta}^{(l)}_{jdrh} - \theta^{(l)}_{jd} \right)^2} \\
-	%
-	%
-	RMSE \left( \Gamma_{w} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \frac{1}{H} \sum_{h=1}^{H} \left( \hat{\Gamma}_{wrh} - \Gamma_{w} \right)^2} \\
+	RMSE \left( \theta^{(l)}_{jd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\theta}^{(l)}_{jdr} - \theta^{(l)}_{jd} \right)^2} \\
 	%
 	%
-	RMSE \left( \lambda^{(l)}_{d} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \frac{1}{H} \sum_{h=1}^{H} \left( \hat{\lambda}^{(l)}_{drh} - \lambda^{(l)}_{d} \right)^2}
+	RMSE \left( \Gamma_{w} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\Gamma}_{wr} - \Gamma_{w} \right)^2} \\
+	%
+	%
+	RMSE \left( \lambda^{(l)}_{d} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\lambda}^{(l)}_{dr} - \lambda^{(l)}_{d} \right)^2}
 	%
 \end{align}
 
-Notice that since each bayesian implementation used three chains per replica, the statistics were also summarized over them. Therefore, the ``hat" parameters with index $rh$ described the posterior mean in chain $h=1, \dots, H$, and replica $r=1, \dots, R$, where $H=3$ and $R=10$.
+\noindent where the ``hat" parameters with index $r$ described the posterior mean in replica $r=1, \dots, R$, with $R=10$, and each replica has $3$ chains.
 
 Finally, since IRT models are known to be invariant to the shift of the linear predictor \cite{Baker_et_al_1992, Bock_1972}, i.e. the addition/subtraction of a constant to the abilities/difficulties results in the same probability value, it could happen that we observe substantial differences in the recovery of the parameters, that not necessarily implies a classification error  \cite{Wollack_2002}. 
 
@@ -126,24 +173,9 @@ To avoid a mistake in the assessment of fit of the model, the current research w
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Results}
-%
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{4_FOLV_dag}
-	%
-	\caption[Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV).]%
-	{Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
-	\label{fig:FOLV_model}
-\end{figure}
-%
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{4_SOLV_dag}
-	%
-	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
-	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
-	\label{fig:SOLV_model}
-\end{figure}
+
+\subsection{Chain performance}
+
 
 \subsection{FOLV CP}
 

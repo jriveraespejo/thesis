@@ -11,7 +11,7 @@
 
 \noindent \textbf{Stan}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 transformed data {
 	int<lower=0> J;
 	J = 1;
@@ -29,7 +29,7 @@ model {
 
 \noindent \textbf{JAGS}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 model{
 	v ~ dnorm(0,3)
 	theta ~ dnorm(0, exp(v))
@@ -44,7 +44,7 @@ model{
 
 \noindent \textbf{Stan}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 transformed data {
 	int<lower=0> J;
 	J = 1;
@@ -62,7 +62,7 @@ model {
 
 \noindent \textbf{JAGS}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 model{
 	v ~ dnorm(0,1)
 	theta ~ dnorm(0, exp(v))
@@ -76,7 +76,7 @@ model{
 
 \noindent \textbf{Stan}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 transformed data {
 	int<lower=0> J;
 	J = 1;
@@ -98,7 +98,7 @@ model {
 
 \noindent \textbf{JAGS}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 model{
 	v ~ dnorm(0,1)
 	ztheta ~ dnorm(0,1)
@@ -117,7 +117,7 @@ model{
 
 \noindent \textbf{Data generation}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 S = 10 # ten data sets
 condition = expand_grid( J = c(100, 250, 500), load=0.95)
 for(i in 1:nrow(condition)){
@@ -132,7 +132,7 @@ for(i in 1:nrow(condition)){
 
 \noindent \textbf{Data generation function}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 # function:
 #     data_generation
 # description:  
@@ -360,7 +360,7 @@ it has the stan model used to analize the data \\
 
 \noindent \textbf{FOLV CP}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 data{
 	// evaluation
 	int N;
@@ -461,7 +461,7 @@ model{
 
 \noindent \textbf{FOLV NCP}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 data{
 	// evaluation
 	int N;
@@ -575,7 +575,7 @@ model{
 
 \noindent \textbf{SOLV CP}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 data{
 	// evaluation
 	int N;
@@ -688,7 +688,7 @@ model{
 
 \noindent \textbf{SOLV NCP}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 data{
 	// evaluation
 	int N;
@@ -817,7 +817,7 @@ model{
 
 \noindent \textbf{Prior predictive}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 model_path = file.path(getwd(), 'models_prior')
 model_list = list.files( model_path )
 model_list = model_list[ str_detect(model_list, '.stan') ]
@@ -831,7 +831,7 @@ data_path = file.path(getwd(), 'data') )
 
 \noindent \textbf{Prior predictive function}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 # function:
 #     run_prior
 # description:  
@@ -876,7 +876,7 @@ for(j in 1:length(models) ){
 
 \noindent \textbf{Posterior predictive}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 model_path = file.path(getwd(), 'models_post')
 model_list = list.files( model_path )
 model_list = model_list[ str_detect(model_list, '.stan') ]
@@ -891,7 +891,7 @@ data_path = file.path(getwd(), 'data') )
 
 \noindent \textbf{Posterior predictive function}
 %
-\begin{lstlisting}[language=R]
+\begin{lstlisting}
 # function:
 #     run_post
 # description:  
@@ -946,9 +946,16 @@ for(j in 1:length(models) ){
 		elapsed = (t1-t0)
 			
 		if(j==1 & i==1){
-			time_elap = data.frame( Model=m, J=J, load=l, data=S, time=unlist(elapsed['elapsed']) )
+			time_elap = data.frame(
+				Model=m, 
+				J=J, 
+				load=l, 
+				data=S, 
+				time=unlist(elapsed['elapsed']) )
 		} else{
-			time_elap = rbind(time_elap, c(m, J, l, S, unlist(elapsed['elapsed']) ) )
+			time_elap = rbind(time_elap, 
+				c(m, J, l, S, 
+					unlist(elapsed['elapsed']) ) )
 		}
 			
 		# save time elapsed (saved at each iteration)

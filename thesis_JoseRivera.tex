@@ -29,12 +29,14 @@
 \usepackage{cases} 							% numbered cases equations
 \usepackage{color, soul}					% highlight text
 \usepackage{listings} 						% to insert R code easily
-\lstset{language=R, 						% to set the style of the code
+\usepackage{float}							% to avoid figures to float
+\lstset{
+%	language=R, 						% to set the style of the code
 	basicstyle=\small\ttfamily,
-	stringstyle=\color{black},
-	otherkeywords={0,1,2,3,4,5,6,7,8,9},
-	morekeywords={TRUE,FALSE},
-	deletekeywords={data,frame,length,as,character,R},
+	stringstyle=\color{blue},
+%	otherkeywords={0,1,2,3,4,5,6,7,8,9},
+%	morekeywords={TRUE,FALSE},
+%	deletekeywords={data,frame,length,as,character,R},
 	keywordstyle=\color{black},
 	commentstyle=\color{blue},
 }
@@ -157,7 +159,7 @@ Academic year 2020-2021
 \chapter*{Dedication}
 
 \noindent To Manuel, for being my friend and father. \\
-To Margarita, Susan, and Marysu, for their relentless encouragement. \\
+To Margarita, Karina, Susan, and Marysu, for their relentless encouragement. \\
 To Ana, for showing me the value of family, here in this moorland. \\
 To both of you, as you are always in my mind. \\
 And to all that knowingly or not, help me to get here.\\
@@ -166,7 +168,7 @@ I hope I make you all proud. \\ \\ \\
 %
 %
 \noindent A Manuel, por ser mi amigo y mi padre. \\
-A Margarita, Susan y Marysu, por su incansable aliento. \\
+A Margarita, Karina, Susan y Marysu, por su incansable aliento. \\
 A Ana, por mostrarme el valor de la familia, aqu\'i en este p\'aramo.\\
 A ustedes dos, que siempre las tengo en mente. \\
 Y a todos los que sabiendolo o no, me ayudaron a llegar aqu\'i.\\
@@ -210,22 +212,32 @@ To the friends that managed to keep me motivated through this rewarding endeavor
 \chapter*{Abbreviations}
 
 \begin{tabular}{rl}
+	ACF		& Auto-correlation function.\\
+	BUGS	& Bayesian Inference Using Gibbs Sampling.\\
 	CFA		& Confirmatory Factor Analysis. \\
 	CLT		& Central Limit Theorem. \\
 	CP		& Centered Parametrization.\\
+	DAG		& Directed Acyclic Graph.\\
 	DDM		& Dual Dependence Models.\\
 	EFA		& Exploratory Factor Analysis. \\
+	FOLV	& First-order Latent Variable. \\
 	GLLAMM	& Generalized Linear Latent and Mixed Model. \\
 	GLM		& Generalized Linear Model. \\
 	GLMM	& Generalized Linear Mixed Model. \\
 	HMC		& Hamiltonian Monte Carlo.\\
+	ICC		& Item Characteristic Curve.\\
+	IIF		& Item Information Function.\\
 	iHMC	& Interleaved Hamiltonian Monte Carlo.\\
-	IRT		& Item Response Theory models. \\
+	JAGS	& Just Another Gibbs Sampler.\\
+	IRT		& Item Response Theory. \\
 	MCMC	& Markov Chain Monte Carlo.\\
 	ML		& Maximum Likelihood.\\
 	MSEM	& Multilevel Structural Equation Model.\\
 	NCP		& Non-centered Parametrization.\\
+	RMSE	& Root Mean Squared Error.\\
 	SEM		& Structural Equation Model. \\
+	SOLV	& Second-order Latent Variable.\\
+	UVI		& Unit Variance Identification.\\
 	VI		& Variational Inference.
 	
 \end{tabular}

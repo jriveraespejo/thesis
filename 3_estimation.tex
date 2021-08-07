@@ -220,7 +220,7 @@ However, the method does require to perform a warm-up procedure to adapt samplin
 
 Notice, this phase is similar to a procedure performed in JAGS, where the proposal distribution gets ``tuned up" to improve the posterior investigation. However, the similarities end there. The warm-up samples in HMC are not representative of the target posterior distribution, no matter how long the iterations continue \cite{McElreath_2020}. Finally, after the warm-up is finished, and assuming the adaption was successful, the method will sample directly from the target distribution.
 
-In the current research, we will use the default values set in the software, i.e. a total of $2,000$ iterations, where $1,000$ of them will be spend on warm-up. Notice this departs (by far) from most of the literature on Bayesian IRT models, e.g. \citet{Fujimoto_2018a} used chains with $60,000$ iterations, where $15,000$ were discarded and the remaining were thinned in jumps of $3$; while \citet{Fujimoto_2018b} used $225,000$ iterations, with burn-in of $30,000$ and thinning with jumps of $15$; just to mention a few.
+In the current research, we will use a total $3,000$ effective iterations, coming from $3$ chains of $2,000$ iterations each, where $1,000$ of them will be spend on warm-up. Notice this departs (by far) from most of the literature on bayesian IRT models, e.g. \citet{Fujimoto_2018a} used chains with $60,000$ iterations, where $15,000$ were discarded and the remaining were thinned in jumps of $3$; while \citet{Fujimoto_2018b} used $225,000$ iterations, with burn-in of $30,000$ and thinning with jumps of $15$; just to mention a few.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
