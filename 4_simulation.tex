@@ -196,7 +196,7 @@ On the other hand, from the texts and items perspective, at the level of the ite
 
 As it was outlined in section \ref{sub_sect:prior_pred}, we will use prior predictive investigation to assess and visualize the consequences of our prior assumptions. The implications will be assessed from two perspectives: the IRT and the outcome space perspective. For the former, we will investigate what the set of priors imply for the item characteristic curves (ICC), and item information function (IIF). For the latter, we will examine how the prior assumption translate onto the outcome space.
 
-First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_al_1991b} defined the ICC as the mathematical function that relates the probability of success on an item, to the ability measured by that same item. In our current implementation, such function would be the systematic part of the GLLAMM, as defined in equations (\ref{eq:systematic}) and (\ref{eq:response_dich1}):
+First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_al_1991b} defined the ICC as the mathematical function that relates the probability of success on an item, to the ability measured by that same item. In our current implementation, such function would correspond to the systematic part of the GLLAMM, as defined in equations (\ref{eq:systematic}) and (\ref{eq:response_dich1}):
 %
 \begin{equation} \label{eq:ICC}
 	\begin{split}
@@ -206,7 +206,7 @@ First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_a
 
 \noindent where the linear predictor $v_{jkd}$ contains the item difficulty $\eta^{(2)}_{k}$ and the individual's ability $\theta^{(l)}_{jd}$, as defined in equation \ref{eq:linear_predictor1}. As previously mentioned, the ICC of our current implementation can be considered as the multilevel-multidimensional extension to the Rasch model's ICC \cite{Rasch_1980}.
 
-On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM will be defined as the Rasch counterpart, in the following form:
+On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM will be defined as in the Rasch counterpart, in the following form:
 %
 \begin{equation} \label{eq:IIF}
 	\begin{split}
@@ -214,7 +214,7 @@ On the other hand, the same authors defined the IIF as a function that measured 
 	\end{split}	
 \end{equation}
 
-Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{fig:FOLV_model}), resulting from the assumptions integrated by the priors detailed in the previous section. From panel (A), we can notice the difficulty of the items match a wide range of the individuals' abilities (see multiple black solid lines). This means that the model expect items difficulty to be in any part of the continuous range of abilities, with no restriction. Furthermore, the latter imply the priors allow the model to obtain information about individuals located in the full significant range of the abilities, as seen in panel (B) of the same figure. All of this just means that no unintended assumption has ``creep" into the model, at least from the IRT perspective. A similar result can be seen for the SOLV (figure \ref{fig:SOLV_ICC_prior}, appendix).
+Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{fig:FOLV_model}), resulting from the assumptions integrated by the priors detailed in the previous section. From panel (A), we can notice the difficulty of the items match a wide range of the individuals' abilities (see multiple black solid lines). This means that the model expect items' difficulties to be in any part of the continuous range of abilities, with no restriction. Furthermore, the latter imply the priors allow the model to obtain information about individuals, located in the full significant range of the abilities, as seen in panel (B) of the same figure. All of this just means that no unintended assumption has ``creep" into the model, at least from the IRT perspective. A similar result can be seen for the SOLV (figure \ref{fig:SOLV_ICC_prior}, appendix).
 %
 \begin{figure}[H]
 	\centering
@@ -225,7 +225,7 @@ Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{
 	\label{fig:FOLV_ICC_prior}
 \end{figure}
 
-Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we notice that no unintended assumption is translated to the outcome space of the FOLV either. Panel (A) from figure (\ref{fig:FOLV_hitrate1}) shows that the individuals'  proportion of correctly answered items can be in the full range of possibilities. Furthermore, panel (B) of the same figure, shows the proportion of individuals endorsing an item, for any item, can also be in the full range of possibilities. Lastly, panels (C) and (D) convey similar information aggregated by texts and dimensions. On the other hand, from all panels in figure \ref{fig:FOLV_hitrate2}, we can observe the priors did not force the model to assume any apriori tendency in the covariates. A similar result can be seen for the outcome space of the SOLV (figures \ref{fig:SOLV_hitrate1} and \ref{fig:SOLV_hitrate2}, appendix).
+Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we notice that no unintended assumption is translated to the outcome space of the FOLV either. Panel (A) from figure \ref{fig:FOLV_hitrate1} shows the individuals'  proportion of correctly answered items can be present in the full range of possibilities. Furthermore, panel (B) of the same figure, shows the proportion of individuals endorsing an item, for any item, can also be present in the full range of possibilities. Lastly, panels (C) and (D) convey similar information aggregated by texts and dimensions. On the other hand, from all panels in figure \ref{fig:FOLV_hitrate2}, we can observe the priors did not force the model to assume any apriori tendency in the covariates. A similar result can be seen for the outcome space of the SOLV (figures \ref{fig:SOLV_hitrate1} and \ref{fig:SOLV_hitrate2}, appendix).
 %
 \begin{figure}[h]
 	\centering
@@ -254,14 +254,17 @@ As stated in section \ref{sec:conditions}, the study was set to evaluate perform
 
 First, to assess the performance of the MCMC chains, in terms of achieving stationarity, convergence and good mixing, the author followed the usual visual approach. The approach involved the visual evaluation of: (i) trace plots, for stationarity and convergence, and (ii) trank and autocorrelation plots (ACF), for good mixing. Moreover, the assessment of convergence and good mixing were supported by the \texttt{Rhat} and \texttt{n\_eff} statistics developed in \citet{Gelman_et_al_2014} (pp. $284-287$).
 
-Second, to evaluate the recovery capacity for all parameters $\pmb{\Omega} = \{ \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta}, \pmb{\Psi}, \pmb{\Gamma} \}$, the author used the root mean squared error (RMSE), i.e. the extent of the deviation the posterior means exhibited from the true generating values, in all replicate simulations. Notice, in the case of the FOLV model in figure \ref{fig:SOLV_model} no loading recovery can be assessed. However, using Wright's tracing rules, we evaluated the implied correlation structure between the sub-dimensions, resulting from having a second-order latent variable. The RMSE was defined as follows:
+Second, to evaluate the recovery capacity for all parameters $\pmb{\Omega} = \{ \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta}, \pmb{\Psi}, \pmb{\Gamma} \}$, the author used the root mean squared error (RMSE), i.e. the extent of the deviation the posterior means exhibited from the true generating values, in all replicate simulations. Notice, in the case of the FOLV model in figure \ref{fig:SOLV_model} no loading recovery can be assessed; however, using Wright's tracing rules, we evaluated the implied correlation structure between the sub-dimensions, resulting from having a second-order latent variable. The RMSE for each parameter of interest was defined as follows:
 %
 \begin{align}
 	%
-	RMSE \left( \eta^{(m)}_{k} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\eta}^{(m)}_{kr} - \eta^{(m)}_{k} \right)^2} \\
+	RMSE \left( \eta^{(m)}_{k} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\eta}^{(m)}_{kr} - \eta^{(m)}_{k} \right)^2}
+	%
+\end{align}
+%
+\begin{align}
 	%
 	RMSE \left( \theta^{(l)}_{jd} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\theta}^{(l)}_{jdr} - \theta^{(l)}_{jd} \right)^2} \\
-	%
 	%
 	RMSE \left( \Gamma_{w} \right) &=\sqrt{\frac{1}{R} \sum_{r=1}^{R} \left( \hat{\Gamma}_{wr} - \Gamma_{w} \right)^2} \\
 	%
@@ -270,7 +273,7 @@ Second, to evaluate the recovery capacity for all parameters $\pmb{\Omega} = \{ 
 	%
 \end{align}
 
-\noindent where the ``hat" parameters with index $r$ described the posterior mean in replica $r=1, \dots, R$, with $R=10$, and each replica has $3$ chains.
+\noindent where the ``hat" parameters with index $r$ described the posterior mean in replica $r=1, \dots, R$, with $R=10$, and each posterior mean was calculated with iterations coming from $3$ chains.
 
 Finally, since IRT models are known to be invariant to the shift of the linear predictor \cite{Baker_et_al_1992, Bock_1972}, i.e. the addition/subtraction of a constant to the abilities/difficulties results in the same probability value, it could happen that we observe substantial differences in the recovery of the parameters, that not necessarily implies a classification error  \cite{Wollack_2002}. 
 
@@ -285,12 +288,9 @@ To avoid a mistake in the assessment of fit of the model, the current research w
 
 \subsection{Chain performance}
 
+\subsection{Recovery capacity}
 
-\subsection{FOLV CP}
+\subsection{Retrodiction accuracy}
 
-\subsection{FOLV NCP}
 
-\subsection{SOLV CP}
-
-\subsection{SOLV NCP}
 
