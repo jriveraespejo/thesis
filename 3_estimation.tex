@@ -296,7 +296,7 @@ Similarly, in the presence of hyper-parameters we can set mildly informative pri
 
 \noindent where the blue discontinuous line on panel (B) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value scale.
 
-One can imagine that the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value for complex models, as in the aforementioned examples.
+One can imagine the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value for complex models, as in our current implementation.
 
 
 
@@ -481,4 +481,4 @@ For our current application however, figure \ref{fig:devil_NC_geom} show the pos
 
 Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither CP or NCP is more ``optimal" than the other. The author pointed out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements can be obtained by leveraging on the ``best of both worlds", e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
 
-Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of non-centered parametrization in the context of an IRT model.
+Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of NCP in the context of an IRT model.

@@ -35,7 +35,7 @@ Therefore, ten ($10$) data sets were generated for each study condition, followi
 %
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{4_SOLV_dag}
+	\includegraphics[width=0.8\linewidth]{4_SOLV_dag}
 	%
 	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
 	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
@@ -67,18 +67,134 @@ The code associated with the full simulation process can be found in Appendix \r
 
 \subsection{Models and identification}
 
-As stated in previous sections, we analyze two models: (i) a FOLV model depicted in figure \ref{fig:FOLV_model}, and (ii) a SOLV model depicted in figure \ref{fig:SOLV_model}.
+As stated in previous sections, we analyze two models: (i) the FOLV model depicted in figure \ref{fig:FOLV_model}, and (ii) the SOLV model depicted in figure \ref{fig:SOLV_model}. We proceed to enumerate the likelihood functions, and the full set of priors and hyper-priors used. 
 
-In order to fully specify the model and provide a scale for the latent variables, the current research decided set the scale of the higher order dimension and sub-dimensions to one, i.e. $\sigma^{3}_{\theta} = 1$, and $S^{(2)} = \sigma^{(2)}_{\theta} I$ with $\sigma^{(2)}_{\theta} = 1$, commonly know as the unit variance identification scheme (UVI). 
+First, as stated in equations (\ref{eq:dist}), (\ref{eq:lin_pred}) and (\ref{eq:prob}), the distributional and systematic part of both models is defined as follows:
+%
+\begin{align}
+	%
+	y_{jkd} &\sim \text{Bernoulli}( \pi_{jkd} ) \\
+	%
+	\text{logit}( \pi_{jkd} ) &= v_{jkd} \\
+	%
+	v_{jkd} &= \theta^{(2)}_{jd} - \eta^{(2)}_{k}
+	%
+\end{align}
 
-Notice we need to set the scales for all the dimensions, because otherwise the latent structure would not be identified. At the level of the FOLV (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available to estimate $10$ parameters, i.e. $3$ loadings, $4$ variances corresponding to the FOLV and SOLV, and $3$ correlations among sub-dimensions. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (loadings and correlations). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
+Notice the linear predictor can be considered as the multilevel-multidimensional extension of the well known Rasch IRT model \cite{Rasch_1980}. As stated in previous chapters, the reader should keep in mind that in order to avoid the use of heavy notation, the items' indexes did not reflect that some items are set to measure specific individual's dimensions. 
 
+Second, the first-order latent variables and prior parameters are defined as follows:
+%
+\begin{align}
+	%
+	\boldsymbol{\theta}^{(2)}_{j} &= \left[ \theta_{j1}^{(2)}, \theta_{j2}^{(2)}, \theta_{j3}^{(2)} \right] \\
+	%
+	\boldsymbol{\theta}^{(2)}_{j} &\sim \text{MVNormal} \left( \boldsymbol{\mu}^{(2)}_{j}, \boldsymbol{\Sigma}^{(2)} \right)
+	%
+\end{align}
+
+where $\boldsymbol{\Sigma}^{(2)}$ is defined by:
+%
+\begin{align}
+	%
+	\boldsymbol{\Sigma}^{(2)} &= \boldsymbol{S}^{(2)} \cdot \boldsymbol{R}^{(2)} \cdot \boldsymbol{S}^{(2)} \\
+	%
+	\boldsymbol{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I} &= 
+	\begin{pmatrix}
+		\sigma^{2}_{1}	& 0 			 	& 0 				\\
+		0 				& \sigma^{2}_{2} 	& 0 				\\
+		0 				& 0					& \sigma^{2}_{3} 
+	\end{pmatrix} \\
+	%
+	\boldsymbol{R}^{(2)} &= 
+	\begin{pmatrix}
+		1			& \rho_{12} & \rho_{13} 	\\
+		\rho_{21} 	& 1 		& \rho_{23} 	\\
+		\rho_{31} 	& \rho_{32}	& 1	
+	\end{pmatrix} 
+	%
+\end{align}
+
+while $\boldsymbol{\mu}^{(2)}_{j}$ can be defined in two ways, depending on the model we are fitting. For the FOLV model depicted in figure \ref{fig:FOLV_model} the mean would be defined as follows:
+%
+\begin{align}
+	%
+	\boldsymbol{\mu}^{(2)}_{j} &= \left[ \mu^{(2)}_{j1}, \; \mu^{(2)}_{j2}, \mu^{(2)}_{j3} \right] \\
+	%
+	\mu^{(2)}_{jd} &= \beta_{G} G_{j} + \beta_{A} (A_{j} - A_{\text{min}}) + \beta_{E} E_{j} + \beta_{X} X_{j}
+	%
+\end{align}
+
+notice the regression parameters are not dimension specific. On the other hand, for the SOLV model depicted in figure \ref{fig:SOLV_model}, $\boldsymbol{\mu}^{(2)}_{j}$ will be defined by:
+%
+\begin{align}
+	%
+	\boldsymbol{\mu}^{(2)}_{j} &= \left[ \mu^{(2)}_{j1}, \; \mu^{(2)}_{j2}, \mu^{(2)}_{j3} \right] \\
+	%
+	\pmb{\lambda}^{(2)} &= \left[ \lambda^{(2)}_{1}, \; \lambda^{(2)}_{2}, \lambda^{(2)}_{3} \right] \\
+	%
+	\mu^{(2)}_{jd} &= \lambda^{(2)}_{d} \; \theta^{(3)}_{j} 
+	%
+\end{align}
+
+finally, in terms of individual's dimensions, only the SOLV contemplates an additional level, and therefore an additional set of parameters:
+%
+\begin{align}
+	%
+	\theta^{(3)}_{j} &\sim \text{Normal} \left( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} \right) \\
+	%
+	\mu^{\theta}_{j} &= \beta_{G} G_{j} + \beta_{A} (A_{j} - A_{\text{min}}) + \beta_{E} E_{j} + \beta_{X} X_{j}
+\end{align}
+
+Third, turning now our attention to the items' parameters $\eta^{(2)}_{k}$, for both models we have:
+%
+\begin{align}
+	%
+	\eta^{(2)}_{k} &\sim \text{Normal} \left( \mu^{(2)}_{k}, \sigma^{(2)}_{k} \right) \\
+	%
+	\mu^{(2)}_{k} &= \pmb{\eta}^{(3)} \mathbf{A_{j}} \\
+	%
+	\sigma^{(2)}_{k} &= \pmb{\sigma}^{(3)} \mathbf{A_{j}}
+	%
+\end{align}
+
+where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5} ]$ represent the texts difficulties, $\pmb{\sigma}^{(3)} = [ \sigma^{(3)}_{1}, \sigma^{(3)}_{2}, \sigma^{(3)}_{3}, \sigma^{(3)}_{4}, \sigma^{(3)}_{5} ]$ the text deviations from such difficulties; and $A_{j}$ is the block matrix that maps the items with the passages, for individual $j$. In addition, $\eta^{(3)}_{k}$ and $\sigma^{(3)}_{k}$ are distributed as:
+%
+\begin{align}
+	%
+	\eta^{(3)}_{k} &\sim \text{Normal} \left( \mu_{\eta}, \sigma_{\eta} \right) \\
+	%
+	\sigma^{(3)}_{k} &\sim \text{Exponential} \left( \delta_{\eta} \right)
+	%
+\end{align}
+
+Fourth, we declared all the hyper-priors required:
+%
+\begin{align}
+	\boldsymbol{R}^{(2)} &\sim \text{LkjCorrelation}( 2 ) \\
+	\beta_{G} &\sim \text{Normal}( 0, 0.5 ) \\
+	\beta_{A} &\sim \text{Normal}( 0, 0.5 ) \\
+	\beta_{E} &\sim \text{Normal}( 0, 1 ) \\
+	\beta_{X} &\sim \text{Normal}( 0, 0.5 ) 
+	%
+\end{align}
+
+\noindent where $\text{LkjCorrelation}(\cdot)$ denotes the Lewandowski, Kurowicka, and Joe correlation distribution \cite{Lewandowski_et_al_2009}.
+
+Finally, in order to fully specify the model and provide a scale for the latent variables, the current research decided set the scale of the higher order dimension and sub-dimensions to one, i.e. $\sigma^{3}_{\theta} = 1$, and $S^{(2)} = \pmb{\sigma}^{(2)}_{\theta} I$ with $\pmb{\sigma}^{(2)}_{\theta} = [1, 1, 1]^{T}$, commonly know as the unit variance identification scheme (UVI). Moreover, to identify the texts' and items' parameters we set $\mu_{\eta} = 0$, $\sigma_{\eta}=1$, $\delta_{\eta}=2$.
+
+Notice we need to set the scales for all the dimensions equal to one, because otherwise the latent structure would not be identified. At the level of the FOLV (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available, corresponding to the variances and covariances of the FOLV. The information then will need to estimate $10$ parameters, i.e. $3$ loadings, $4$ variances corresponding to the FOLV and SOLV, and $3$ correlations among sub-dimensions. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (loadings and correlations). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
+
+
+\begin{comment}
+On the other hand, from the texts and items perspective, at the level of the items (level-2) we would have $(25 \times 26)/2 = 325$ pieces of information available, corresponding to the variances and covariances of the items dimensions. With that information we would need to estimate $30$ parameters, corresponding to $25$ items' dimension variances, and $5$ texts' dimension variances. notice in this case, we do not need to estimate $25$ loadings, as they are assumed to be $1$.
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Prior elicitation}
+\subsection{Prior predictive investigation}
 
-As it was outlined in section \ref{sub_sect:prior_pred}, we will use prior predictive investigation to assess and visualize the consequences of our prior assumptions. The implications will be assessed from two perspectives: the IRT and the outcome space perspective. For the former, we will investigate what the whole set of priors imply for the item characteristic curves (ICC), and item information function (IIF). For the latter, we will examine how the prior assumption translate onto the outcome space.
+As it was outlined in section \ref{sub_sect:prior_pred}, we will use prior predictive investigation to assess and visualize the consequences of our prior assumptions. The implications will be assessed from two perspectives: the IRT and the outcome space perspective. For the former, we will investigate what the set of priors imply for the item characteristic curves (ICC), and item information function (IIF). For the latter, we will examine how the prior assumption translate onto the outcome space.
 
 First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_al_1991b} defined the ICC as the mathematical function that relates the probability of success on an item, to the ability measured by that same item. In our current implementation, such function would be the systematic part of the GLLAMM, as defined in equations (\ref{eq:systematic}) and (\ref{eq:response_dich1}):
 %
@@ -88,7 +204,7 @@ First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_a
 	\end{split}	
 \end{equation}
 
-\noindent where the linear predictor $v_{jkd}$ contains the item difficulty $\eta^{(2)}_{k}$ and the individual's ability $\theta^{(l)}_{jd}$, as defined in equation \ref{eq:linear_predictor1}. Notice additionally, the ICC of our current implementation resembles to the Rasch model's ICC \cite{Rasch_1980}.
+\noindent where the linear predictor $v_{jkd}$ contains the item difficulty $\eta^{(2)}_{k}$ and the individual's ability $\theta^{(l)}_{jd}$, as defined in equation \ref{eq:linear_predictor1}. As previously mentioned, the ICC of our current implementation can be considered as the multilevel-multidimensional extension to the Rasch model's ICC \cite{Rasch_1980}.
 
 On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM will be defined as the Rasch counterpart, in the following form:
 %
@@ -98,9 +214,7 @@ On the other hand, the same authors defined the IIF as a function that measured 
 	\end{split}	
 \end{equation}
 
-\noindent where $\pi_{jkd}$ is defined as in the previous equation.
-
-With the tools defined as above, it will also be useful to enumerate the full set of priors an hyper-priors used in the aforementioned models.
+Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{fig:FOLV_model}), resulting from the assumptions integrated by the priors detailed in the previous section. From panel (A), we can notice the difficulty of the items match a wide range of the individuals' abilities (see multiple black solid lines). This means that the model expect items difficulty to be in any part of the continuous range of abilities, with no restriction. Furthermore, the latter imply the priors allow the model to obtain information about individuals located in the full significant range of the abilities, as seen in panel (B) of the same figure. All of this just means that no unintended assumption has ``creep" into the model, at least from the IRT perspective. A similar result can be seen for the SOLV (figure \ref{fig:SOLV_ICC_prior}, appendix).
 %
 \begin{figure}[H]
 	\centering
@@ -110,8 +224,10 @@ With the tools defined as above, it will also be useful to enumerate the full se
 	{First-Order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
 	\label{fig:FOLV_ICC_prior}
 \end{figure}
+
+Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we notice that no unintended assumption is translated to the outcome space of the FOLV either. Panel (A) from figure (\ref{fig:FOLV_hitrate1}) shows that the individuals'  proportion of correctly answered items can be in the full range of possibilities. Furthermore, panel (B) of the same figure, shows the proportion of individuals endorsing an item, for any item, can also be in the full range of possibilities. Lastly, panels (C) and (D) convey similar information aggregated by texts and dimensions. On the other hand, from all panels in figure \ref{fig:FOLV_hitrate2}, we can observe the priors did not force the model to assume any apriori tendency in the covariates. A similar result can be seen for the outcome space of the SOLV (figures \ref{fig:SOLV_hitrate1} and \ref{fig:SOLV_hitrate2}, appendix).
 %
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_HitRate1}
 	%
@@ -128,13 +244,6 @@ With the tools defined as above, it will also be useful to enumerate the full se
 	{First-Order latent variable model (FOLV). Aggregated endorsement rate per simulated covariate: (A) gender, (B) age, (C) education, and (D) experience.}
 	\label{fig:FOLV_hitrate2}
 \end{figure}
-
-
-similar results are assumed for the SOLV, as seen in figures (\ref{fig:SOLV_ICC_prior}), (\ref{fig:SOLV_hitrate1}), and (\ref{fig:SOLV_hitrate1}) in Appendix \ref{appB2:chapter4}.
-
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
