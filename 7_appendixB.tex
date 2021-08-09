@@ -73,7 +73,7 @@
 \end{figure}
 
 
-\subsection{Chain performance}
+\subsection{Chain performance} \label{sub_sect:chain_performance}
 
 This section only shows a small set of trace, trank and ACF plots for the parameters of interest. For all the plots across parameters, models, parametrizations, and replicas refer to the images section of the accompanying github page:
 
@@ -296,21 +296,6 @@ This section only shows a small set of trace, trank and ACF plots for the parame
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}
-		\includegraphics[width=0.48\linewidth]{SOLV_100_neff2}
-	\end{subfigure}
-	%
-	\begin{subfigure}
-		\includegraphics[width=0.48\linewidth]{SOLV_100_Rhat2}
-	\end{subfigure}
-	%
-	\caption[Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot.]%
-	{Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot. (A) \texttt{n\_eff} for regression parameters. (B) \texttt{Rhat} for the first sub-dimension. (D) \texttt{Rhat} for the second sub-dimensions. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines is set at \texttt{Rhat}$=1.05$. }
-	\label{fig:SOLV_stat1}
-\end{figure}
-%
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}
 		\includegraphics[width=1\linewidth]{SOLV_100_neff3}
 	\end{subfigure}
 	%
@@ -320,5 +305,35 @@ This section only shows a small set of trace, trank and ACF plots for the parame
 	%
 	\caption[Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot.]%
 	{Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot. (A) \texttt{n\_eff} for the correlations among sub-dimension. (B) \texttt{n\_eff} for the loadings. (C) \texttt{Rhat} for the correlation among sub-dimensions. (D) \texttt{Rhat} for the loadings. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines is set at \texttt{Rhat}$=1.05$. }
+	\label{fig:SOLV_stat1}
+\end{figure}
+%
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_100_neff6}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_100_Rhat6}
+	\end{subfigure}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot. (A) \texttt{n\_eff} for the higher-order latent variable. (B) \texttt{Rhat} for the higher-order latent variable. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines is set at \texttt{Rhat}$=1.05$. }
 	\label{fig:SOLV_stat2}
+\end{figure}
+%
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_100_neff2}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_100_Rhat2}
+	\end{subfigure}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, all replicas. CP and NCP comparison plot. (A) \texttt{n\_eff} for regression parameters. (B) \texttt{Rhat} for the first sub-dimension. (C) \texttt{Rhat} for regression parameters. (D) \texttt{Rhat} for the second sub-dimensions. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines is set at \texttt{Rhat}$=1.05$. }
+	\label{fig:SOLV_stat3}
 \end{figure}

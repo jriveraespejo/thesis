@@ -289,6 +289,18 @@ Finally, since IRT models are known to be invariant to the shift of the linear p
 \subsection{Chain performance}
 
 First, the CP and NCP chain performance for the texts' mean difficulties is reported in figures \ref{fig:FOLV_CE_chains1} and \ref{fig:FOLV_NC_chains1}, respectively. The figures correspond to replica number two of the FOLV model, with a simulated sample size of $100$. 
+
+From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, hinting a lack of good mixing, e.g. the top trace and trank plots show chains that are ``stuck" in specific areas of the distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, again indicating a serious lack of good mixing. All of this is further confirmed by panels (A) and (C) of figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
+
+On the contrary, the parameters from the NCP seem to achieve ergodicity. The trace plots show chains that seem to be stationary and convergent. The trank plots show the rapid exploration of the full range of posterior distribution. And finally, the ACF plots show the iterations were less auto-correlated. Again, this is further confirmed by figure \ref{fig:FOLV_stat1}, where the NCP show greater \texttt{n\_eff} and appropriate \texttt{Rhat} values, versus the CP.
+
+On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show an \texttt{Rhat}$<1.05$, the CP effectively has sample sizes in a larger range than the NCP, i.e. $[35, 2734]$ and $[897, 2587]$, respectively. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
+
+Furthermore, figures \ref{fig:FOLV_CE_chains3} and \ref{fig:FOLV_NC_chains3} (appendix) show the chain performance for the item difficulties under the CP and NCP, respectively. The trace, trank and ACF plots show a similar pattern as the one outlined for the difficulty of the texts, albeit more extreme. The CP chains did not achieved stationarity, convergence, nor good mixing; whereas it seems the NCP does. This is further confirmed by panels (B) and (D) of figure \ref{fig:FOLV_stat1}, where one can see the NCP has significantly higher effective sample sizes and \texttt{Rhat}$<1.05$, in contrast to the CP.
+
+Second, the chain performance for the reading comprehension sub-dimensions, under the CP are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6}. The figures correspond to replica number six of the FOLV model, with a simulated sample size of $100$. The chains also show a lack of ergodicity similar to the texts' difficulties, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in chains). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has effective sample sizes in the range of $[8, 527]$, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6} and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
+
+Third, similar visualizations for the CP and NCP regression parameters are shown in figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. With a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in specific part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
 %
 \begin{figure}[H]
 	\centering
@@ -299,7 +311,7 @@ First, the CP and NCP chain performance for the texts' mean difficulties is repo
 	\label{fig:FOLV_CE_chains1}
 \end{figure}
 
-From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, hinting a lack of good mixing, e.g. the top trace and trank plots show chains that are ``stuck" in specific areas of the distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, again indicating a serious lack of good mixing. All of this is further confirmed by panels (A) and (C) in figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
+Lastly, the performance assessment plots for the FOLV sub-dimensions' correlation are shown in figures \ref{fig:FOLV_CE_chains8} and \ref{fig:FOLV_NC_chains8}. In both parametrizations, we observe the correlations seem to achieve stationarity and convergence. However, it also seems they do not achieve good mixing, i.e. the MCMC procedure does not manage to make a proper investigation of the posterior. This is further confirmed by panels (B) and (D) from figure \ref{fig:FOLV_stat2}, where we see observe the parameters' chains remain below the \texttt{Rhat} recommended threshold, indicating convergence. Although, the effective sample sizes were low, in the range of $[249, 1311]$ for CP, and $[285, 1283]$ for NCP, indicating highly auto-correlated iterations. 
 %
 \begin{figure}[H]
 	\centering
@@ -309,10 +321,6 @@ From the figures, one can easily notice the parameters under the CP did not show
 	{First-Order latent variable model (FOLV). Sample size $100$, replica number $2$. Non-centered parametrization. Mean difficulty per text: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
 	\label{fig:FOLV_NC_chains1}
 \end{figure}
-
-On the contrary, the parameters from the NCP seem to achieve ergodicity. The trace plots show chains that seem to be stationary and convergent. The trank plots show the rapid exploration of the full range of posterior distribution. And finally, the ACF plots show the iterations were less auto-correlated. Again, this is further confirmed by figure \ref{fig:FOLV_stat1}, where the NCP show greater \texttt{n\_eff} and appropriate \texttt{Rhat} values, versus the CP.
-
-On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show an \texttt{Rhat}$<1.05$, the CP has effective sample sizes in a larger range than the NCP, i.e. $[35, 2734]$ and $[897, 2587]$, respectively. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
 %
 \begin{figure}[h]
 	\centering
@@ -329,17 +337,13 @@ On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains
 	\label{fig:FOLV_stat1}
 \end{figure}
 
-Furthermore, figures \ref{fig:FOLV_CE_chains3} and \ref{fig:FOLV_NC_chains3} (appendix) show the chain performance for the item difficulties under the CP and NCP, respectively. The trace, trank and ACF plots show a similar pattern as the one outlined for the difficulty of the texts, albeit more extreme. The CP chains did not achieved stationarity, convergence, nor good mixing; whereas it seems the NCP does. This is further confirmed by panels (B) and (D) of figure \ref{fig:FOLV_stat1}, where one can see the NCP has significantly higher effective sample sizes and \texttt{Rhat}$<1.05$, in contrast to the CP.
+So far we have only assessed specific replicas of the FOLV model, with a simulated sample size of $100$, as the previous paragraphs and title of the figures have indicated. However, after the inspection of the trace, trank, ACF and comparison plots\footnote{To inspect the remaining trace, trank, ACF, and comparison plots follow the github accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, we notice the preceding patterns of stationarity, convergence and mixing extends to all replicas and simulated sample sizes in the FOLV model. Furthermore, the aforementioned patterns were also observed in the similar parameter set of the SOLV model. 
 
-Second, the chain performance for the reading comprehension sub-dimensions, under the CP are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6}. The figures correspond to replica number six of the FOLV model, with a simulated sample size of $100$. The chains show a lack of ergodicity also similar to the texts' difficulties, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in chains). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has effective sample sizes in the range of $[8, 527]$, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6} and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
+Additionally, for the remaining parameters in the SOLV, i.e. the loadings and reading comprehension higher-order latent variables, we continue observing the recurrent pattern between CP and NCP, detailed in previous paragraphs. Figures \ref{fig:SOLV_CE_chains1} and \ref{fig:SOLV_NC_chains1} show the NCP loadings have chains that seem slightly more stationary, convergent, and well mixed than its CP counterpart. This is further confirmed by panels (B) and (D) of figure \ref{fig:SOLV_stat1}. In a similar fashion, figures \ref{fig:SOLV_CE_chains3} and \ref{fig:SOLV_NC_chains3} show the higher-order latent variable is significantly more ergodic under the NCP than the CP, and figure \ref{fig:SOLV_stat2} confirms the hypothesis, by showing it has largely better effective sample sizes, with \texttt{Rhat} values always close to one.
 
-Third, similar visualizations for the CP and NCP regression parameters are shown in figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. With a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in the same part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
+Finally, panel (A) of figure \ref{fig:SOLV_stat3} show the pattern of ergodicity for the regression parameters is slightly improved under the SOLV\footnote{For the trace, trank and ACF plots refer to the corresponding accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, i.e. the chains have larger effective sample sizes under the NCP versus the CP, indicating less correlation among the iterations, and therefore, better mixing. The result appear to be sensible, if we consider that the SOLV model was the data generating model.
 
-Lastly, the performance assessment plots for the FOLV sub-dimensions' correlation are shown in figures \ref{fig:FOLV_CE_chains8} and \ref{fig:FOLV_NC_chains8}. In both parametrizations, we observe the correlations seem to achieve stationarity and convergence; however, it also seems they do not achieve good mixing, i.e. the MCMC procedure does not manage to make a proper investigation of the posterior. This is further confirmed by panels (B) and (D) from figure \ref{fig:FOLV_stat2}, where we see observe the parameters' chains remain below the \texttt{Rhat} recommended threshold, indicating convergence. Although, the effective sample sizes were low, in the range of $[249, 1311]$ for CP, and $[285, 1283]$ for NCP, indicating iterations with high auto-correlations. 
-
-So far we have only assessed specific replicas of the FOLV model, with a simulated sample size of $100$, as the previous paragraphs and title of the figures have indicated. However, we can safely say the preceding patterns of stationarity, convergence and mixing extends to all replicas and simulated sample sizes in the FOLV model. Furthermore, the aforementioned patterns were also observed in the similar parameter set of the SOLV model. Consequently, this mean the NCP largely improved the performance of the MCMC chains, in almost all parameters of both models. It is important to point out, the result did not extend to the sub-dimensions' correlation parameters. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful of ensuring this requirement.
-
-
+Ultimately, the patterns for this set of parameters is also consistent across replicas and simulated sample sizes. Consequently, all of the above just show the NCP largely improved the performance of the MCMC chains under our implementation, for all models and almost all of the parameters. It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful of ensuring this requirement.
 
 \subsection{Recovery capacity}
 
@@ -347,4 +351,44 @@ So far we have only assessed specific replicas of the FOLV model, with a simulat
 
 \subsection{Time}
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlrrrr}
+		\hline
+		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time } \\ 
+		\cmidrule(rl){4-6} 
+		& Parametrization & Sample & mean & min & max \\ 
+		\hline\hline
+		1 & CP & 100 & 288.23 & 113.26 & 453.67 \\ 
+		2 & CP & 250 & 470.85 & 335.86 & 994.39 \\ 
+		3 & CP & 500 & 1149.25 & 1032.27 & 1351.92 \\ 
+		4 & NCP & 100 & 116.49 & 104.35 & 133.99 \\ 
+		5 & NCP & 250 & 430.86 & 406.58 & 503.91 \\ 
+		6 & NCP & 500 & 1342.93 & 1207.00 & 1717.22 \\
+		\hline
+	\end{tabular}
+	\caption[FOLV running time statistics.]%
+	{FOLV running time statistics.} 
+	\label{tab:FOLV_time}
+\end{table}
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlrrrr}
+		\hline
+		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time } \\ 
+		\cmidrule(rl){4-6} 
+		& Parametrization & Sample & mean & min & max \\ 
+		\hline\hline
+		1 & CP & 100 & 242.30 & 83.54 & 513.22 \\ 
+		2 & CP & 250 & 428.00 & 313.32 & 689.50 \\ 
+		3 & CP & 500 & 968.54 & 867.03 & 1183.53 \\ 
+		4 & NCP & 100 & 112.33 & 97.27 & 136.72 \\ 
+		5 & NCP & 250 & 355.01 & 311.75 & 407.40 \\ 
+		6 & NCP & 500 & 994.65 & 802.05 & 1095.33 \\ 
+		\hline
+	\end{tabular}
+	\caption[SOLV running time statistics.]%
+	{SOLV running time statistics.} 
+	\label{tab:SOLV_time}
+\end{table}
