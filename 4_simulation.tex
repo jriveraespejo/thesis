@@ -20,16 +20,16 @@ First, the author used three different samples sizes to generate the data under 
 
 Second, as expected, the author used two parametrization of the models: CP and NCP. To the author's knowledge, the IRT literature has not evaluated the change of posterior sampling geometries, as an alternative to improve the performance of the bayesian implementation of said models. This study is set to fill in part of this gap.
 
-Third, the author evaluated the performance, recovery capacity and retrodictive accuracy of a first-order and second-order latent variable models (FOLV and SOLV, respectively). The decision was based on the literature of Confirmatory Factor Analysis (CFA), where before fitting a SOLV model (figure \ref{fig:SOLV_model}), the researcher need to asses if the correlation structure at the first level of the FOLV model (figure \ref{fig:FOLV_model}) justifies the decision.
+Third, the author evaluated the performance, recovery capacity and retrodictive accuracy of a first- and second-order latent variable models (FOLV and SOLV, respectively). The decision was based on the literature of Confirmatory Factor Analysis (CFA), where before fitting a SOLV model (figure \ref{fig:SOLV_model}), the researcher need to asses if the correlation structure at the first level of the FOLV model (figure \ref{fig:FOLV_model}) justifies the decision.
 
-Therefore, ten ($10$) data sets were generated for each study condition, following the algorithm in section \ref{sect:algorithm}. Each data set resembled responses to $25$ binary scored items, conforming to the SOLV model defined in figure \ref{fig:SOLV_model}. The model was motivated by the hypothesized structure for the reading comprehension sub-test, from the Peruvian public teaching career national assessment (see chapter \ref{chap:application}). The latent structure, regression parameters, and loadings remained unchanged throughout the simulation replicas, to reduce experimental error \cite{Kieftenbeld_et_al_2012}. 
+Therefore, ten ($10$) data sets were generated for each study condition, following the algorithm in section \ref{sect:algorithm}. Each data set resembled responses to $25$ binary scored items, conforming to the SOLV model defined in figure \ref{fig:SOLV_model}. The model was motivated by the hypothesized structure of the reading comprehension sub-test, from the Peruvian public teaching career national assessment (see chapter \ref{chap:application}). The latent structure, regression parameters, and loadings remained unchanged throughout the simulation replicas, to reduce experimental error \cite{Kieftenbeld_et_al_2012}. 
 %
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{4_FOLV_dag}
 	%
-	\caption[Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV).]%
-	{Directed Acyclig Graph (DAG). First Order Latent Variables model (FOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
+	\caption[Directed Acyclig Graph (DAG). First-order latent variable model (FOLV).]%
+	{Directed Acyclig Graph (DAG). First-order latent variable model (FOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large squares represent nesting in specific units.}
 	\label{fig:FOLV_model}
 \end{figure}
 %
@@ -37,8 +37,8 @@ Therefore, ten ($10$) data sets were generated for each study condition, followi
 	\centering
 	\includegraphics[width=0.8\linewidth]{4_SOLV_dag}
 	%
-	\caption[Directed Acyclic Graph (DAG). Second Order Latent Variables model (SOLV).]%
-	{Directed Acyclig Graph (DAG). Second Order Latent Variables model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large Squares represent nesting in specific units.}
+	\caption[Directed Acyclic Graph (DAG). Second-order latent variable model (SOLV).]%
+	{Directed Acyclig Graph (DAG). Second-order latent variable model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large squares represent nesting in specific units.}
 	\label{fig:SOLV_model}
 \end{figure}
 
@@ -46,13 +46,13 @@ Therefore, ten ($10$) data sets were generated for each study condition, followi
 
 \section{Algorithm} \label{sect:algorithm}
 
-Each data replication was simulated following a six-step procedure. First, the author randomly simulated a collection of pseudo-covariates $\mathbf{W}_{\theta} = [ W_{1}, W_{2}, W_{3}, W_{4} ]$, motivated by a similar information set present in the reading comprehension sub-test. The generated covariates were: (i) a binary ``gender" variable ($W_{1}$), describing males and females, (ii) an integer ``age" variable ($W_{2}$) with range $[30, 65]$, the latter corresponding to the age of retirement, (iii) a three-level categorical ``education" variable ($W_{3}$), indicating the type of education the individual received: institute only, university only, or both; and finally (iv) a four-level categorical ``experience" variable ($W_{4}$), denoting the individual's years of work experience, where the higher the category, the higher the years of experience. Associated with these, the author defined their regression parameters $\mathbf{\Gamma}_{\theta} = [\Gamma_{0}, \Gamma_{1}, \Gamma_{2}, \Gamma_{3}, \Gamma_{4}]$ where: (i) $\Gamma_{0} = 0$, indicating the absence of an intercept; (ii) $\Gamma_{1} = [\gamma_{m}, \gamma_{f}] = [0, 1]$, for males and females, respectively; (iii) $\Gamma_{2} = -0.01$, indicating the individuals loose ability with age, in a linear manner; (iv) $\Gamma_{3} = [\gamma_{io}, \gamma_{uo}, \gamma_{b}] = [-0.5, 0.5, 0]$, assuming individuals with only university degree have better ability levels, followed by individuals with both educations, and individuals with only institute degrees; and lastly (v) $\Gamma_{4} = [\gamma_{0y}, \gamma_{5y}, \gamma_{10y}, \gamma_{11+y}] = [-0.5, 0, 0.35, 0.5]$, implying experience has decreasing returns on abilities.
+Each data replication was simulated following a six-step procedure. First, the author randomly simulated a collection of pseudo-covariates $\mathbf{W}_{\theta} = [ W_{1}, W_{2}, W_{3}, W_{4} ]$, motivated by a similar information set present in the reading comprehension sub-test. The generated covariates were: (i) a binary ``gender" variable ($W_{1}$), describing males and females, (ii) an integer ``age" variable ($W_{2}$) with range $[30, 65]$, the latter corresponding to the age of retirement, (iii) a three-level categorical ``education" variable ($W_{3}$), indicating the type of education the individual received: institute only, university only, or both; and finally (iv) a four-level categorical ``experience" variable ($W_{4}$), denoting the individual's years of work experience, where the higher the category, the higher the years of experience. Associated with these, the author defined their regression parameters $\mathbf{\Gamma}_{\theta} = [\Gamma_{0}, \Gamma_{1}, \Gamma_{2}, \Gamma_{3}, \Gamma_{4}]$ where: (i) $\Gamma_{0} = 0$, indicating the absence of an intercept; (ii) $\Gamma_{1} = [\gamma_{m}, \gamma_{f}] = [0, 0.5]$, for males and females, respectively; (iii) $\Gamma_{2} = -0.02$, indicating the individuals loose ability with age, in a linear manner; (iv) $\Gamma_{3} = [\gamma_{io}, \gamma_{uo}, \gamma_{b}] = [-0.5, 0.5, 0]$, assuming individuals with only university degree have better ability levels, followed by individuals with both educations, and individuals with only institute degrees; and lastly (v) $\Gamma_{4} = [\gamma_{0y}, \gamma_{5y}, \gamma_{10y}, \gamma_{11+y}] = [-0.5, 0, 0.35, 0.5]$, implying experience has decreasing returns on abilities.
 
-Second, the study simulated the second- and first-order latent variables, corresponding to the reading comprehension ability and its three sub-dimensions: literal, inferential and reflective. Reading comprehension ($\theta^{(3)}_{j}$) was generated from a normal distribution $N( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} )$, with $\mu^{(3)}_{j} = \pmb{\Gamma}_{\theta} \; \mathbf{W}_{\theta}$, i.e. the linear combination of the simulated covariates and its corresponding regression parameters, and $\sigma^{(3)}_{\theta}=0.5$. On the other hand, the three sub-dimensions were generated from a multivariate normal distribution $MVN( \pmb{\mu}^{(2)}_{j} , \pmb{\Sigma}^{(2)})$, with $\pmb{\mu}^{(2)}_{j} = [\mu^{(2)}_{j1}, \mu^{(2)}_{j2}, \mu^{(2)}_{j3}] = [\lambda^{(2)}_{1} \theta^{(3)}_{j}, \; \lambda^{(2)}_{2} \theta^{(3)}_{j}, \; \lambda^{(2)}_{3} \theta^{(3)}_{j} ]$, and $\pmb{\Sigma}^{(2)} = \mathbf{S}^{(2)} \cdot \mathbf{R}^{(2)} \cdot \mathbf{S}^{(2)}$. In order to ensure the FOLV model in figure \ref{fig:FOLV_model} lead us to the SOLV in figure \ref{fig:SOLV_model}, the author assumed loadings $\pmb{\lambda}^{(2)} = [\lambda^{(2)}_{1}, \lambda^{(2)}_{2}, \lambda^{(2)}_{3}] = [0.95, 0.95, 0.95]$. Using Wright's tracing rules \cite{Beaujean_2014}, the latter implies the sub-dimension would have an approximate unconditional correlation of $0.95 \times 0.94 = 0.9025$. Lastly, $\mathbf{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I}$, i.e. a diagonal standard deviation matrix with $\pmb{\sigma}^{(2)}_{\theta} = [0.5, 0.5, 0.5]$; whereas $\mathbf{R}^{(2)} = \mathbf{I}$, i.e. an identity correlation matrix, implying the sub-dimensions are independent after accounting reading comprehension.
+Second, the study simulated the second- and first-order latent variables, corresponding to the reading comprehension ability and its three sub-dimensions: literal, inferential and reflective. Reading comprehension ($\theta^{(3)}_{j}$) was generated from a normal distribution $N( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} )$, with $\mu^{(3)}_{j} = \pmb{\Gamma}_{\theta} \; \mathbf{W}_{\theta}$, i.e. the linear combination of the simulated covariates and its corresponding regression parameters, and $\sigma^{(3)}_{\theta}=0.5$. On the other hand, the three sub-dimensions were generated from a multivariate normal distribution $MVN( \pmb{\mu}^{(2)}_{j} , \pmb{\Sigma}^{(2)})$, with $\pmb{\mu}^{(2)}_{j} = [\mu^{(2)}_{j1}, \mu^{(2)}_{j2}, \mu^{(2)}_{j3}] = [\lambda^{(2)}_{1} \theta^{(3)}_{j}, \; \lambda^{(2)}_{2} \theta^{(3)}_{j}, \; \lambda^{(2)}_{3} \theta^{(3)}_{j} ]$, and $\pmb{\Sigma}^{(2)} = \mathbf{S}^{(2)} \cdot \mathbf{R}^{(2)} \cdot \mathbf{S}^{(2)}$. In order to ensure the FOLV model in figure \ref{fig:FOLV_model} lead us to the SOLV in figure \ref{fig:SOLV_model}, the author assumed loadings $\pmb{\lambda}^{(2)} = [\lambda^{(2)}_{1}, \lambda^{(2)}_{2}, \lambda^{(2)}_{3}] = [0.95, 0.95, 0.95]$. Using Wright's tracing rules \cite{Beaujean_2014}, the latter implies the sub-dimension would have an approximate unconditional correlation of $0.95 \times 0.95 = 0.9025$. Lastly, $\mathbf{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I}$, i.e. a diagonal standard deviation matrix with $\pmb{\sigma}^{(2)}_{\theta} = [0.5, 0.5, 0.5]$; whereas $\mathbf{R}^{(2)} = \mathbf{I}$, i.e. an identity correlation matrix, implying the sub-dimensions are independent after accounting reading comprehension.
 
 Third, the author defined five ($5$) common stimulus or texts for the items, where the mean difficulty for the texts $\pmb{\eta}^{(3)} = [\eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5}] = [-1.50, -0.75, 0, 0.75, 1.50]$; whereas the deviation from said mean difficulties were $\sigma^{(3)}_{k} = 0.5$ for all texts. 
 
-Fourth, $25$ items were randomly generated from independent normal distributions $N( \mu^{(2)}_{k}, \sigma^{(2)}_{k} ) $, with $\mu^{(2)}_{k} = \pmb{\eta}^{(3)} \pmb{\alpha}^{(2)} \mathbf{A}$ and $\sigma^{(2)}_{k} = \sigma^{(3)}_{k}$; where $\pmb{\alpha}^{(2)} = \mathbf{1}$, indicating the difficulty of the common stimulus directly explained the difficulty of the items, and $\mathbf{A}$ was a block design matrix that maps the items to its corresponding passage, defined in the previous step. Lastly, the dimensions the items were designed to measure were also generated at random.
+Fourth, $25$ items were randomly generated from independent normal distributions $N( \mu^{(2)}_{k}, \sigma^{(2)}_{k} ) $, with $\mu^{(2)}_{k} = \pmb{\eta}^{(3)} \pmb{\alpha}^{(2)} \mathbf{A}$ and $\sigma^{(2)}_{k} = \sigma^{(3)}_{k}$; where $\pmb{\alpha}^{(2)} = \mathbf{1}$, indicating the difficulty of the common stimulus directly explained the difficulty of the items, and $\mathbf{A}$ was a block design matrix that maps the items to its corresponding passage, defined in the previous step. Lastly, the items' measured dimensions were also generated at random.
 
 Fifth, the author calculated the linear predictor $v_{jkd}$ and probability of endorsing an item $\pi_{jkd}$, for each individual $j$ on item $k$ (belonging to dimension $d$), according to equations (\ref{eq:linear_predictor2}), (\ref{eq:systematic}), and (\ref{eq:response_dich1}), respectively; where the probability was calculated using the logistic inverse-link function.
 	
@@ -115,17 +115,17 @@ where $\boldsymbol{\Sigma}^{(2)}$ is defined by:
 	%
 \end{align}
 
-while $\boldsymbol{\mu}^{(2)}_{j}$ can be defined in two ways, depending on the model we are fitting. For the FOLV model depicted in figure \ref{fig:FOLV_model}, the mean vector would be defined as follows:
+while $\boldsymbol{\mu}^{(2)}_{j}$ can be defined in two ways, depending on the model we are fitting. For the FOLV model depicted in figure \ref{fig:FOLV_model}, the mean vector is defined as follows:
 %
 \begin{align}
 	%
 	\boldsymbol{\mu}^{(2)}_{j} &= \left[ \mu^{(2)}_{j1}, \; \mu^{(2)}_{j2}, \mu^{(2)}_{j3} \right] \\
 	%
-	\mu^{(2)}_{jd} &= \beta_{G} G_{j} + \beta_{A} (A_{j} - A_{\text{min}}) + \beta_{E} E_{j} + \beta_{X} X_{j}
+	\mu^{(2)}_{jd} &= \Gamma_{0} + \Gamma_{1} W_{1j} + \Gamma_{2} (W_{2j} - W_{2\text{min}}) + \Gamma_{3} W_{3j} + \Gamma_{4} W_{4j}
 	%
 \end{align}
 
-notice the regression parameters are not dimension specific. On the other hand, for the SOLV model depicted in figure \ref{fig:SOLV_model}, $\boldsymbol{\mu}^{(2)}_{j}$ would be defined by:
+where $\Gamma_{p}$ and $W_{jp}$ are defined as in section \ref{sect:algorithm}. Additionally, notice the regression parameters are not dimension specific. On the other hand, for the SOLV model depicted in figure \ref{fig:SOLV_model}, $\boldsymbol{\mu}^{(2)}_{j}$ is defined by:
 %
 \begin{align}
 	%
@@ -143,10 +143,10 @@ where $d$ denotes the individual's dimension. Lastly, because the SOLV contempla
 	%
 	\theta^{(3)}_{j} &\sim \text{Normal} \left( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} \right) \\
 	%
-	\mu^{(3)}_{j} &= \beta_{G} G_{j} + \beta_{A} (A_{j} - A_{\text{min}}) + \beta_{E} E_{j} + \beta_{X} X_{j}
+	\mu^{(3)}_{j} &=  \Gamma_{0} + \Gamma_{1} W_{1j} + \Gamma_{2} (W_{2j} - W_{2\text{min}}) + \Gamma_{3} W_{3j} + \Gamma_{4} W_{4j}
 \end{align}
 
-Third, turning now our attention to the items' parameters $\eta^{(2)}_{k}$, for both models we have:
+Third, turning now our attention to the items' parameters $\eta^{(2)}_{k}$, both models have:
 %
 \begin{align}
 	%
@@ -158,7 +158,7 @@ Third, turning now our attention to the items' parameters $\eta^{(2)}_{k}$, for 
 	%
 \end{align}
 
-where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5} ]$ represent the texts difficulties, $\pmb{\sigma}^{(3)} = [ \sigma^{(3)}_{1}, \sigma^{(3)}_{2}, \sigma^{(3)}_{3}, \sigma^{(3)}_{4}, \sigma^{(3)}_{5} ]$ the text deviations from such difficulties; and $\mathbf{A}$ is the block matrix that maps the items with its corresponding passage. In addition, $\eta^{(3)}_{k}$ and $\sigma^{(3)}_{k}$ are distributed as:
+where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5} ]$ represent the texts difficulties, $\pmb{\sigma}^{(3)} = [ \sigma^{(3)}_{1}, \sigma^{(3)}_{2}, \sigma^{(3)}_{3}, \sigma^{(3)}_{4}, \sigma^{(3)}_{5} ]$ the text deviations from such difficulties; and $\mathbf{A}$ is the block design matrix that maps the items with its corresponding passage. In addition, $\eta^{(3)}_{k}$ and $\sigma^{(3)}_{k}$ are distributed as:
 %
 \begin{align}
 	%
@@ -183,7 +183,7 @@ Fourth, we declared all the hyper-priors required:
 
 Finally, in order to fully specify the model and provide a scale for the latent variables, the current research decided to set the scale of the higher order dimension and sub-dimensions to one, i.e. $\sigma^{(3)}_{\theta} = 1$, and $\mathbf{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I}$ with $\pmb{\sigma}^{(2)}_{\theta} = [1, 1, 1]^{T}$, commonly know as the unit variance identification scheme (UVI). Moreover, to identify the texts' and items' parameters we set $\mu_{\eta} = 0$, $\sigma_{\eta}=1$, $\delta_{\eta}=2$.
 
-Notice we need to set the scales for all the dimensions equal to one, because otherwise the latent structure would not be identified. At the level of the FOLV (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available, corresponding to the variances and covariances of the FOLV. The information then will need to estimate $10$ parameters, i.e. $3$ loadings, $4$ variances corresponding to the FOLV and SOLV, and $3$ correlations among sub-dimensions. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (loadings and correlations). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
+Notice we need to set the scales for all the individuals' dimensions equal to one, because otherwise the latent structure would not be identified. At the level of the FOLV (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available, corresponding to the variances and covariances of the FOLV. The information then will need to estimate $10$ parameters, i.e. $3$ loadings, $4$ variances corresponding to the FOLV and SOLV, and $3$ correlations among sub-dimensions. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (loadings and correlations). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
 
 
 \begin{comment}
@@ -206,7 +206,7 @@ First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_a
 
 \noindent where the linear predictor $v_{jkd}$ contains the items' dimensions $\eta^{(m)}_{k}$ and the individuals' abilities $\theta^{(l)}_{jd}$, as defined in equation \ref{eq:linear_predictor1}. As previously mentioned, the ICC of our current implementation can be considered as the multilevel-multidimensional extension to the Rasch model's ICC.
 
-On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM will be defined as in its Rasch counterpart, in the following form:
+On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM will be defined the Rasch counterpart, in the following form:
 %
 \begin{equation} \label{eq:IIF}
 	\begin{split}
@@ -214,14 +214,14 @@ On the other hand, the same authors defined the IIF as a function that measured 
 	\end{split}	
 \end{equation}
 
-Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{fig:FOLV_model}), resulting from the assumptions integrated by the priors detailed in the previous section. From panel (A), we can notice the difficulty of the items match a wide range of the individuals' abilities (see multiple black solid lines). This means that the model expect items' difficulties to be in any part of the continuous range of abilities, with no restriction. Furthermore, the latter imply the priors allow the model to obtain information about individuals, located in the full significant range of the abilities, as seen in panel (B) of the same figure. All of this just means that no unintended assumption has ``creep" into the model, at least from the IRT perspective. A similar result can be seen for the SOLV (figure \ref{fig:SOLV_ICC_prior}, appendix).
+Figure \ref{fig:FOLV_ICC_prior} shows the ICC and IIF for the FOLV (figure \ref{fig:FOLV_model}), resulting from the assumptions integrated by the priors detailed in the previous section. From panel (A), we can notice the difficulty of the items match a wide range of the individuals' abilities (see multiple black solid lines). This means that the model expect items' difficulties to be in any part of the continuous range of abilities, with no restriction. Furthermore, the latter imply, the priors allow the model to obtain information about individuals located in the full significant range of the abilities, as seen in panel (B) of the same figure. All of this just means that no unintended assumption has ``creep" into the model, at least from the IRT perspective. A similar result can be seen for the SOLV (figure \ref{fig:SOLV_ICC_prior}, appendix).
 %
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_ICC_prior}
 	%
-	\caption[First-Order latent variable model (FOLV). Item Characteristic Curve (ICC) and Item Information Function (IIF).]%
-	{First-Order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
+	\caption[First-order latent variable model (FOLV). Item Characteristic Curve (ICC) and Item Information Function (IIF).]%
+	{First-order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
 	\label{fig:FOLV_ICC_prior}
 \end{figure}
 
@@ -231,8 +231,8 @@ Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we not
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_HitRate1}
 	%
-	\caption[First-Order latent variable model (FOLV). Hit rate per dimensions of interest.]%
-	{First-Order latent variable model (FOLV). Aggregated endorsement rate per: (A) individuals, (B) items, (C) text or passage, and (D) measured dimension.}
+	\caption[First-order latent variable model (FOLV). Hit rate per dimensions of interest.]%
+	{First-order latent variable model (FOLV). Aggregated endorsement rate per: (A) individuals, (B) items, (C) text or passage, and (D) measured dimension.}
 	\label{fig:FOLV_hitrate1}
 \end{figure}
 %
@@ -290,17 +290,17 @@ Finally, since IRT models are known to be invariant to the shift of the linear p
 
 First, the CP and NCP chain performance for the texts' mean difficulties is reported in figures \ref{fig:FOLV_CE_chains1} and \ref{fig:FOLV_NC_chains1}, respectively. The figures correspond to replica number two of the FOLV model, with a simulated sample size of $100$. 
 
-From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, hinting a lack of good mixing, e.g. the top trace and trank plots show chains that are ``stuck" in specific areas of the distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, again indicating a serious lack of good mixing. All of this is further confirmed by panels (A) and (C) of figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
+From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, hinting a lack of good mixing, e.g. the top trace and trank plots show chains that are ``stuck" in specific areas of the distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, again indicating a serious lack of good mixing. All of this is further confirmed by panels (A) and (C) from figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
 
 On the contrary, the parameters from the NCP seem to achieve ergodicity. The trace plots show chains that seem to be stationary and convergent. The trank plots show the rapid exploration of the full range of posterior distribution. And finally, the ACF plots show the iterations were less auto-correlated. Again, this is further confirmed by figure \ref{fig:FOLV_stat1}, where the NCP show greater \texttt{n\_eff} and appropriate \texttt{Rhat} values, versus the CP.
 
-On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show an \texttt{Rhat}$<1.05$, the CP effectively has sample sizes in a larger range than the NCP, i.e. $[35, 2734]$ and $[897, 2587]$, respectively. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
+On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show parameter chains with \texttt{Rhat}$<1.05$, effectively the CP has sample sizes in a larger range than the NCP, i.e. $[35, 2734]$ and $[897, 2587]$, respectively. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
 
 Furthermore, figures \ref{fig:FOLV_CE_chains3} and \ref{fig:FOLV_NC_chains3} (appendix) show the chain performance for the item difficulties under the CP and NCP, respectively. The trace, trank and ACF plots show a similar pattern as the one outlined for the difficulty of the texts, albeit more extreme. The CP chains did not achieved stationarity, convergence, nor good mixing; whereas it seems the NCP does. This is further confirmed by panels (B) and (D) of figure \ref{fig:FOLV_stat1}, where one can see the NCP has significantly higher effective sample sizes and \texttt{Rhat}$<1.05$, in contrast to the CP.
 
-Second, the chain performance for the reading comprehension sub-dimensions, under the CP are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6}. The figures correspond to replica number six of the FOLV model, with a simulated sample size of $100$. The chains also show a lack of ergodicity similar to the texts' difficulties, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in chains). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has effective sample sizes in the range of $[8, 527]$, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6} and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
+Second, the CP chain performance for the reading comprehension sub-dimensions are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6}. The figures correspond to replica number six of the FOLV model, with a simulated sample size of $100$. The chains also show a lack of ergodicity similar to the texts' difficulties, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in chains). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has effective sample sizes in the range of $[8, 527]$, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6} and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
 
-Third, similar visualizations for the CP and NCP regression parameters are shown in figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. With a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in specific part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
+Third, similar visualizations for the CP and NCP regression parameters are shown in figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. By a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in specific part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
 %
 \begin{figure}[H]
 	\centering
@@ -311,7 +311,7 @@ Third, similar visualizations for the CP and NCP regression parameters are shown
 	\label{fig:FOLV_CE_chains1}
 \end{figure}
 
-Lastly, the performance assessment plots for the FOLV sub-dimensions' correlation are shown in figures \ref{fig:FOLV_CE_chains8} and \ref{fig:FOLV_NC_chains8}. In both parametrizations, we observe the correlations seem to achieve stationarity and convergence. However, it also seems they do not achieve good mixing, i.e. the MCMC procedure does not manage to make a proper investigation of the posterior. This is further confirmed by panels (B) and (D) from figure \ref{fig:FOLV_stat2}, where we see observe the parameters' chains remain below the \texttt{Rhat} recommended threshold, indicating convergence. Although, the effective sample sizes were low, in the range of $[249, 1311]$ for CP, and $[285, 1283]$ for NCP, indicating highly auto-correlated iterations. 
+Lastly, the performance assessment plots for the FOLV sub-dimensions' correlation are shown in figures \ref{fig:FOLV_CE_chains8} and \ref{fig:FOLV_NC_chains8}. In both parametrizations, we observe the correlations seem to achieve stationarity and convergence. However, it also seems they do not achieve good mixing, i.e. the MCMC procedure does not manage to make a proper investigation of the posterior. This is further confirmed by panels (B) and (D) from figure \ref{fig:FOLV_stat2}, where we see observe the parameters' chains remain below the \texttt{Rhat} recommended threshold, indicating convergence; although, the effective sample sizes were low, indicating highly auto-correlated iterations (the CP and NCP had ranges of $[249, 1311]$ and $[285, 1283]$, respectively). 
 %
 \begin{figure}[H]
 	\centering
@@ -321,6 +321,8 @@ Lastly, the performance assessment plots for the FOLV sub-dimensions' correlatio
 	{First-Order latent variable model (FOLV). Sample size $100$, replica number $2$. Non-centered parametrization. Mean difficulty per text: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
 	\label{fig:FOLV_NC_chains1}
 \end{figure}
+
+So far we have only assessed specific replicas of the FOLV model, with a simulated sample size of $100$, as the previous paragraphs and title of the figures have indicated. However, after the inspection of the trace, trank, ACF and comparison plots\footnote{To inspect the remaining trace, trank, ACF, and comparison plots follow the github accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, we notice the preceding patterns of stationarity, convergence and mixing extends to all replicas and simulated sample sizes in the FOLV model. Furthermore, the aforementioned patterns were also observed in the similar parameter set of the SOLV model. 
 %
 \begin{figure}[h]
 	\centering
@@ -337,58 +339,182 @@ Lastly, the performance assessment plots for the FOLV sub-dimensions' correlatio
 	\label{fig:FOLV_stat1}
 \end{figure}
 
-So far we have only assessed specific replicas of the FOLV model, with a simulated sample size of $100$, as the previous paragraphs and title of the figures have indicated. However, after the inspection of the trace, trank, ACF and comparison plots\footnote{To inspect the remaining trace, trank, ACF, and comparison plots follow the github accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, we notice the preceding patterns of stationarity, convergence and mixing extends to all replicas and simulated sample sizes in the FOLV model. Furthermore, the aforementioned patterns were also observed in the similar parameter set of the SOLV model. 
-
-Additionally, for the remaining parameters in the SOLV, i.e. the loadings and reading comprehension higher-order latent variables, we continue observing the recurrent pattern between CP and NCP, detailed in previous paragraphs. Figures \ref{fig:SOLV_CE_chains1} and \ref{fig:SOLV_NC_chains1} show the NCP loadings have chains that seem slightly more stationary, convergent, and well mixed than its CP counterpart. This is further confirmed by panels (B) and (D) of figure \ref{fig:SOLV_stat1}. In a similar fashion, figures \ref{fig:SOLV_CE_chains3} and \ref{fig:SOLV_NC_chains3} show the higher-order latent variable is significantly more ergodic under the NCP than the CP, and figure \ref{fig:SOLV_stat2} confirms the hypothesis, by showing it has largely better effective sample sizes, with \texttt{Rhat} values always close to one.
+Additionally, for the remaining parameters in the SOLV, i.e. the loadings and reading comprehension higher-order latent variables, we continue observing the recurrent pattern between CP and NCP, detailed in previous paragraphs. Figures \ref{fig:SOLV_CE_chains1} and \ref{fig:SOLV_NC_chains1} show the NCP loadings have chains that seem slightly more stationary, convergent, and well mixed than its CP counterpart. This is further confirmed by panels (B) and (D) from figure \ref{fig:SOLV_stat1}. In a similar fashion, figures \ref{fig:SOLV_CE_chains3} and \ref{fig:SOLV_NC_chains3} show the higher-order latent variable is significantly more ergodic under the NCP than the CP, and figure \ref{fig:SOLV_stat2} confirms the hypothesis, by showing it has larger effective sample sizes, with \texttt{Rhat} values always close to one.
 
 Finally, panel (A) of figure \ref{fig:SOLV_stat3} show the pattern of ergodicity for the regression parameters is slightly improved under the SOLV\footnote{For the trace, trank and ACF plots refer to the corresponding accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, i.e. the chains have larger effective sample sizes under the NCP versus the CP, indicating less correlation among the iterations, and therefore, better mixing. The result appear to be sensible, if we consider that the SOLV model was the data generating model.
 
 Ultimately, the patterns for this set of parameters is also consistent across replicas and simulated sample sizes. Consequently, all of the above just show the NCP largely improved the performance of the MCMC chains under our implementation, for all models and almost all of the parameters. It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful of ensuring this requirement.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Recovery capacity}
+
+It is surprising that consistently we observe that CP and NCP have a similar recovery capacity. This could be due to two factors, because we are using HMC and/or regularizing priors. We have seen the benefits of both strategies in the previous chapter separately, so it is sensible to assume that for the case of the CP the factor that are playing a roll in the recovery capacity are the HMC and regularizing priors, as it is clear for the performance assessment that the chains under CP did not achieved ergodicity.
+
+Given the CP did not achieve ergodicity, the ability to make valid inferences under such parametrization get jeopardized.
+
+The larger the sample size the better we recover the contrast parameters, while no clear pattern is observed in the regression parameters.
+\ref{tab:SOLV_RMSE_regression}, \ref{tab:SOLV_RMSE_contrasts}
+
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlllrrrr}		
+		\hline
+		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){6-8}
+		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
+		\hline\hline
+		1 & CP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.097 & 0.070 & 0.082 \\ 
+		2 & CP & \footnotesize{gender(male)} & $\Gamma_{1}[1]$ &   10 & 0.203 & 0.223 & 0.205 \\ 
+		3 & CP & \footnotesize{gender(female)} & $\Gamma_{1}[2]$ &   10 & 0.240 & 0.232 & 0.241 \\
+		4 & CP & \footnotesize{age} & $\Gamma_{2}$ &   10 & 0.008 & 0.006 & 0.003 \\ 
+		5 & CP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.249 & 0.113 & 0.119 \\ 
+		6 & CP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.127 & 0.135 & 0.115 \\ 
+		7 & CP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.157 & 0.113 & 0.110 \\ 
+		8 & CP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.119 & 0.064 & 0.102 \\ 
+		9 & CP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.157 & 0.082 & 0.082 \\ 
+		10 & CP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.163 & 0.156 & 0.071 \\ 
+		11 & CP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.148 & 0.132 & 0.100 \\ 
+		%
+		\hline
+		%
+		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.069 & 0.083 \\ 
+		13 & NCP & \footnotesize{gender(males)} & $\Gamma_{1}[1]$ &   10 & 0.199 & 0.221 & 0.200 \\ 
+		14 & NCP & \footnotesize{gender(females)} & $\Gamma_{1}[2]$ &   10 & 0.247 & 0.229 & 0.235 \\ 
+		15 & NCP & \footnotesize{age} & $\Gamma_{2}$ & 10 & 0.008 & 0.006 & 0.003 \\ 
+		16 & NCP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.232 & 0.125 & 0.118 \\ 
+		17 & NCP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.123 & 0.130 & 0.107 \\ 
+		18 & NCP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.164 & 0.126 & 0.128 \\ 
+		19 & NCP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.114 & 0.065 & 0.096 \\ 
+		20 & NCP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.155 & 0.085 & 0.076 \\ 
+		21 & NCP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.162 & 0.154 & 0.066 \\ 
+		22 & NCP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.150 & 0.133 & 0.095 \\ 
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of regression parameters.]%
+	{First-order latent variable model (FOLV). RMSE of regression parameters.} 
+	\label{tab:FOLV_RMSE_regression}
+\end{table}
+
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlllrrrr}		
+		\hline
+		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){6-8}
+		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
+		\hline\hline
+		1 & CP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.131 & 0.112 & 0.088 \\ 
+		2 & CP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.167 & 0.081 \\
+		3 & CP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.084 \\ 
+		4 & CP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.183 & 0.138 & 0.111 \\ 
+		5 & CP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.228 & 0.089 & 0.102 \\ 
+		6 & CP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.241 & 0.155 & 0.099 \\ 
+		7 & CP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.208 & 0.163 & 0.075 \\ 
+		8 & CP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.196 & 0.147 & 0.076 \\ 
+		9 & CP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.199 & 0.164 & 0.102 \\ 
+		10 & CP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.197 & 0.137 & 0.087 \\ 
+		%
+		\hline
+		%
+		11 & NCP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.134 & 0.113 & 0.088 \\ 
+		12 & NCP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.168 & 0.083 \\ 
+		13 & NCP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.083 \\ 
+		14 & NCP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.182 & 0.139 & 0.111 \\ 
+		15 & NCP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.231 & 0.090 & 0.101 \\ 
+		16 & NCP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.239 & 0.155 & 0.097 \\ 
+		17 & NCP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.201 & 0.162 & 0.074 \\ 
+		18 & NCP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.194 & 0.147 & 0.075 \\ 
+		19 & NCP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.192 & 0.163 & 0.101 \\ 
+		20 & NCP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.195 & 0.134 & 0.085 \\ 
+	\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of contrast parameters.]%
+	{First-order latent variable model (FOLV). RMSE of contrast parameters.} 
+	\label{tab:FOLV_RMSE_contrasts}
+\end{table}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rllrrrr}
+		\hline
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){5-7}
+		& Parametrization  & Parameter & replicas & 100 & 250 & 500 \\  
+		\hline\hline
+		1 & CP & $\rho_{1,2}$ &  10 & 0.704 & 0.585 & 0.606 \\ 
+		2 & CP & $\rho_{1,3}$ &  10 & 0.719 & 0.591 & 0.617 \\ 
+		3 & CP & $\rho_{2,3}$ &  10 & 0.638 & 0.623 & 0.615 \\
+		%
+		\hline
+		%
+		4 & NCP & $\rho_{1,2}$ &  10 & 0.700 & 0.585 & 0.605 \\ 
+		5 & NCP & $\rho_{1,3}$ &  10 & 0.721 & 0.591 & 0.617 \\
+		6 & NCP & $\rho_{2,3}$ &  10 & 0.636 & 0.623 & 0.615 \\ 
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.]%
+	{First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.}
+	\label{tab:FOLV_RMSE_corr}
+\end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Retrodictive accuracy}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Time}
 
+Although the assessment and comparison of the MCMC procedure's running time is not one of the main goals of the study, the researcher believes it is useful to report them, as they could serve as a benchmark of comparison for future developments of the implementation.
+
+Tables \ref{tab:FOLV_time} and \ref{tab:SOLV_time} report the MCMCM running time, under de CP and NCP, for the FOLV and SOLV model, respectively. We run $10$ replicas for each combination of model, parametrization and sample size, where each replica consisted of $3$ chains, run in parallel, with $2,000$ iterations per chain.
+
+From the tables, we can see the NCP is faster than the CP for the smallest sample sizes ($100$ and $250$).  However, the differences in running time gets smaller as the sample size increases. This is true for both type of models. Nevertheless, it is important to point out, the non-centered parametrization is more complex and requires the sampling of more parameters than the centered counterpart, which implies, the NCP improvement on the MCMC procedure does not come with a ``time" cost.
+%
 \begin{table}[H]
 	\centering
 	\begin{tabular}{rlrrrr}
 		\hline
-		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time } \\ 
+		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time (min.) } \\ 
 		\cmidrule(rl){4-6} 
 		& Parametrization & Sample & mean & min & max \\ 
 		\hline\hline
-		1 & CP & 100 & 288.23 & 113.26 & 453.67 \\ 
-		2 & CP & 250 & 470.85 & 335.86 & 994.39 \\ 
-		3 & CP & 500 & 1149.25 & 1032.27 & 1351.92 \\ 
-		4 & NCP & 100 & 116.49 & 104.35 & 133.99 \\ 
-		5 & NCP & 250 & 430.86 & 406.58 & 503.91 \\ 
-		6 & NCP & 500 & 1342.93 & 1207.00 & 1717.22 \\
+		1 & CP & 100 & 4.80 & 1.89 & 7.56 \\ 
+		2 & CP & 250 & 7.85 & 5.60 & 16.57 \\ 
+		3 & CP & 500 & 19.15 & 17.20 & 22.53 \\ 
+		4 & NCP & 100 & 1.94 & 1.74 & 2.23 \\ 
+		5 & NCP & 250 & 7.18 & 6.78 & 8.40 \\ 
+		6 & NCP & 500 & 22.38 & 20.12 & 28.62 \\
 		\hline
 	\end{tabular}
-	\caption[FOLV running time statistics.]%
-	{FOLV running time statistics.} 
+	\caption[First-order latent variable model (FOLV). Running time statistics.]%
+	{First-order latent variable model (FOLV). Running time statistics.} 
 	\label{tab:FOLV_time}
 \end{table}
-
+%
 \begin{table}[H]
 	\centering
 	\begin{tabular}{rlrrrr}
 		\hline
-		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time } \\ 
+		\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time (min.) } \\ 
 		\cmidrule(rl){4-6} 
 		& Parametrization & Sample & mean & min & max \\ 
 		\hline\hline
-		1 & CP & 100 & 242.30 & 83.54 & 513.22 \\ 
-		2 & CP & 250 & 428.00 & 313.32 & 689.50 \\ 
-		3 & CP & 500 & 968.54 & 867.03 & 1183.53 \\ 
-		4 & NCP & 100 & 112.33 & 97.27 & 136.72 \\ 
-		5 & NCP & 250 & 355.01 & 311.75 & 407.40 \\ 
-		6 & NCP & 500 & 994.65 & 802.05 & 1095.33 \\ 
+		1 & CP & 100 & 4.04 & 1.39 & 8.55 \\ 
+		2 & CP & 250 & 7.13 & 5.22 & 11.49 \\ 
+		3 & CP & 500 & 16.14 & 14.45 & 19.73 \\ 
+		4 & NCP & 100 & 1.87 & 1.62 & 2.28 \\ 
+		5 & NCP & 250 & 5.92 & 5.20 & 6.79 \\ 
+		6 & NCP & 500 & 16.58 & 13.37 & 18.26 \\
 		\hline
 	\end{tabular}
-	\caption[SOLV running time statistics.]%
-	{SOLV running time statistics.} 
+	\caption[Second-order latent variable model (SOLV). Running time statistics.]%
+	{Second-order latent variable model (SOLV). Running time statistics.} 
 	\label{tab:SOLV_time}
 \end{table}

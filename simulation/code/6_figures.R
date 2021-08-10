@@ -5,7 +5,7 @@ rm(list=ls())
 
 # load libraries
 librerias <- c('stringr','dplyr','ggplot2','ggpubr','knitr','tidyverse',
-               'reshape2','tinytex','gt','haven',
+               'reshape2','tinytex','gt','haven','xtable',
                'dagitty','ellipse','mvtnorm','MASS','splines','gtools',
                'rethinking','rstan','coda','runjags','rjags', #'loo',
                'cmdstanr','posterior','bayesplot')
@@ -496,58 +496,890 @@ dev.off()
 
 # Chapter 4 ####
 
-## 1.1 Performance ####
+## 1.1 prior elicitation ####
 
-### chains ####
+
+### 1.1.1 FOLV ####
+
+data_load = file.path(getwd(), 'data')
+file_load = file.path(getwd(), 'chains_prior')
+file_save = file.path(getwd(), 'figures2')
+
+fit_files = 'FOLV_CE_J100_l0.95_Ndata1-1.csv'
+stan_model = rstan::read_stan_csv( file.path(file_load, fit_files) )
+
+set.seed(45589)
+prior_sim = extract.samples( stan_model )
+save(prior_sim, file=file.path(file_save, 'FOLV_CE_J100_l0.95_Ndata1_sim.RData') )
+# str(prior_sim)
+
+
+
+#### a. ICC's and IIC's #####
+
+png(file.path(file_save, 'FOLV_ICC_prior.png'), 
+    units='cm', width=30, height=12, res=200)
+
+par(mfrow=c(1,2))
+
+# ICC
+ds_ICC = with(prior_sim, sim_ICC(sim_b=b_k, item_id=1) )
+ds_ICC_ave = ave_ICC(sim_b=prior_sim$b_k, item_id=1)
+ds_ICC_mar = mar_ICC(sim_ICC_object=ds_ICC)
+
+plot(NULL, xlim=c(-3,3), ylim=range( ds_ICC[,2:ncol(ds_ICC)] ),
+     xlab='ability', ylab='probability of endorsing item', main='(A)')
+for(s in 1:1000){ 
+  lines(ds_ICC$theta, ds_ICC[,s+1], col=col.alpha('black',0.05)) 
+}
+lines( ds_ICC_ave, col='blue', lwd=2 )
+lines( ds_ICC_mar, col='red', lwd=2, lty=2 ) 
+legend('topleft', c("Simulated", "Average", 'Marginal'),
+       col = c('black','blue','red'), lty=c(1,1,2), bty="n")
+
+
+# IIF
+ds_IIF = with(prior_sim, sim_IIF(sim_b=b_k, item_id=1) )
+ds_IIF_ave = ave_IIF(sim_b=prior_sim$b_k, item_id=1)
+ds_IIF_mar = mar_IIF(sim_IIF_object=ds_IIF)
+
+plot(NULL, xlim=c(-3,3), ylim=range(ds_IIF[,2:ncol(ds_IIF)]),
+     xlab='ability', ylab='information', main='(B)')
+for(s in 1:1000){ 
+  lines(ds_IIF$theta, ds_IIF[,s+1], col=col.alpha('black',0.05)) 
+}
+lines( ds_IIF_ave, col='blue', lwd=2 )
+lines( ds_IIF_mar, col='red', lwd=2, lty=2 ) 
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+#### b. hit rates #####
+
+data_load = file.path(getwd(), 'data')
+file_load = file.path(getwd(), 'chains_prior')
+file_save = file.path(getwd(), 'figures2')
+
+load(file.path(data_load, 'ListFormat_J100_l0.95_Ndata5.RData'))
+
+ds_prior = sim_hit_rate(d_true=data_post, d_sim=prior_sim)
+# names(ds_prior)
+
+
+
+# prior hit rates
+png(file.path(file_save, 'FOLV_HitRate1.png'), 
+    units='cm', width=30, height=20, res=200)
+
+par(mfrow=c(2,2))
+
+# a. individuals
+plot(NULL, xlim=c(0, max(ds_prior$IDind$IDj)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(A)',
+     xlab='Individual ID', ylab='Proportion of correct items')
+axis(side=1, at=seq(0, max(ds_prior$IDind$IDj), by=20) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDind[,c(1,s)], col=col.alpha('black', 0.005), pch=19) 
+}
+
+
+# b. items
+plot(NULL, xlim=c(0, max(ds_prior$IDitem$IDk)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(B)',
+     xlab='Item ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDitem$IDk), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+abline(v=c(1:4)*5+0.5, col=col.alpha('black', 0.5), lty=2)
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDitem[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+
+# c. text
+plot(NULL, xlim=c(0, max(ds_prior$IDtext$IDl)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(C)',
+     xlab='Text ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDtext$IDl), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDtext[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+
+# d. dimensions
+plot(NULL, xlim=c(0, max(ds_prior$IDdim$IDd)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(D)',
+     xlab='Dimension ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDdim$IDd), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDdim[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+# prior hit rates per variable
+ds_prior = merge(ds_prior$IDind, data.frame( data_post[c('IDind','G','A','E','X')] ), 
+                 by.x='IDj', by.y='IDind', all.x=T, all.y=F)
+
+png(file.path(file_save, 'FOLV_HitRate2.png'), 
+    units='cm', width=30, height=20, res=200)
+
+par(mfrow=c(2,2))
+
+# gender
+plot(NULL, xlim=with(ds_prior, c(min(G)-1, max(G)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(A)')
+axis(side=1, at=with(ds_prior, min(G):max(G)), labels=c('male','female') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('G', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# age
+plot(NULL, xlim=with(ds_prior, c(min(A)-1, max(A)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(B)')
+axis(side=1, at=with(ds_prior, min(A):max(A)) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:500)+1 ){
+  points(ds_prior[,c('A', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# edu
+plot(NULL, xlim=with(ds_prior, c(min(E)-1, max(E)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(C)')
+axis(side=1, at=with(ds_prior, min(E):max(E)), labels=c('inst','uni','both') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('E', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# exp
+plot(NULL, xlim=with(ds_prior, c(min(X)-1, max(X)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(D)')
+axis(side=1, at=with(ds_prior, min(X):max(X)), 
+     labels=c('0y','1-5y','6-10y','+10y') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('X', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+### 1.1.2 SOLV ####
+
+data_load = file.path(getwd(), 'data')
+file_load = file.path(getwd(), 'chains_prior')
+file_save = file.path(getwd(), 'figures2')
+
+fit_files = 'SOLV_CE_J100_l0.95_Ndata1-1.csv'
+stan_model = rstan::read_stan_csv( file.path(file_load, fit_files) )
+
+set.seed(45589)
+prior_sim = extract.samples( stan_model )
+save(prior_sim, file=file.path(file_save, 'SOLV_CE_J100_l0.95_Ndata1_sim.RData') )
+# str(prior_sim)
+
+
+
+#### a. ICC's and IIC's #####
+
+png(file.path(file_save, 'SOLV_ICC_prior.png'), 
+    units='cm', width=30, height=12, res=200)
+
+par(mfrow=c(1,2))
+
+# ICC
+ds_ICC = with(prior_sim, sim_ICC(sim_b=b_k, item_id=1) )
+ds_ICC_ave = ave_ICC(sim_b=prior_sim$b_k, item_id=1)
+ds_ICC_mar = mar_ICC(sim_ICC_object=ds_ICC)
+
+plot(NULL, xlim=c(-3,3), ylim=range( ds_ICC[,2:ncol(ds_ICC)] ),
+     xlab='ability', ylab='probability of endorsing item', main='(A)')
+for(s in 1:1000){ 
+  lines(ds_ICC$theta, ds_ICC[,s+1], col=col.alpha('black',0.05)) 
+}
+lines( ds_ICC_ave, col='blue', lwd=2 )
+lines( ds_ICC_mar, col='red', lwd=2, lty=2 ) 
+legend('topleft', c("Simulated", "Average", 'Marginal'),
+       col = c('black','blue','red'), lty=c(1,1,2), bty="n")
+
+
+# IIF
+ds_IIF = with(prior_sim, sim_IIF(sim_b=b_k, item_id=1) )
+ds_IIF_ave = ave_IIF(sim_b=prior_sim$b_k, item_id=1)
+ds_IIF_mar = mar_IIF(sim_IIF_object=ds_IIF)
+
+plot(NULL, xlim=c(-3,3), ylim=range(ds_IIF[,2:ncol(ds_IIF)]),
+     xlab='ability', ylab='information', main='(B)')
+for(s in 1:1000){ 
+  lines(ds_IIF$theta, ds_IIF[,s+1], col=col.alpha('black',0.05)) 
+}
+lines( ds_IIF_ave, col='blue', lwd=2 )
+lines( ds_IIF_mar, col='red', lwd=2, lty=2 ) 
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+#### b. hit rates #####
+
+data_load = file.path(getwd(), 'data')
+file_load = file.path(getwd(), 'chains_prior')
+file_save = file.path(getwd(), 'figures2')
+
+load(file.path(data_load, 'ListFormat_J100_l0.95_Ndata5.RData'))
+
+ds_prior = sim_hit_rate(d_true=data_post, d_sim=prior_sim)
+# names(ds_prior)
+
+
+
+# prior hit rates
+png(file.path(file_save, 'SOLV_HitRate1.png'), 
+    units='cm', width=30, height=20, res=200)
+
+par(mfrow=c(2,2))
+
+# a. individuals
+plot(NULL, xlim=c(0, max(ds_prior$IDind$IDj)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(A)',
+     xlab='Individual ID', ylab='Proportion of correct items')
+axis(side=1, at=seq(0, max(ds_prior$IDind$IDj), by=20) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDind[,c(1,s)], col=col.alpha('black', 0.005), pch=19) 
+}
+
+
+# b. items
+plot(NULL, xlim=c(0, max(ds_prior$IDitem$IDk)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(B)',
+     xlab='Item ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDitem$IDk), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+abline(v=c(1:4)*5+0.5, col=col.alpha('black', 0.5), lty=2)
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDitem[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+
+# c. text
+plot(NULL, xlim=c(0, max(ds_prior$IDtext$IDl)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(C)',
+     xlab='Text ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDtext$IDl), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDtext[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+
+# d. dimensions
+plot(NULL, xlim=c(0, max(ds_prior$IDdim$IDd)+1), ylim=c(0,1), 
+     xaxt='n', yaxt='n', main='(D)',
+     xlab='Dimension ID', ylab='Proportion of correct individuals')
+axis(side=1, at=seq(1, max(ds_prior$IDdim$IDd), by=1) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:1000)+1){ 
+  points(ds_prior$IDdim[,c(1,s)], col=col.alpha('black', 0.01), pch=19) 
+}
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+# prior hit rates per variable
+ds_prior = merge(ds_prior$IDind, data.frame( data_post[c('IDind','G','A','E','X')] ), 
+                 by.x='IDj', by.y='IDind', all.x=T, all.y=F)
+
+png(file.path(file_save, 'SOLV_HitRate2.png'), 
+    units='cm', width=30, height=20, res=200)
+
+par(mfrow=c(2,2))
+
+# gender
+plot(NULL, xlim=with(ds_prior, c(min(G)-1, max(G)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(A)')
+axis(side=1, at=with(ds_prior, min(G):max(G)), labels=c('male','female') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('G', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# age
+plot(NULL, xlim=with(ds_prior, c(min(A)-1, max(A)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(B)')
+axis(side=1, at=with(ds_prior, min(A):max(A)) ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:500)+1 ){
+  points(ds_prior[,c('A', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# edu
+plot(NULL, xlim=with(ds_prior, c(min(E)-1, max(E)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(C)')
+axis(side=1, at=with(ds_prior, min(E):max(E)), labels=c('inst','uni','both') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('E', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+# exp
+plot(NULL, xlim=with(ds_prior, c(min(X)-1, max(X)+1)), ylim=c(0,1), 
+     xaxt='n', yaxt='n', col=col.alpha('black', 0.05), pch=19,
+     xlab='', ylab='% correct items', main='(D)')
+axis(side=1, at=with(ds_prior, min(X):max(X)), 
+     labels=c('0y','1-5y','6-10y','+10y') ) 
+axis(side=2, at=seq(0, 1, by=0.1), las=1 ) 
+for(s in (1:100)+1 ){
+  points(ds_prior[,c('X', paste0('X',s) )], col=col.alpha('black', 0.005), pch=19 )
+}
+
+par(mfrow=c(1,1))
+
+dev.off()
+
+
+
+
+
+## 1.2 Performance ####
+
+# extract statistics
 chains_path = file.path(getwd(), 'chains_post')
 models_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
 chains_list = file_id(chains_path, models_int)
 
+# stat_chain(c_list = chains_list,
+#            chains_path = chains_path,
+#            file_save = file.path(getwd(), 'figures4'),
+#            contr_pars = c('b_G','b_E','b_X'))
+
+
+
+### trace, trank, acf plots ####
+# # plots
+# figures_plot(c_list=chains_list, 
+#              chains_path=chains_path, 
+#              file_save=file.path(getwd(), 'figures3'))
+
+
+
+### neff ####
+
+load( file.path(getwd(), 'figures4', 'stan_stats.RData') )
+file_save = file.path(getwd(), 'figures4')
+
+
+# FOLV
+for(ss in c(100, 250, 500)){
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_neff1.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c( paste0('m_b[',1:5,']'), paste0('s_b[',1:5,']')),
+            model = 'FOLV', ssize = ss, title='(A)')
+  
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('b_k[',1:25,']'),
+            model = 'FOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_neff2.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c( paste0('b_G[',1:2,']'),'b_A', paste0('b_E[',1:3,']'),
+                         paste0('b_X[',1:4,']')),
+            model = 'FOLV', ssize = ss, title='(A)')
+  
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c('Rho_theta_sub[1,2]','Rho_theta_sub[1,3]','Rho_theta_sub[2,3]'),
+            model = 'FOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_neff3.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',1]'),
+            model = 'FOLV', ssize = ss, title='(A)')
+  
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',2]'),
+            model = 'FOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_neff4.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',3]'),
+            model = 'FOLV', ssize = ss, title='(A)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+}
+
+
+
+# SOLV
+for(ss in c(100, 250, 500)){
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff1.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c( paste0('m_b[',1:5,']'), paste0('s_b[',1:5,']')),
+            model = 'SOLV', ssize = ss, title='(A)')
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('b_k[',1:25,']'),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff2.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c( paste0('b_G[',1:2,']'),'b_A', paste0('b_E[',1:3,']'),
+                         paste0('b_X[',1:4,']')),
+            model = 'SOLV', ssize = ss, title='(A)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff3.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = c('Rho_theta_sub[1,2]','Rho_theta_sub[1,3]','Rho_theta_sub[2,3]'),
+            model = 'SOLV', ssize = ss, title='(A)')
+  
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('loads[',1:3,']'),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff4.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',1]'),
+            model = 'SOLV', ssize = ss, title='(A)')
+  
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',2]'),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff5.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta_sub[', 1:ss, ',3]'),
+            model = 'SOLV', ssize = ss, title='(A)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_neff6.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'n_eff', 
+            par_int = paste0('theta[', 1:ss, ']'),
+            model = 'SOLV', ssize = ss, title='(A)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+}
+
+
+
+### Rhat #####
+
+load( file.path(getwd(), 'figures4', 'stan_stats.RData') )
+file_save = file.path(getwd(), 'figures4')
+
+# FOLV
+for(ss in c(100, 250, 500)){
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_Rhat1.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c( paste0('m_b[',1:5,']'), paste0('s_b[',1:5,']')),
+            model = 'FOLV', ssize = ss, title='(C)')
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('b_k[',1:25,']'),
+            model = 'FOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_Rhat2.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c( paste0('b_G[',1:2,']'),'b_A', paste0('b_E[',1:3,']'),
+                         paste0('b_X[',1:4,']')),
+            model = 'FOLV', ssize = ss, title='(C)')
+  
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c('Rho_theta_sub[1,2]','Rho_theta_sub[1,3]','Rho_theta_sub[2,3]'),
+            model = 'FOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_Rhat3.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',1]'),
+            model = 'FOLV', ssize = ss, title='(C)')
+  
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',2]'),
+            model = 'FOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('FOLV_',ss,'_Rhat4.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',3]'),
+            model = 'FOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+}
+
+
+
+# SOLV
+for(ss in c(100, 250, 500)){
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat1.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c( paste0('m_b[',1:5,']'), paste0('s_b[',1:5,']')),
+            model = 'SOLV', ssize = ss, title='(C)')
+  
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('b_k[',1:25,']'),
+            model = 'SOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat2.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c( paste0('b_G[',1:2,']'),'b_A', paste0('b_E[',1:3,']'),
+                         paste0('b_X[',1:4,']')),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat3.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = c('Rho_theta_sub[1,2]','Rho_theta_sub[1,3]','Rho_theta_sub[2,3]'),
+            model = 'SOLV', ssize = ss, title='(C)')
+  
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('loads[',1:3,']'),
+            model = 'SOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat4.png')), 
+      units='cm', width=30, height=12, res=200)
+  par(mfrow=c(1, 2))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',1]'),
+            model = 'SOLV', ssize = ss, title='(C)')
+  
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',2]'),
+            model = 'SOLV', ssize = ss, title='(D)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat5.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta_sub[', 1:ss, ',3]'),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+  
+  png(file.path(file_save, paste0('SOLV_',ss,'_Rhat6.png')), 
+      units='cm', width=15, height=12, res=200)
+  par(mfrow=c(1, 1))
+  plot_stat(stat_object = stan_int, info = 'Rhat4', 
+            par_int = paste0('theta[', 1:ss, ']'),
+            model = 'SOLV', ssize = ss, title='(B)')
+  par(mfrow=c(1, 1))
+  dev.off()
+  
+}
+
+
+
+
+
+## 1.3 Recovery ####
+
+# load statistics 
+load( file.path(getwd(), 'figures4', 'stan_stats.RData') )
+file_save = file.path(getwd(), 'figures5')
+
+
+# extract and load true parameters
+extract_true(file_load = file.path(getwd(), 'data'), 
+             file_save = file_save)
+load( file.path(getwd(), 'figures5', 'true_pars.RData') )
+# true_pars[true_pars$sample_size==250,]
+
+
+# join data
+res_stan = merge(stan_int, true_pars, all.x=T,
+                 by=c("sample_size","data_number","parameter"))
+res_stan = res_stan[,c(4,1:3,5:ncol(res_stan))]
+
+# change Rho for SOLV
+idx = with(res_stan, 
+           str_detect(parameter, '^Rho') & 
+             str_detect(model_type, '^SOLV') )
+res_stan$true[idx] = with(res_stan[idx,], ifelse(true!=1, 0, true))
+save(res_stan, file=file.path(file_save, 'results_pars.RData') )
+
+
+
+# calculate RMSE
+res_stan$Sdiff = with(res_stan, (mean - true)^2 )
+stan_rmse = res_stan %>%
+  group_by(model_type, sample_size, parameter) %>%
+  summarise( RMSE = sqrt(mean(Sdiff)), n=n() )
+save(stan_rmse, file=file.path(file_save, 'rmse_pars.RData') )
+
+
+
+# tables per set of parameters
+
+### regression and contrast ####
+par_int = c('a','b_G','b_A','b_E','b_X') 
+for(i in 1:length(par_int)){
+  idx_mom = str_detect(stan_rmse$parameter, paste0('^', par_int[i]) )
+  if(i==1){
+    idx = idx_mom
+  } else {
+    idx = idx | idx_mom
+  }
+}
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:')
+
+
+
+### correlations ####
+idx = stan_rmse$parameter %in% c('Rho_theta_sub[1,2]', 'Rho_theta_sub[1,3]','Rho_theta_sub[2,3]' )
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:')
+
+
+
+### texts ####
+idx = str_detect(stan_rmse$parameter, 'm_b')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:')
+
+
+
+idx = str_detect(stan_rmse$parameter, 's_b')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:')
+
+
+
+
+### items ####
+idx = str_detect(stan_rmse$parameter, 'b_k')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(n=n(), mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(n=n(), mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+
+
+
+
+### abilities ####
+idx = stan_rmse$parameter %in% paste0('theta_sub[',1:500,',1]')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+
+
+idx = stan_rmse$parameter %in% paste0('theta_sub[',1:500,',2]')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+
+
+idx = stan_rmse$parameter %in% paste0('theta_sub[',1:500,',3]')
+idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx1,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+stan_rmse[idx2,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+
+
+idx = stan_rmse$parameter %in% paste0('theta[',1:500,']')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx2,] %>%
+  group_by(model_type, sample_size) %>%
+  summarise(mean=mean(RMSE), sd=sd(RMSE), min=min(RMSE), max=max(RMSE)) %>%
+  xtable( caption='caption', label = 'tab:', digits=3)
+
+
+
+
+## 1.4 Retrodictive accuracy ####
+
+
 # plots
-figures_plot(c_list=chains_list, 
-             chains_path=chains_path, 
-             file_save=file.path(getwd(), 'figures2'))
-
-
-### Rhat ####
-
-
-# stan model 1 (centered)
-
-c_list = chains_list
-
-models_int = unique(c_list$model)
-sample_sizes = unique(c_list$sample)
-data_number = unique(c_list$data)
-
-
-idx_files = with(chains_list, model==models_int[m] & 
-                   sample==sample_sizes[s] &
-                   data == data_number[d])
-fit_files = chains_list[idx_files, 1]
-
-# load stan data
-stan_model = rstan::read_stan_csv( file.path(chains_path, fit_files ) )
-
-
-precis1 = precis(stan_object1, depth=4)
-idx1 = detect_parameter(precis1, est_par)
-
-# stan model 2 (non-centered)
-precis2 = precis(stan_object2, depth=4)
-idx2 = detect_parameter(precis2, est_par)
-
-# plot
-neff_table = data.frame(
-  centered=precis1$n_eff[idx1],
-  non_centered=precis2$n_eff[idx2]
-)
-
-
-### n_eff ####
 
 
 
 
+## 1.5 time ####
 
+file_load = file.path(getwd(), 'chains_post')
+times = read.csv( file.path(file_load, 'time_elapsed.csv'), stringsAsFactors=F)
+times$time_min = times$time/60
 
+times %>%
+  group_by(Model, J) %>%
+  summarize(mean=mean(time_min), min=min(time_min), max=max(time_min)) %>%
+  xtable( caption='caption', label = 'tab:')

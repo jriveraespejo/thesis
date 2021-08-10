@@ -26,12 +26,13 @@ hit_rate <- function(idx, out){
 #     d_sim = data from prior/posterior simulations
 #
 sim_hit_rate = function(d_true, d_sim, prob=T, hit_rate_fun=hit_rate){
+  
   # # test
   # d_true = data_post
   # d_sim = prior_sim
   # prob=T
   # hit_rate_fun=hit_rate
-  # str(prior_sim)
+  # # str(prior_sim)
   
   # calculations
   S = dim(d_sim$m_b)[1]
@@ -71,68 +72,6 @@ sim_hit_rate = function(d_true, d_sim, prob=T, hit_rate_fun=hit_rate){
 }
 
 
-# function:
-#     sim_hit_rate_reg
-# description:  
-#     To calculate hit rate in the outcome, based on a simple regression model. 
-# arguments:
-#     d_true = data list with observed information
-#     d_sim = data from prior/posterior simulations
-#
-sim_hit_rate_reg = function(d_true, d_sim, prob=T, hit_rate_fun=hit_rate){
-  
-  # # test
-  # d_true = data_post
-  # d_sim = post_sim
-  # prob=T
-  # hit_rate_fun=hit_rate
-  # # str(d_sim)
-  
-  # calculations
-  S = dim(d_sim$b_gender)[1]
-  
-  # evaluation 1
-  y = array( dim=c(d_true$N, S) )
-  for( i in 1:d_true$N ) {
-    y[i,] = with(d_sim, 
-                 ( ind_j[ , d_true$IDj[i] ] + # random effects
-                     dim_d[ , d_true$IDd[i] ] -
-                     item_k[ , d_true$IDk[i] ] -
-                     text_l[ , d_true$IDl[i] ] ) +
-                   a + b_gender[ , d_true$gender_d[i] ] + # fixed effects
-                   b_age * (d_true$age_d[i] - 29) +
-                   b_edu[ , d_true$edu_d[i] ] + 
-                   b_exp[ , d_true$exp_d[i] ] )
-    y[i,] = inv_logit( y[i,] )
-    if(!prob){
-      y[i,] = rbinom(n=length(y[i,]), size=1, prob=y[i,] )
-    }
-  }
-  y = data.frame(y)
-  y$IDj = d_true$IDj
-  y$IDk = d_true$IDk
-  y$IDl = d_true$IDl
-  y$IDd = d_true$IDd
-  
-  # storage
-  res = list(
-    IDind = y[, c('IDj',paste0('X', 1:S))] %>%
-      group_by(IDj) %>%
-      summarise_all(mean),
-    IDitem = y[, c('IDk', paste0('X', 1:S))] %>%
-      group_by(IDk) %>%
-      summarise_all(mean),
-    IDtext = y[, c('IDl', paste0('X', 1:S))] %>%
-      group_by(IDl) %>%
-      summarise_all(mean),
-    IDdim = y[, c('IDd', paste0('X', 1:S))] %>%
-      group_by(IDd) %>%
-      summarise_all(mean)
-  )
-  
-  return(res)
-}
-
 
 # function:
 #     ave_hit_rate
@@ -164,10 +103,9 @@ ave_hit_rate = function(sim_hit_object, prob=0.95){
 # function:
 #     ICC
 # description:  
-#     It creates the Item Characteristic Curve (ICC) for a dichotomous items
+#     It creates the Item Characteristic Curve (ICC) for dichotomous items
 # arguments:
 #     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
 #     b = item difficulty parameter
 #
 ICC = function(theta=seq(-3,3, by=0.1), b){
@@ -181,10 +119,9 @@ ICC = function(theta=seq(-3,3, by=0.1), b){
 # function:
 #     sim_ICC
 # description:  
-#     It creates simulations for ICC's based on discrimination and difficulty 
-#     parameters for one item.
+#     It creates simulations for ICC's based on difficulty parameters for 
+#     one item.
 # arguments:
-#     sim_a = simulations for item discrimination parameters (all items)
 #     sim_b = simulations for item difficulty parameters (all items)
 #     item_id = IDitem (default = 1)
 #
@@ -209,11 +146,10 @@ sim_ICC = function(sim_b, item_id=1, ICC_fun=ICC){
 # function:
 #     ave_ICC
 # description:  
-#     It creates the Item Characteristic Curve (ICC) for a dichotomous items,
+#     It creates the Item Characteristic Curve (ICC) for dichotomous items,
 #     considering the average of the parameters.
 # arguments:
 #     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
 #     b = item difficulty parameter
 #
 ave_ICC = function(sim_b, item_id, ICC_fun=ICC){
@@ -227,12 +163,10 @@ ave_ICC = function(sim_b, item_id, ICC_fun=ICC){
 # function:
 #     mar_ICC
 # description:  
-#     It creates the Item Characteristic Curve (ICC) for a dichotomous items,
+#     It creates the Item Characteristic Curve (ICC) for dichotomous items,
 #     considering the average of the parameters.
 # arguments:
-#     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
-#     b = item difficulty parameter
+#     sim_ICC_object = object produced by sim_ICC function
 #
 mar_ICC = function(sim_ICC_object){
   dimen = dim(sim_ICC_object)
@@ -244,15 +178,14 @@ mar_ICC = function(sim_ICC_object){
 
 
 # function:
-#     IIC
+#     IIF
 # description:  
-#     It creates the Item Information Curve (IIC) for a dichotomous items
+#     It creates the Item Information Function (IIF) for a dichotomous items
 # arguments:
 #     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
 #     b = item difficulty parameter
 #
-IIC = function(theta=seq(-3,3, by=0.1), b, ICC_fun=ICC){
+IIF = function(theta=seq(-3,3, by=0.1), b, ICC_fun=ICC){
   ICC_res = ICC_fun(b=b)
   ICC_res$inf = with(ICC_res, p*(1-p) )
   
@@ -261,28 +194,27 @@ IIC = function(theta=seq(-3,3, by=0.1), b, ICC_fun=ICC){
 
 
 # function:
-#     sim_IIC
+#     sim_IIF
 # description:  
-#     It creates simulations for IIC's based on discrimination and difficulty 
-#     parameters for one item.
+#     It creates simulations for IIF's based on difficulty parameters for 
+#     one item.
 # arguments:
-#     sim_a = simulations for item discrimination parameters (all items)
 #     sim_b = simulations for item difficulty parameters (all items)
 #     item_id = IDitem (default = 1)
 #
-sim_IIC = function(sim_b, item_id=1, IIC_fun=IIC){
+sim_IIF = function(sim_b, item_id=1, IIF_fun=IIF){
   
   # sim_a=prior_sim$a_k
   # sim_b=prior_sim$b_k
   # item_id=1
-  # IIC_fun=IIC
+  # IIF_fun=IIF
   
   # dimension of simulation
   S = nrow(sim_b)
   
   # calculate for all samples
   for( s in 1:S ){
-    res_mom = IIC_fun(b=sim_b[s, item_id])
+    res_mom = IIF_fun(b=sim_b[s, item_id])
     if(s == 1){
       res = data.frame(res_mom)
     } else{
@@ -295,37 +227,34 @@ sim_IIC = function(sim_b, item_id=1, IIC_fun=IIC){
 
 
 # function:
-#     ave_IIC
+#     ave_IIF
 # description:  
-#     It creates the Item Information Curve (IIC) for a dichotomous items,
+#     It creates the Item Information Function (IIF) for dichotomous items,
 #     considering the average of the parameters.
 # arguments:
 #     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
 #     b = item difficulty parameter
 #
-ave_IIC = function(sim_b, item_id, IIC_fun=IIC){
+ave_IIF = function(sim_b, item_id, IIF_fun=IIF){
   mu_b = colMeans(sim_b)
-  res = IIC_fun(b=mu_b[item_id])
+  res = IIF_fun(b=mu_b[item_id])
   
   return( res )
 }
 
 
 # function:
-#     mar_IIC
+#     mar_IIF
 # description:  
-#     It creates the Item Information Curve (IIC) for a dichotomous items,
+#     It creates the Item Information Function (IIF) for a dichotomous items,
 #     considering the average of the parameters.
 # arguments:
-#     theta = denotes the ability of the individuals, set to a default
-#     a = item discrimination parameter 
-#     b = item difficulty parameter
+#     sim_IIF_object = object produced by sim_IIF function
 #
-mar_IIC = function(sim_IIC_object){
-  dimen = dim(sim_IIC_object)
-  res = data.frame(theta=sim_IIC_object$theta, 
-                   inf=apply(sim_IIC_object[, 2:dimen[2]], 1, mean))
+mar_IIF = function(sim_IIF_object){
+  dimen = dim(sim_IIF_object)
+  res = data.frame(theta=sim_IIF_object$theta, 
+                   inf=apply(sim_IIF_object[, 2:dimen[2]], 1, mean))
   
   return( res )
 }
@@ -948,30 +877,323 @@ diff_recovery = function(stan_object, est_diff, true_diff, prec=3, seed=1){
 
 
 # function:
-#     n_effective
+#     stat_chain
 # description:  
-#     It joins the number of effective samples from two stan models.
-#     normally is used to compared the centered vs non-centered version.
+#     it extraxt the information of Rhat and n_eff 
 # arguments:
-#     stan_object1 = object containing a stanfit object
-#     stan_object2 = object containing a stanfit object
-#     est_par = character vector with the names of parameters of interest
+#     c_list = data.frame generated with file_id() function
+#     chains_path = location of csv files corresponding to stanfit objects
+#     file_save = location to save images
 #
-n_effective = function(stan_object1, stan_object2, est_par){
+stat_chain = function(c_list, chains_path, file_save, contr_pars){
   
-  # stan model 1 (centered)
-  precis1 = precis(stan_object1, depth=4)
-  idx1 = detect_parameter(precis1, est_par)
+  # # test
+  # c_list=chains_list
+  # chains_path=chains_path
+  # file_save=file.path(getwd(), 'figures2')
+  # contr_pars = c('b_G','b_E','b_X')
   
-  # stan model 2 (non-centered)
-  precis2 = precis(stan_object2, depth=4)
-  idx2 = detect_parameter(precis2, est_par)
+  # parameters
+  models_int = unique(c_list$model)
+  sample_sizes = unique(c_list$sample)
+  data_number = unique(c_list$data)
+  
+  # m=1
+  # s=1
+  # d=1
+  for(m in 1:length(models_int)){
+    for(s in 1:length(sample_sizes)){
+      for(d in 1:length(data_number)){
+        
+        ####
+        # simple parameter section
+        ####
+        
+        # identify files of interest
+        idx_files = with(chains_list, 
+                         model==models_int[m] &
+                           sample==sample_sizes[s] &
+                           data == data_number[d])
+        
+        fit_files = chains_list[idx_files, 1]
+        stan_model = rstan::read_stan_csv( file.path(chains_path, fit_files) )
+        
+        # calculate parameters
+        stan_result = precis(stan_model, depth=4)
+        
+        # storage
+        if( all(m==1, s==1, d==1) ){
+          stan_int = data.frame( model_type = models_int[m],
+                                 sample_size = sample_sizes[s],
+                                 data_number = data_number[d],
+                                 parameter = row.names(stan_result),
+                                 stan_result )
+        } else {
+          stan_int = rbind(stan_int,
+                           data.frame( model_type = models_int[m],
+                                       sample_size = sample_sizes[s],
+                                       data_number = data_number[d],
+                                       parameter = row.names(stan_result),
+                                       stan_result ) )
+        }
+        
+        ####
+        # contrasts section
+        ####
+        
+        # extract samples
+        post = extract.samples( stan_model )
+        idx = names(post) %in% contr_pars
+        post = post[idx]
+        # names(post)
+        
+        # calculations
+        # k=1
+        for(k in 1:length(contr_pars) ){
+          
+          # selecting parameter
+          idx = detect_parameter(stan_result, contr_pars[k])
+          lab_par = rownames(stan_result)[idx]
+          npars = length(idx)
+          
+          # storage
+          # i=2
+          # j=3
+          for(i in 1:npars){
+            for(j in 1:npars){
+              
+              if(j>i){
+                if(i == 1 & j==2 & k==1){
+                  diff = post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] 
+                  diff_name = paste( c( lab_par[j], lab_par[i]), collapse=' - ' )
+                } else{
+                  diff = cbind(diff ,
+                               post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] ) 
+                  diff_name = c(diff_name, 
+                                paste( c( lab_par[j], lab_par[i]), collapse=' - ' ) )
+                }
+              }
+          
+            }
+          }
+          
+        }
+        
+        # calculations
+        diff = data.frame(diff)
+        names(diff) = diff_name
+        res_diff = precis( diff, depth=4 )
+        
+        # contrast storage
+        res_diff = data.frame( model_type = models_int[m],
+                               sample_size = sample_sizes[s],
+                               data_number = data_number[d],
+                               parameter = row.names(res_diff),
+                               res_diff[,-5], 
+                               n_eff = NA,
+                               Rhat4 = NA)
+        stan_int = rbind(stan_int, res_diff)
+        
+        # remove row.names
+        row.names(stan_int) = NULL
+        
+        # remove unnecessary parameters
+        uu = c('zb_k','L_Rho_theta_sub','ztheta_sub','ztheta','m_mult','m_theta')
+        for(i in 1:length(uu)){
+          idx_mom = str_detect(stan_int$parameter, uu[i])
+          if(i==1){
+            idx = idx_mom
+          } else{
+            idx = idx | idx_mom
+          }
+        }
+        stan_int = stan_int[!idx,]
+        
+        # save file
+        save(stan_int, file=file.path(file_save, 'stan_stats.RData') )
+        print( paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d]) )
+      
+      }
+    }
+  }
+  
+}
+
+
+
+# function:
+#     plot_stat
+# description:  
+#     It plots the statistics of interest 
+# arguments:
+#     stat_object = object produced by the function stat_chain()
+#     info = statistics of interest
+#     par_int = parameters of interest
+#     model = options according to model in stat_chain
+#     ssize = sample size of simulation
+#     title = main title for the plot 
+#
+plot_stat = function(stat_object, info, par_int, model, ssize=100, title='(A)'){
+  
+  # # test
+  # stat_object = stan_int
+  # info = 'n_eff'
+  # par_int = c( paste0('b_G[',1:2,']'),'b_A', paste0('b_E[',1:3,']'),
+  #              paste0('b_X[',1:4,']'))
+  # model = 'FOLV'
+  # ssize = 100
+  # title='(A)'
+
+  
+  # identify the parameters
+  # i=1
+  for(i in 1:length(par_int)){
+    idx_pars_mom = stat_object$parameter == par_int[i]
+    if(i==1){
+      idx_pars = idx_pars_mom
+    } else{
+      idx_pars = idx_pars | idx_pars_mom
+    }
+  }
+  # sum(idx_pars)
+  
+  # identify models
+  model_int = unique(with(stat_object, model_type[str_detect(model_type, model)]))
+  for(i in 1:length(model_int)){
+    idx = with(stat_object, model_type==model_int[i] & sample_size==ssize & idx_pars)
+    stat_mom = stat_object[idx, c('sample_size','data_number','parameter', info)]
+    
+    if(i==1){
+      stat_final = stat_mom
+    } else{
+      stat_final = merge(stat_final, stat_mom, 
+                         by=c('sample_size','data_number','parameter'))
+    }
+  }
+  
+  # parameter color
+  par_mod = str_locate(stat_final$parameter, '[:digit:]')[,1] - 2
+  par_mod = ifelse( is.na(par_mod), 3, par_mod)
+  par_mod = str_sub(stat_final$parameter, start = 1, end=par_mod)
+  par_mod_un = unique(par_mod)
+  col_pars = rep(NA, nrow(stat_final))
+  for(i in 1:length(par_mod_un)){
+    col_pars = ifelse( par_mod==par_mod_un[i], 
+                       col.alpha(i, 0.4), col_pars) 
+  }
   
   # plot
-  neff_table = data.frame(
-    centered=precis1$n_eff[idx1],
-    non_centered=precis2$n_eff[idx2]
-    )
+  idx_var = str_detect( names(stat_final), info)  
+  x_lim = range(stat_final[, idx_var])
+  plot(stat_final[,idx_var], xlim=x_lim, ylim=x_lim, main=title,
+       col=col_pars, pch=19,
+       xlab='Centered parametrization', ylab='Non-centered parametrization')
+  abline(a=0, b=1, lty=2)
   
-  return(neff_table)
+  if(info=='Rhat4'){
+    abline(v=1.05, h=1.05, lty=3, col=col.alpha('black', 0.6))
+    legend('top', horiz=T, par_mod_un, pch=19, col=unique(col_pars), bty='n')
+  } else{
+    legend('bottom', horiz=T, par_mod_un, pch=19, col=unique(col_pars), bty='n')
+  }
+  
+}
+
+
+
+
+# function:
+#     extract_true
+# description:  
+#     Extracts the true parameters in simulations 
+# arguments:
+#     file_load = location of true parameters per replica
+#     file_save = location to save file
+#
+extract_true = function(file_load, file_save){
+  
+  # # test
+  # file_load = file.path(getwd(), 'data')
+  # file_save = file.path(getwd(), 'figures5')
+  
+  # iteration set
+  ss = unique(stan_int$sample_size)
+  dn = unique(stan_int$data_number)
+  
+  # s=1
+  # d=1
+  for(s in 1:length(ss)){
+    for(d in 1:length(dn)){
+      
+      # load parameters
+      file_name = paste0('Parameters_J', ss[s], '_l0.95_Ndata', dn[d], '.RData')
+      load( file.path(file_load, file_name) )
+      
+      # extract parameter of interest
+      # texts
+      par_names = expand_grid( par = names(data_true$texts)[2:ncol(data_true$texts)], 
+                               number = data_true$texts$IDtext)
+      par_names = paste0(par_names$par,'[', par_names$number, ']')
+      true_int = data.frame( parameter = par_names,
+                             true = c(data_true$texts$m_b, data_true$texts$s_b) )
+      
+      # items
+      par_names = paste0('b_k[', data_true$items$IDitem, ']')
+      true_int = rbind(true_int, data.frame( parameter = par_names,
+                                             true = data_true$items$b ) )
+      
+      # regression
+      par_names = c('a', paste0('b_G[',1:2,']'), 'b_A', paste0('b_E[',1:3,']'),
+                    paste0('b_X[',1:4,']'), paste0('loads[',1:3,']'),
+                    'Rho_theta_sub[1,2]', 'Rho_theta_sub[1,3]', 'Rho_theta_sub[2,3]',
+                    'Rho_theta_sub[2,1]', 'Rho_theta_sub[3,1]', 'Rho_theta_sub[3,2]',
+                    'Rho_theta_sub[1,1]', 'Rho_theta_sub[2,2]', 'Rho_theta_sub[3,3]')
+      true_mom = c(0, unlist(data_true$betas), data_true$betas$exp_corr, c(1,1,1) )
+      true_int = rbind(true_int, data.frame( parameter = par_names,
+                                             true = true_mom ) )
+      # NOTICE: Rho_theta_sub corresponds only to FOLV
+      
+      # contrasts
+      par_names = c("b_G[2] - b_G[1]","b_E[2] - b_E[1]","b_E[3] - b_E[1]",
+                    "b_E[3] - b_E[2]","b_X[2] - b_X[1]","b_X[3] - b_X[1]",
+                    "b_X[4] - b_X[1]","b_X[3] - b_X[2]","b_X[4] - b_X[2]",
+                    "b_X[4] - b_X[3]")
+      true_mom = with(data_true$betas, 
+                      c( gender[2] - gender[1], 
+                         edu[2] - edu[1], edu[3] - edu[1], edu[3] - edu[2],
+                         exp[2] - exp[1], exp[3] - exp[1], exp[4] - exp[1],
+                         exp[3] - exp[2], exp[4] - exp[2], exp[4] - exp[3]) )
+      true_int = rbind(true_int, data.frame( parameter = par_names,
+                                             true = true_mom ) )
+      
+      # abilities
+      par_names = c(paste0('theta[',1:data_true$J,']'), 
+                    paste0('theta_sub[', 1:data_true$J,',1]'),
+                    paste0('theta_sub[', 1:data_true$J,',2]'),
+                    paste0('theta_sub[', 1:data_true$J,',3]'))
+      true_mom = with(data_true$abilities, c( theta, theta1, theta2, theta3) )
+      true_int = rbind(true_int, data.frame( parameter = par_names,
+                                             true = true_mom ) )
+      
+      
+      # storage
+      rownames(true_int) = NULL
+      if(s==1 & d==1){
+        true_pars = data.frame(sample_size = ss[s],
+                               data_number = dn[d],
+                               true_int)
+      } else{
+        true_pars = rbind(true_pars, 
+                          data.frame(sample_size = ss[s],
+                                     data_number = dn[d],
+                                     true_int) )
+      }
+      
+      # save file
+      save(true_pars, file=file.path(file_save, 'true_pars.RData') )
+      print( paste0('Parameters_J', ss[s], '_Ndata', dn[d]) )
+      
+    }
+  }
+  
 }
