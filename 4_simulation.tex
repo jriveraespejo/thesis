@@ -277,7 +277,11 @@ Second, to evaluate the recovery capacity for all parameters $\pmb{\Omega} = \{ 
 
 Finally, since IRT models are known to be invariant to the shift of the linear predictor \cite{Baker_et_al_1992, Bock_1972}, i.e. the addition/subtraction of a constant to the abilities/difficulties results in the same probability value, it could happen that we observe substantial differences in the recovery of the parameters, that not necessarily implies a classification error  \cite{Wollack_2002}. Therefore, to avoid a mistake in the assessment of fit of the model, the current research will use posterior predictive checks, i.e. retrodictive accuracy. 
 
-{ \color{red} What are they?, at which aggregattion dimensions?: for individuals in different dimensions, items, and texts. }
+
+
+{ \color{red} What are they?, at which aggregattion dimensions?: for individuals in different dimensions, items, and texts.
+	
+do RMSE of predicted proportion on observed dimensions: individuals, items, texts, dimensions, each one again per covariate }
 
 
 
@@ -302,7 +306,7 @@ Second, the CP chain performance for the reading comprehension sub-dimensions ar
 
 Third, similar visualizations for the CP and NCP regression parameters are shown in figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. By a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in specific part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
 %
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_CE_J100_Ndata2_mb}
 	%
@@ -313,7 +317,7 @@ Third, similar visualizations for the CP and NCP regression parameters are shown
 
 Lastly, the performance assessment plots for the FOLV sub-dimensions' correlation are shown in figures \ref{fig:FOLV_CE_chains8} and \ref{fig:FOLV_NC_chains8}. In both parametrizations, we observe the correlations seem to achieve stationarity and convergence. However, it also seems they do not achieve good mixing, i.e. the MCMC procedure does not manage to make a proper investigation of the posterior. This is further confirmed by panels (B) and (D) from figure \ref{fig:FOLV_stat2}, where we see observe the parameters' chains remain below the \texttt{Rhat} recommended threshold, indicating convergence; although, the effective sample sizes were low, indicating highly auto-correlated iterations (the CP and NCP had ranges of $[249, 1311]$ and $[285, 1283]$, respectively). 
 %
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata2_mb}
 	%
@@ -324,7 +328,7 @@ Lastly, the performance assessment plots for the FOLV sub-dimensions' correlatio
 
 So far we have only assessed specific replicas of the FOLV model, with a simulated sample size of $100$, as the previous paragraphs and title of the figures have indicated. However, after the inspection of the trace, trank, ACF and comparison plots\footnote{To inspect the remaining trace, trank, ACF, and comparison plots follow the github accompanying page detailed in Appendix \ref{sub_sect:chain_performance}.}, we notice the preceding patterns of stationarity, convergence and mixing extends to all replicas and simulated sample sizes in the FOLV model. Furthermore, the aforementioned patterns were also observed in the similar parameter set of the SOLV model. 
 %
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}
 		\includegraphics[width=1\linewidth]{FOLV_100_neff1}
@@ -356,109 +360,9 @@ Given the CP did not achieve ergodicity, the ability to make valid inferences un
 The larger the sample size the better we recover the contrast parameters, while no clear pattern is observed in the regression parameters.
 \ref{tab:SOLV_RMSE_regression}, \ref{tab:SOLV_RMSE_contrasts}
 
-%
-\begin{table}[H]
-	\centering
-	\begin{tabular}{rlllrrrr}		
-		\hline
-		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
-		\cmidrule(rl){6-8}
-		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
-		\hline\hline
-		1 & CP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.097 & 0.070 & 0.082 \\ 
-		2 & CP & \footnotesize{gender(male)} & $\Gamma_{1}[1]$ &   10 & 0.203 & 0.223 & 0.205 \\ 
-		3 & CP & \footnotesize{gender(female)} & $\Gamma_{1}[2]$ &   10 & 0.240 & 0.232 & 0.241 \\
-		4 & CP & \footnotesize{age} & $\Gamma_{2}$ &   10 & 0.008 & 0.006 & 0.003 \\ 
-		5 & CP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.249 & 0.113 & 0.119 \\ 
-		6 & CP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.127 & 0.135 & 0.115 \\ 
-		7 & CP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.157 & 0.113 & 0.110 \\ 
-		8 & CP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.119 & 0.064 & 0.102 \\ 
-		9 & CP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.157 & 0.082 & 0.082 \\ 
-		10 & CP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.163 & 0.156 & 0.071 \\ 
-		11 & CP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.148 & 0.132 & 0.100 \\ 
-		%
-		\hline
-		%
-		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.069 & 0.083 \\ 
-		13 & NCP & \footnotesize{gender(males)} & $\Gamma_{1}[1]$ &   10 & 0.199 & 0.221 & 0.200 \\ 
-		14 & NCP & \footnotesize{gender(females)} & $\Gamma_{1}[2]$ &   10 & 0.247 & 0.229 & 0.235 \\ 
-		15 & NCP & \footnotesize{age} & $\Gamma_{2}$ & 10 & 0.008 & 0.006 & 0.003 \\ 
-		16 & NCP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.232 & 0.125 & 0.118 \\ 
-		17 & NCP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.123 & 0.130 & 0.107 \\ 
-		18 & NCP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.164 & 0.126 & 0.128 \\ 
-		19 & NCP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.114 & 0.065 & 0.096 \\ 
-		20 & NCP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.155 & 0.085 & 0.076 \\ 
-		21 & NCP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.162 & 0.154 & 0.066 \\ 
-		22 & NCP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.150 & 0.133 & 0.095 \\ 
-		\hline
-	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of regression parameters.]%
-	{First-order latent variable model (FOLV). RMSE of regression parameters.} 
-	\label{tab:FOLV_RMSE_regression}
-\end{table}
 
-%
-\begin{table}[H]
-	\centering
-	\begin{tabular}{rlllrrrr}		
-		\hline
-		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
-		\cmidrule(rl){6-8}
-		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
-		\hline\hline
-		1 & CP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.131 & 0.112 & 0.088 \\ 
-		2 & CP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.167 & 0.081 \\
-		3 & CP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.084 \\ 
-		4 & CP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.183 & 0.138 & 0.111 \\ 
-		5 & CP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.228 & 0.089 & 0.102 \\ 
-		6 & CP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.241 & 0.155 & 0.099 \\ 
-		7 & CP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.208 & 0.163 & 0.075 \\ 
-		8 & CP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.196 & 0.147 & 0.076 \\ 
-		9 & CP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.199 & 0.164 & 0.102 \\ 
-		10 & CP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.197 & 0.137 & 0.087 \\ 
-		%
-		\hline
-		%
-		11 & NCP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.134 & 0.113 & 0.088 \\ 
-		12 & NCP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.168 & 0.083 \\ 
-		13 & NCP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.083 \\ 
-		14 & NCP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.182 & 0.139 & 0.111 \\ 
-		15 & NCP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.231 & 0.090 & 0.101 \\ 
-		16 & NCP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.239 & 0.155 & 0.097 \\ 
-		17 & NCP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.201 & 0.162 & 0.074 \\ 
-		18 & NCP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.194 & 0.147 & 0.075 \\ 
-		19 & NCP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.192 & 0.163 & 0.101 \\ 
-		20 & NCP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.195 & 0.134 & 0.085 \\ 
-	\hline
-	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of contrast parameters.]%
-	{First-order latent variable model (FOLV). RMSE of contrast parameters.} 
-	\label{tab:FOLV_RMSE_contrasts}
-\end{table}
-%
-\begin{table}[H]
-	\centering
-	\begin{tabular}{rllrrrr}
-		\hline
-		\multicolumn{3}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
-		\cmidrule(rl){5-7}
-		& Parametrization  & Parameter & replicas & 100 & 250 & 500 \\  
-		\hline\hline
-		1 & CP & $\rho_{1,2}$ &  10 & 0.704 & 0.585 & 0.606 \\ 
-		2 & CP & $\rho_{1,3}$ &  10 & 0.719 & 0.591 & 0.617 \\ 
-		3 & CP & $\rho_{2,3}$ &  10 & 0.638 & 0.623 & 0.615 \\
-		%
-		\hline
-		%
-		4 & NCP & $\rho_{1,2}$ &  10 & 0.700 & 0.585 & 0.605 \\ 
-		5 & NCP & $\rho_{1,3}$ &  10 & 0.721 & 0.591 & 0.617 \\
-		6 & NCP & $\rho_{2,3}$ &  10 & 0.636 & 0.623 & 0.615 \\ 
-		\hline
-	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.]%
-	{First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.}
-	\label{tab:FOLV_RMSE_corr}
-\end{table}
+{\color{red} put some recovery plots}
+
 
 
 

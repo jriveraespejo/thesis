@@ -1,4 +1,4 @@
-\chapter{Additional plots and tables} \label{appB:additional}
+\chapter{Figures and tables} \label{appB:additional}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,11 +74,11 @@
 
 \subsection{Chain performance} \label{sub_sect:chain_performance}
 
-This section only shows a small set of trace, trank and ACF plots for the parameters of interest. For all the plots across parameters, models, parametrizations, and replicas refer to the images section of the accompanying github page:
+This section shows only a small set of trace, trank and ACF plots for the parameters of interest. For all the plots across parameters, models, parametrizations, and replicas refer to the ``chains" image section of the accompanying github page:
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/chains} \\
 
-\noindent Similarly, the CP and NCP \texttt{n\_eff} and \texttt{Rhat} comparison plots shown here is a small set of the full available plots. For the set of figures across parameters, models, and replicas refer to the corresponding image section of the accompanying github page:
+\noindent Similarly, the CP and NCP \texttt{n\_eff} and \texttt{Rhat} comparison plots shown here is a small set of the full available plots. For the set of figures across parameters, models, and replicas refer to the ``chains/stat" image section of the accompanying github page:
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/chains_stat}
 %
@@ -340,34 +340,38 @@ This section only shows a small set of trace, trank and ACF plots for the parame
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
 \subsection{Recovery capacity} \label{sub_sect:recovery}
 
-This section only shows a small set of tables about the recovery capacity of the model. In case the reader wants to replicate the calculations or want to access the full set of statistics refer to the data/tables section of the accompanying github page:
+This section shows only a small set of tables about the recovery capacity of the model. In case the reader wants to replicate the calculations or access the full set of statistics refer to the ``data/tables" section of the accompanying github page:
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/data_tables} \\
+
+Moreover, in case the reader wants to inspect the recovery plots per model, parametrization, sample size, and replica refer to the ``recovery plots" image section of the accompanying github page:
+
+\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/recovery_plots} \\
 %
 \begin{table}[H]
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & \multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j1} )$ } \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.639 & 0.151 & 0.223 & 1.069 \\ 
-		2 & CP &  250 & 0.594 & 0.138 & 0.254 & 1.103 \\ 
-		3 & CP &  500 & 0.623 & 0.145 & 0.215 & 1.079 \\ 
+		1 & CP &  100(10) & 0.639 & 0.151 & 0.223 & 1.069 \\ 
+		2 & CP &  250(10) & 0.594 & 0.138 & 0.254 & 1.103 \\ 
+		3 & CP &  500(10) & 0.623 & 0.145 & 0.215 & 1.079 \\ 
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.632 & 0.148 & 0.256 & 1.032 \\  
-		5 & NCP &  250 & 0.589 & 0.136 & 0.271 & 1.066 \\ 
-		6 & NCP &  500 & 0.610 & 0.143 & 0.214 & 1.087 \\  
+		4 & NCP &  100(10) & 0.632 & 0.148 & 0.256 & 1.032 \\  
+		5 & NCP &  250(10) & 0.589 & 0.136 & 0.271 & 1.066 \\ 
+		6 & NCP &  500(10) & 0.610 & 0.143 & 0.214 & 1.087 \\  
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the first individuals' sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the first individuals' sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the first individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated RMSE for the first individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta1}
 \end{table}
 %
@@ -375,23 +379,23 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & \multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j2} )$} \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.608 & 0.148 & 0.318 & 0.930 \\ 
-		2 & CP &  250 & 0.599 & 0.134 & 0.256 & 0.939 \\  
-		3 & CP &  500 & 0.618 & 0.143 & 0.228 & 1.056 \\  
+		1 & CP &  100(10) & 0.608 & 0.148 & 0.318 & 0.930 \\ 
+		2 & CP &  250(10) & 0.599 & 0.134 & 0.256 & 0.939 \\  
+		3 & CP &  500(10) & 0.618 & 0.143 & 0.228 & 1.056 \\  
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.601 & 0.145 & 0.295 & 0.911 \\ 
-		5 & NCP &  250 & 0.593 & 0.135 & 0.253 & 0.963 \\ 
-		6 & NCP &  500 & 0.607 & 0.138 & 0.202 & 1.055 \\
+		4 & NCP &  100(10) & 0.601 & 0.145 & 0.295 & 0.911 \\ 
+		5 & NCP &  250(10) & 0.593 & 0.135 & 0.253 & 0.963 \\ 
+		6 & NCP &  500(10) & 0.607 & 0.138 & 0.202 & 1.055 \\
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the second individuals' sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the second individuals' sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the second individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated RMSE for the second individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta2}
 \end{table}
 %
@@ -399,9 +403,9 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } &\multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j3} )$} \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
 		1 & CP &  100 & 0.604 & 0.142 & 0.257 & 1.000 \\  
 		2 & CP &  250 & 0.612 & 0.128 & 0.321 & 0.973 \\  
@@ -414,9 +418,112 @@ This section only shows a small set of tables about the recovery capacity of the
 		6 & NCP &  500 & 0.601 & 0.147 & 0.220 & 1.082 \\  
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the third individuals' sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the third individuals' sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the third individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated RMSE for the third individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta3}
+\end{table}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlllrrrr}		
+		\hline
+		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){6-8}
+		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
+		\hline\hline
+		1 & CP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.097 & 0.070 & 0.082 \\ 
+		2 & CP & \footnotesize{gender(male)} & $\Gamma_{1}[1]$ &   10 & 0.203 & 0.223 & 0.205 \\ 
+		3 & CP & \footnotesize{gender(female)} & $\Gamma_{1}[2]$ &   10 & 0.240 & 0.232 & 0.241 \\
+		4 & CP & \footnotesize{age} & $\Gamma_{2}$ &   10 & 0.008 & 0.006 & 0.003 \\ 
+		5 & CP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.249 & 0.113 & 0.119 \\ 
+		6 & CP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.127 & 0.135 & 0.115 \\ 
+		7 & CP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.157 & 0.113 & 0.110 \\ 
+		8 & CP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.119 & 0.064 & 0.102 \\ 
+		9 & CP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.157 & 0.082 & 0.082 \\ 
+		10 & CP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.163 & 0.156 & 0.071 \\ 
+		11 & CP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.148 & 0.132 & 0.100 \\ 
+		%
+		\hline
+		%
+		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.069 & 0.083 \\ 
+		13 & NCP & \footnotesize{gender(males)} & $\Gamma_{1}[1]$ &   10 & 0.199 & 0.221 & 0.200 \\ 
+		14 & NCP & \footnotesize{gender(females)} & $\Gamma_{1}[2]$ &   10 & 0.247 & 0.229 & 0.235 \\ 
+		15 & NCP & \footnotesize{age} & $\Gamma_{2}$ & 10 & 0.008 & 0.006 & 0.003 \\ 
+		16 & NCP & \footnotesize{education(institute)} & $\Gamma_{3}[1]$ &   10 & 0.232 & 0.125 & 0.118 \\ 
+		17 & NCP & \footnotesize{education(university)} & $\Gamma_{3}[2]$ &   10 & 0.123 & 0.130 & 0.107 \\ 
+		18 & NCP & \footnotesize{education(both)} & $\Gamma_{3}[3]$ &   10 & 0.164 & 0.126 & 0.128 \\ 
+		19 & NCP & \footnotesize{experience($0y$)} & $\Gamma_{4}[1]$ &   10 & 0.114 & 0.065 & 0.096 \\ 
+		20 & NCP & \footnotesize{experience($5y$)} & $\Gamma_{4}[2]$ &   10 & 0.155 & 0.085 & 0.076 \\ 
+		21 & NCP & \footnotesize{experience($10y$)} & $\Gamma_{4}[3]$ &   10 & 0.162 & 0.154 & 0.066 \\ 
+		22 & NCP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.150 & 0.133 & 0.095 \\ 
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of regression parameters.]%
+	{First-order latent variable model (FOLV). RMSE of regression parameters.} 
+	\label{tab:FOLV_RMSE_regression}
+\end{table}
+
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlllrrrr}		
+		\hline
+		\multicolumn{4}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){6-8}
+		& Parametrization & Variable & Parameter & replicas & 100 & 250 & 500 \\ 
+		\hline\hline
+		1 & CP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.131 & 0.112 & 0.088 \\ 
+		2 & CP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.167 & 0.081 \\
+		3 & CP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.084 \\ 
+		4 & CP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.183 & 0.138 & 0.111 \\ 
+		5 & CP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.228 & 0.089 & 0.102 \\ 
+		6 & CP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.241 & 0.155 & 0.099 \\ 
+		7 & CP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.208 & 0.163 & 0.075 \\ 
+		8 & CP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.196 & 0.147 & 0.076 \\ 
+		9 & CP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.199 & 0.164 & 0.102 \\ 
+		10 & CP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.197 & 0.137 & 0.087 \\ 
+		%
+		\hline
+		%
+		11 & NCP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ &   10 & 0.134 & 0.113 & 0.088 \\ 
+		12 & NCP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ &   10 & 0.239 & 0.168 & 0.083 \\ 
+		13 & NCP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ &   10 & 0.267 & 0.079 & 0.083 \\ 
+		14 & NCP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ &   10 & 0.182 & 0.139 & 0.111 \\ 
+		15 & NCP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ &   10 & 0.231 & 0.090 & 0.101 \\ 
+		16 & NCP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ &   10 & 0.239 & 0.155 & 0.097 \\ 
+		17 & NCP & \footnotesize{$10y - 5y$} & $\Gamma_{4}[3] - \Gamma_{4}[2]$ &   10 & 0.201 & 0.162 & 0.074 \\ 
+		18 & NCP & \footnotesize{$11\text{+}y - 0y$} & $\Gamma_{4}[4] - \Gamma_{4}[1]$ &   10 & 0.194 & 0.147 & 0.075 \\ 
+		19 & NCP & \footnotesize{$11\text{+}y - 5y$} & $\Gamma_{4}[4] - \Gamma_{4}[2]$ &   10 & 0.192 & 0.163 & 0.101 \\ 
+		20 & NCP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.195 & 0.134 & 0.085 \\ 
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of contrast parameters.]%
+	{First-order latent variable model (FOLV). RMSE of contrast parameters.} 
+	\label{tab:FOLV_RMSE_contrasts}
+\end{table}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rllrrrr}
+		\hline
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){5-7}
+		& Parametrization  & Parameter & replicas & 100 & 250 & 500 \\  
+		\hline\hline
+		1 & CP & $\rho_{1,2}$ &  10 & 0.704 & 0.585 & 0.606 \\ 
+		2 & CP & $\rho_{1,3}$ &  10 & 0.719 & 0.591 & 0.617 \\ 
+		3 & CP & $\rho_{2,3}$ &  10 & 0.638 & 0.623 & 0.615 \\
+		%
+		\hline
+		%
+		4 & NCP & $\rho_{1,2}$ &  10 & 0.700 & 0.585 & 0.605 \\ 
+		5 & NCP & $\rho_{1,3}$ &  10 & 0.721 & 0.591 & 0.617 \\
+		6 & NCP & $\rho_{2,3}$ &  10 & 0.636 & 0.623 & 0.615 \\ 
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.]%
+	{First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.}
+	\label{tab:FOLV_RMSE_corr}
 \end{table}
 %
 \begin{table}[H]
@@ -479,7 +586,7 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE $( \eta^{(2)}_{k} )$ } \\ 
 		\cmidrule(rl){5-8}
 		& Parametrization & Sample size & items(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -498,31 +605,28 @@ This section only shows a small set of tables about the recovery capacity of the
 	{First-order latent variable model (FOLV). Aggregated RMSE for items difficulties.}
 	\label{tab:FOLV_RMSE_items}
 \end{table}
-
-
-
 %
 \begin{table}[H]
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & \multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j1} )$ } \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.693 & 0.152 & 0.293 & 1.014 \\
-		2 & CP &  250 & 0.628 & 0.143 & 0.289 & 1.115 \\  
-		3 & CP &  500 & 0.669 & 0.157 & 0.289 & 1.212 \\ 
+		1 & CP &  100(10) & 0.693 & 0.152 & 0.293 & 1.014 \\
+		2 & CP &  250(10) & 0.628 & 0.143 & 0.289 & 1.115 \\  
+		3 & CP &  500(10) & 0.669 & 0.157 & 0.289 & 1.212 \\ 
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.683 & 0.148 & 0.308 & 1.016 \\ 
-		5 & NCP &  250 & 0.616 & 0.142 & 0.298 & 1.108 \\ 
-		6 & NCP &  500 & 0.667 & 0.156 & 0.267 & 1.185 \\
+		4 & NCP &  100(10) & 0.683 & 0.148 & 0.308 & 1.016 \\ 
+		5 & NCP &  250(10) & 0.616 & 0.142 & 0.298 & 1.108 \\ 
+		6 & NCP &  500(10) & 0.667 & 0.156 & 0.267 & 1.185 \\
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the first individuals' sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the first individuals' sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the first individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated RMSE for the first individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta1}
 \end{table}
 %
@@ -530,23 +634,23 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & \multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j2} )$ } \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.628 & 0.158 & 0.276 & 0.955 \\  
-		2 & CP &  250 & 0.653 & 0.135 & 0.318 & 1.087 \\  
-		3 & CP &  500 & 0.649 & 0.145 & 0.257 & 1.133 \\  
+		1 & CP &  100(10) & 0.628 & 0.158 & 0.276 & 0.955 \\  
+		2 & CP &  250(10) & 0.653 & 0.135 & 0.318 & 1.087 \\  
+		3 & CP &  500(10) & 0.649 & 0.145 & 0.257 & 1.133 \\  
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.623 & 0.157 & 0.250 & 0.955 \\ 
-		5 & NCP &  250 & 0.631 & 0.135 & 0.276 & 1.059 \\  
-		6 & NCP &  500 & 0.645 & 0.144 & 0.270 & 1.139 \\  
+		4 & NCP &  100(10) & 0.623 & 0.157 & 0.250 & 0.955 \\ 
+		5 & NCP &  250(10) & 0.631 & 0.135 & 0.276 & 1.059 \\  
+		6 & NCP &  500(10) & 0.645 & 0.144 & 0.270 & 1.139 \\  
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the second individuals' sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the second individuals' sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the second individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated RMSE for the second individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta2}
 \end{table}
 %
@@ -554,23 +658,23 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } &\multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j3} )$ } \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individulas(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.617 & 0.137 & 0.279 & 0.992 \\  
-		2 & CP &  250 & 0.664 & 0.142 & 0.352 & 1.119 \\  
-		3 & CP &  500 & 0.651 & 0.153 & 0.263 & 1.163 \\ 
+		1 & CP &  100(10) & 0.617 & 0.137 & 0.279 & 0.992 \\  
+		2 & CP &  250(10) & 0.664 & 0.142 & 0.352 & 1.119 \\  
+		3 & CP &  500(10) & 0.651 & 0.153 & 0.263 & 1.163 \\ 
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.606 & 0.137 & 0.247 & 0.962 \\ 
-		5 & NCP &  250 & 0.647 & 0.138 & 0.324 & 1.089 \\ 
-		6 & NCP &  500 & 0.648 & 0.153 & 0.252 & 1.175 \\   
+		4 & NCP &  100(10) & 0.606 & 0.137 & 0.247 & 0.962 \\ 
+		5 & NCP &  250(10) & 0.647 & 0.138 & 0.324 & 1.089 \\ 
+		6 & NCP &  500(10) & 0.648 & 0.153 & 0.252 & 1.175 \\   
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the third individuals' sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the third individuals' sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the third individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated RMSE for the third individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta3}
 \end{table}
 %
@@ -578,23 +682,23 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & \multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(3)}_{j} )$ } \\ 
 		\cmidrule(rl){4-7}
-		& Parametrization & Sample size & mean & sd & min & max \\  
+		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
-		1 & CP &  100 & 0.736 & 0.166 & 0.390 & 1.077 \\ 
-		2 & CP &  250 & 0.908 & 0.185 & 0.489 & 1.388 \\
-		3 & CP &  500 & 1.131 & 0.232 & 0.438 & 1.857 \\ 
+		1 & CP &  100(10) & 0.736 & 0.166 & 0.390 & 1.077 \\ 
+		2 & CP &  250(10) & 0.908 & 0.185 & 0.489 & 1.388 \\
+		3 & CP &  500(10) & 1.131 & 0.232 & 0.438 & 1.857 \\ 
 		%
 		\hline
 		%
-		4 & NCP &  100 & 0.717 & 0.156 & 0.362 & 1.072 \\  
-		5 & NCP &  250 & 0.831 & 0.179 & 0.468 & 1.281 \\
-		6 & NCP &  500 & 1.119 & 0.224 & 0.501 & 1.746 \\   
+		4 & NCP &  100(10) & 0.717 & 0.156 & 0.362 & 1.072 \\  
+		5 & NCP &  250(10) & 0.831 & 0.179 & 0.468 & 1.281 \\
+		6 & NCP &  500(10) & 1.119 & 0.224 & 0.501 & 1.746 \\   
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the individuals' higher-order dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the individuals' higher-order dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the individual higher-order dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated RMSE for the individual higher-order dimension.}
 	\label{tab:SOLV_RMSE_theta}
 \end{table}
 %
@@ -761,7 +865,7 @@ This section only shows a small set of tables about the recovery capacity of the
 	\centering
 	\begin{tabular}{rlrrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE } \\ 
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE $( \eta^{(2)}_{k} )$ } \\ 
 		\cmidrule(rl){5-8}
 		& Parametrization & Sample size & items(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -780,3 +884,14 @@ This section only shows a small set of tables about the recovery capacity of the
 	{Second-order latent variable model (SOLV). Aggregated RMSE for items difficulties.}
 	\label{tab:SOLV_RMSE_items}
 \end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Retrodictive accuracy} \label{sub_sect:retro_accuracy}
+
+This section shows only a small set of figures related to the retrodictive accuracy of the model. In case the reader wants to inspect the full set of figures refer to the ``retrodictive plots" image section of the accompanying github page:
+
+\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/retrodictive_plots} \\
+%
