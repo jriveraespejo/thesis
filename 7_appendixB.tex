@@ -9,7 +9,7 @@
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{1_jags_CE_simple}
+	\includegraphics[width=0.7\linewidth]{1_jags_CE_simple}
 	%
 	\caption[The Devil's funnel. Centered Parametrization. JAGS]%
 	{The Devil's funnel. Centered Parametrization implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
@@ -18,7 +18,7 @@
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{2_jags_CE_priors}
+	\includegraphics[width=0.7\linewidth]{2_jags_CE_priors}
 	%
 	\caption[The Devil's funnel. Centered Parametrization with mildly informative priors. JAGS]%
 	{The Devil's funnel. Centered Parametrization with mildly informative priors implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
@@ -27,7 +27,7 @@
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{3_jags_NC}
+	\includegraphics[width=0.7\linewidth]{3_jags_NC}
 	%
 	\caption[The Devil's funnel. Non-Centered Parametrization. JAGS]%
 	{The Devil's funnel. Non-Centered Parametrization implemented in JAGS. It shows the traceplot and distribution of the parameters of interest.}
@@ -78,7 +78,7 @@ This section shows only a small set of trace, trank and ACF plots for the parame
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/chains} \\
 
-\noindent Similarly, the CP and NCP \texttt{n\_eff} and \texttt{Rhat} comparison plots shown here is a small set of the full available plots. For the set of figures across parameters, models, and replicas refer to the ``chains/stat" image section of the accompanying github page:
+Similarly, the CP and NCP \texttt{n\_eff} and \texttt{Rhat} comparison plots shown here is a small set of the full available plots. For the set of figures across parameters, models, and replicas refer to the ``chains/stat" image section of the accompanying github page:
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/chains_stat}
 %
@@ -884,6 +884,76 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	{Second-order latent variable model (SOLV). Aggregated RMSE for items difficulties.}
 	\label{tab:SOLV_RMSE_items}
 \end{table}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{FOLV_CE_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters.]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters. Top two panels correspond to the centered parametrization (CP). Top bottom panels correspond to the non-centered parametrization (NCP).}
+	\label{fig:FOLV_recovery2}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{SOLV_CE_J100_Ndata1_regression}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_CE_J100_Ndata1_corr}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_CE_J100_Ndata1_loads}
+	\end{subfigure}
+	%
+	\caption[Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlations, and loading parameters.]%
+	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters.}
+	\label{fig:SOLV_CE_recovery1}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{SOLV_NC_J100_Ndata1_regression}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_NC_J100_Ndata1_corr}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.48\linewidth]{SOLV_NC_J100_Ndata1_loads}
+	\end{subfigure}
+	%
+	\caption[Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlations, and loading parameters.]%
+	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters.}
+	\label{fig:SOLV_NC_recovery1}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{SOLV_CE_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{SOLV_NC_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica $1$. Items and text parameters. Top two panels correspond to the centered parametrization (CP). Top bottom panels correspond to the non-centered parametrization (NCP).}
+	\label{fig:SOLV_recovery2}
+\end{figure}
+
+
 
 
 
@@ -891,7 +961,56 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 \newpage
 \subsection{Retrodictive accuracy} \label{sub_sect:retro_accuracy}
 
-This section shows only a small set of figures related to the retrodictive accuracy of the model. In case the reader wants to inspect the full set of figures refer to the ``retrodictive plots" image section of the accompanying github page:
+The current section shows only a small set of figures related to the retrodictive accuracy of the model. In case the reader wants to inspect the full set of figures refer to the ``retrodictive plots" image section of the accompanying github page:
 
 \noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/retrodictive_plots} \\
+
+
+On the other hand, if the reader wants to replicate or inspect the retrodictive tables refer to the ``data/tables" section of the accompanying github page:
+
+\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/data_tables} \\
 %
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_items}
+	%
+	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.]%
+	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.}
+	\label{fig:FOLV_NC_hitrate_items}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_dims}
+	%
+	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.]%
+	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.}
+	\label{fig:FOLV_NC_hitrate_dim}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_texts}
+	%
+	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.]%
+	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.}
+	\label{fig:FOLV_NC_hitrate_text}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{FOLV_CE_J100_Ndata1_ICC}
+	%
+	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Centered parametrization. Item characteristic curves (ICC).]%
+	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Centered parametrization. Item characteristic curves (ICC)}
+	\label{fig:FOLV_CE_ICC}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{FOLV_CE_J100_Ndata1_IIF}
+	%
+	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF).]%
+	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF).}
+	\label{fig:FOLV_CE_IIF}
+\end{figure}

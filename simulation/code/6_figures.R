@@ -22,6 +22,8 @@ source('3_functions_extra.R')
 opar = par()
 
 
+
+
 # Chapter 3 ####
 
 file_save = file.path(getwd(), 'figures1')
@@ -1181,44 +1183,31 @@ for(ss in c(100, 250, 500)){
 
 ## 1.3 Recovery ####
 
+### 1.3.1 tables ####
+
+#### calculations ####
+
 # load statistics 
 load( file.path(getwd(), 'figures4', 'stan_stats.RData') )
 file_save = file.path(getwd(), 'figures5')
 
-
-# extract and load true parameters
-extract_true(file_load = file.path(getwd(), 'data'), 
-             file_save = file_save)
+# # extract and load true parameters
+# extract_true(file_load = file.path(getwd(), 'data'), 
+#              file_save = file_save)
 load( file.path(getwd(), 'figures5', 'true_pars.RData') )
 # true_pars[true_pars$sample_size==250,]
 
 
-# join data
-res_stan = merge(stan_int, true_pars, all.x=T,
-                 by=c("sample_size","data_number","parameter"))
-res_stan = res_stan[,c(4,1:3,5:ncol(res_stan))]
 
-# change Rho for SOLV
-idx = with(res_stan, 
-           str_detect(parameter, '^Rho') & 
-             str_detect(model_type, '^SOLV') )
-res_stan$true[idx] = with(res_stan[idx,], ifelse(true!=1, 0, true))
-save(res_stan, file=file.path(file_save, 'results_pars.RData') )
+# calculate and load RMSE
+# rmse_pars( stats_object = stan_int,
+#            true_object = true_pars,
+#            file_save = file_save)
+load( file.path(getwd(), 'figures5', 'rmse_pars.RData') )
 
 
 
-# calculate RMSE
-res_stan$Sdiff = with(res_stan, (mean - true)^2 )
-stan_rmse = res_stan %>%
-  group_by(model_type, sample_size, parameter) %>%
-  summarise( RMSE = sqrt(mean(Sdiff)), n=n() )
-save(stan_rmse, file=file.path(file_save, 'rmse_pars.RData') )
-
-
-
-# tables per set of parameters
-
-### regression and contrast ####
+#### regression and contrast ####
 par_int = c('a','b_G','b_A','b_E','b_X') 
 for(i in 1:length(par_int)){
   idx_mom = str_detect(stan_rmse$parameter, paste0('^', par_int[i]) )
@@ -1241,7 +1230,7 @@ stan_rmse[idx2,] %>%
 
 
 
-### correlations ####
+#### correlations ####
 idx = stan_rmse$parameter %in% c('Rho_theta_sub[1,2]', 'Rho_theta_sub[1,3]','Rho_theta_sub[2,3]' )
 idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
 idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
@@ -1256,7 +1245,7 @@ stan_rmse[idx2,] %>%
 
 
 
-### texts ####
+#### texts ####
 idx = str_detect(stan_rmse$parameter, 'm_b')
 idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
 idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
@@ -1286,7 +1275,7 @@ stan_rmse[idx2,] %>%
 
 
 
-### items ####
+#### items ####
 idx = str_detect(stan_rmse$parameter, 'b_k')
 idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
 idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
@@ -1303,9 +1292,7 @@ stan_rmse[idx2,] %>%
 
 
 
-
-
-### abilities ####
+#### abilities ####
 idx = stan_rmse$parameter %in% paste0('theta_sub[',1:500,',1]')
 idx1 = idx & str_detect(stan_rmse$model_type, '^FOLV')
 idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
@@ -1364,11 +1351,93 @@ stan_rmse[idx2,] %>%
 
 
 
+### 1.3.2 recovery plots ####
+file_save = file.path(getwd(), 'figures5')
+load( file.path(file_save, 'results_pars.RData') )
+
+recovery_plots(result_object = res_stan,
+               figure_save = file_save)
+
+
+
+
+
+
 
 ## 1.4 Retrodictive accuracy ####
 
 
-# plots
+
+### 1.4.1 tables ####
+
+chains_path = file.path(getwd(), 'chains_post')
+models_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+chains_list = file_id(chains_path, models_int)
+
+# # generate aggregation
+# # (it takes a lot of time!!)
+# retrodictive_agg(c_list = chains_list,
+#                  file_save = file.path(getwd(), 'figures6'),
+#                  true_load = file.path(getwd(), 'data'))
+
+# # generate within between rmse
+# retrodictive_rmse(c_list = chains_list,
+#                   file_save = file.path(getwd(), 'figures6'),
+#                   true_load = file.path(getwd(), 'figures6'))
+
+
+load( file.path(getwd(), 'figures6', 'rmse_WB_IDind.RData') )
+rmse_final[rmse_final$type=='out',] %>%
+  group_by(model_type,sample_size) %>%
+  summarise(mean_W=mean(mean_RMSE_within), 
+            min_W=min(mean_RMSE_within), 
+            max_W=max(mean_RMSE_within),
+            mean_B=mean(RMSE_between), 
+            min_B=min(RMSE_between), 
+            max_B=max(RMSE_between)) %>%
+  xtable( caption='caption', label = 'tab:', digits = 3)  
+
+
+load( file.path(getwd(), 'figures6', 'rmse_WB_IDitems.RData') )
+rmse_final[rmse_final$type=='out',] %>%
+  group_by(model_type,sample_size) %>%
+  summarise(mean_W=mean(mean_RMSE_within), 
+            min_W=min(mean_RMSE_within), 
+            max_W=max(mean_RMSE_within),
+            mean_B=mean(RMSE_between), 
+            min_B=min(RMSE_between), 
+            max_B=max(RMSE_between)) %>%
+  xtable( caption='caption', label = 'tab:')
+
+
+load( file.path(getwd(), 'figures6', 'rmse_WB_IDtext.RData') )
+rmse_final[rmse_final$type=='out',]
+
+load( file.path(getwd(), 'figures6', 'rmse_WB_IDdim.RData') )
+rmse_final[rmse_final$type=='out',] 
+
+
+
+
+### 1.4.2 plots ####
+
+chains_path = file.path(getwd(), 'chains_post')
+models_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+chains_list = file_id(chains_path, models_int)
+
+# # ICC and IIF
+# # (it takes a lot of time!!)
+# item_plots(c_list = chains_list,
+#            file_save = file.path(getwd(), 'figures6'),
+#            true_load = file.path(getwd(), 'data'))
+
+retrodictive_plots(c_list = chains_list,
+                   file_save = file.path(getwd(), 'figures6'),
+                   true_load = file.path(getwd(), 'figures6'))
+
+
+
+
 
 
 
