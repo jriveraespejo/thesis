@@ -1609,6 +1609,42 @@ recovery_plots = function(result_object, figure_save){
         dev.off()
         
         
+        if( str_detect(mt[m], '^SOLV') ){
+          
+          figure_name = paste0(mt[m],'_J',ss[s],'_Ndata',dn[d],'_loads.png')
+          png( file.path(figure_save, figure_name), 
+               units='cm', width=15, height=12, res=200)
+          
+          par(mfrow=c(1,1), mar=c(9,4,4,2))
+          
+          # identify parameter
+          idx_mom = detect_par(res_stan, 'loads')
+          idx = with(res_stan, model_type==mt[m] & sample_size==ss[s] & 
+                       data_number==dn[d] & idx_mom)
+          res_mom = res_stan[idx,]
+          
+          y_lim = range( with(res_mom, c(X5.5., X94.5., true)), na.rm=T )
+          
+          # plot 1: correlations
+          plot(1:nrow(res_mom), res_mom$mean, xlim=c(0, nrow(res_mom)+1), ylim=c(0, y_lim[2]), 
+               xaxt='n', yaxt='n', col=col.alpha('blue', 0.3), pch=19, 
+               xlab='', ylab='estimates', main='Loadings')
+          abline(h=0, col=col.alpha('black', 0.3), lty=2)
+          axis(side=1, at=1:nrow(res_mom), labels=res_mom$parameter, las=2)
+          axis(side=2, at=round( seq(0, y_lim[2], by=0.2), 2), las=1)
+          for(i in 1:nrow(res_mom)){
+            lines(x=rep(i,2), y=with( res_mom[i,], c(X5.5., X94.5.) ) ,
+                  col=col.alpha('blue', 0.3))
+          }
+          points(1:nrow(res_mom), res_mom$true, col=col.alpha('black', 0.5))
+          legend('topleft', legend=c('estimate','true'), pch=c(19,1), cex=.8, bty='n',
+                 col=c(col.alpha('blue', 0.3), col.alpha('black', 0.5)) ) 
+          
+          par(mfrow=c(1,1), mar=opar$mar)
+          
+          dev.off()
+          
+        }
         
         
         
