@@ -355,7 +355,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j1} )$ } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j1} )$ } \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -370,8 +370,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 0.610 & 0.143 & 0.214 & 1.087 \\  
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the first individual sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the first individual sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the first individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the first individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta1}
 \end{table}
 %
@@ -379,7 +379,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j2} )$} \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j2} )$} \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -394,8 +394,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 0.607 & 0.138 & 0.202 & 1.055 \\
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the second individual sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the second individual sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the second individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the second individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta2}
 \end{table}
 %
@@ -403,7 +403,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j3} )$} \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j3} )$} \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -418,8 +418,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500 & 0.601 & 0.147 & 0.220 & 1.082 \\  
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for the third individual sub-dimension.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for the third individual sub-dimension.}
+	\caption[First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the third individual sub-dimension.]%
+	{First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for the third individual sub-dimension.}
 	\label{tab:FOLV_RMSE_theta3}
 \end{table}
 %
@@ -445,7 +445,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		%
 		\hline
 		%
-		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.069 & 0.083 \\ 
+		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.065 & 0.083 \\ 
 		13 & NCP & \footnotesize{gender(males)} & $\Gamma_{1}[1]$ &   10 & 0.199 & 0.221 & 0.200 \\ 
 		14 & NCP & \footnotesize{gender(females)} & $\Gamma_{1}[2]$ &   10 & 0.247 & 0.229 & 0.235 \\ 
 		15 & NCP & \footnotesize{age} & $\Gamma_{2}$ & 10 & 0.008 & 0.006 & 0.003 \\ 
@@ -458,8 +458,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		22 & NCP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ &   10 & 0.150 & 0.133 & 0.095 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of regression parameters.]%
-	{First-order latent variable model (FOLV). RMSE of regression parameters.} 
+	\caption[First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of regression parameters.]%
+	{First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of regression parameters.} 
 	\label{tab:FOLV_RMSE_regression}
 \end{table}
 
@@ -497,8 +497,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		20 & NCP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ &   10 & 0.195 & 0.134 & 0.085 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of contrast parameters.]%
-	{First-order latent variable model (FOLV). RMSE of contrast parameters.} 
+	\caption[First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of contrast parameters.]%
+	{First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of contrast parameters.} 
 	\label{tab:FOLV_RMSE_contrasts}
 \end{table}
 %
@@ -521,8 +521,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP & $\rho_{2,3}$ &  10 & 0.636 & 0.623 & 0.615 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.]%
-	{First-order latent variable model (FOLV). RMSE of correlations among sub-dimensions.}
+	\caption[First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.]%
+	{First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.}
 	\label{tab:FOLV_RMSE_corr}
 \end{table}
 %
@@ -549,8 +549,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		10 & NCP & $\eta^{(3)}_{5}$ &   10 & 0.189 & 0.318 & 0.230 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of texts difficulties.]%
-	{First-order latent variable model (FOLV). RMSE of texts difficulties.}
+	\caption[First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of texts difficulties.]%
+	{First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of texts difficulties.}
 	\label{tab:FOLV_RMSE_texts_diff}
 \end{table}
 %
@@ -577,8 +577,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		10 & NCP & $\sigma^{(3)}_{5}$ &   10 & 0.242 & 0.220 & 0.181 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). RMSE of texts difficulty deviations.]%
-	{First-order latent variable model (FOLV). RMSE of texts difficulty deviations.}
+	\caption[First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of texts difficulty deviations.]%
+	{First-order latent variable model (FOLV). $\text{RMSE}_{B}$ of texts difficulty deviations.}
 	\label{tab:FOLV_RMSE_texts_dev}
 \end{table}
 %
@@ -586,7 +586,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE $( \eta^{(2)}_{k} )$ } \\ 
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \eta^{(2)}_{k} )$ } \\ 
 		\cmidrule(rl){5-8}
 		& Parametrization & Sample size & items(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -601,16 +601,31 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500 & 25(10) & 0.155 & 0.037 & 0.090 & 0.264 \\ 
 		\hline
 	\end{tabular}
-	\caption[First-order latent variable model (FOLV). Aggregated RMSE for items difficulties.]%
-	{First-order latent variable model (FOLV). Aggregated RMSE for items difficulties.}
+	\caption[First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for items difficulties.]%
+	{First-order latent variable model (FOLV). Aggregated $\text{RMSE}_{B}$ for items difficulties.}
 	\label{tab:FOLV_RMSE_items}
 \end{table}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{FOLV_CE_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata1_items}
+	\end{subfigure}
+	%
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters.]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters. Top two panels correspond to the centered parametrization (CP). Top bottom panels correspond to the non-centered parametrization (NCP).}
+	\label{fig:FOLV_recovery2}
+\end{figure}
 %
 \begin{table}[H]
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j1} )$ } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j1} )$ } \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -625,8 +640,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 0.667 & 0.156 & 0.267 & 1.185 \\
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the first individual sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the first individual sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the first individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the first individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta1}
 \end{table}
 %
@@ -634,7 +649,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j2} )$ } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j2} )$ } \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -649,8 +664,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 0.645 & 0.144 & 0.270 & 1.139 \\  
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the second individual sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the second individual sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the second individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the second individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta2}
 \end{table}
 %
@@ -658,7 +673,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(2)}_{j3} )$ } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(2)}_{j3} )$ } \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individulas(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -673,8 +688,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 0.648 & 0.153 & 0.252 & 1.175 \\   
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the third individual sub-dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the third individual sub-dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the third individual sub-dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the third individual sub-dimension.}
 	\label{tab:SOLV_RMSE_theta3}
 \end{table}
 %
@@ -682,7 +697,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrr}
 		\hline
-		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ RMSE $( \theta^{(3)}_{j} )$ } \\ 
+		\multicolumn{2}{c}{ } & Number of & \multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \theta^{(3)}_{j} )$ } \\ 
 		\cmidrule(rl){4-7}
 		& Parametrization & individuals(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -697,8 +712,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500(10) & 1.119 & 0.224 & 0.501 & 1.746 \\   
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for the individual higher-order dimension.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for the individual higher-order dimension.}
+	\caption[Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the individual higher-order dimension.]%
+	{Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for the individual higher-order dimension.}
 	\label{tab:SOLV_RMSE_theta}
 \end{table}
 %
@@ -724,7 +739,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		%
 		\hline
 		%
-		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.089 & 0.069 & 0.083 \\ 
+		12 & NCP & \footnotesize{Intercept} & $\Gamma_{0}$ &   10 & 0.11 & 0.12 & 0.16 \\ 
 		13 & NCP & \footnotesize{gender(males)} & $\Gamma_{1}[1]$ & 10 & 0.31 & 0.47 & 0.48 \\ 
 		14 & NCP & \footnotesize{gender(females)} & $\Gamma_{1}[2]$ & 10 & 0.16 & 0.10 & 0.12 \\ 
 		15 & NCP & \footnotesize{age} & $\Gamma_{2}$ & 10 & 0.02 & 0.01 & 0.03 \\ 
@@ -737,8 +752,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		22 & NCP & \footnotesize{experience($11\text{+}y$)} & $\Gamma_{4}[4]$ & 10 & 0.14 & 0.28 & 0.39 \\   
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). RMSE of regression parameters.]%
-	{Second-order latent variable model (SOLV). RMSE of regression parameters.} 
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of regression parameters.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of regression parameters.} 
 	\label{tab:SOLV_RMSE_regression}
 \end{table}
 
@@ -776,8 +791,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		20 & NCP & \footnotesize{$11\text{+}y - 10y$} & $\Gamma_{4}[4] - \Gamma_{4}[3]$ & 10 & 0.28 & 0.32 & 0.21 \\    
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). RMSE of contrast parameters.]%
-	{Second-order latent variable model (SOLV). RMSE of contrast parameters.} 
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of contrast parameters.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of contrast parameters.} 
 	\label{tab:SOLV_RMSE_contrasts}
 \end{table}
 %
@@ -800,8 +815,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP & $\rho_{2,3}$ &  10 & 0.27 & 0.22 & 0.22 \\
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). RMSE of correlations among sub-dimensions.]%
-	{Second-order latent variable model (SOLV). RMSE of correlations among sub-dimensions.}
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.}
 	\label{tab:SOLV_RMSE_corr}
 \end{table}
 %
@@ -828,8 +843,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		15 & NCP & $\eta^{(3)}_{5}$ &   10 & 0.189 & 0.318 & 0.230 \\ 
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). RMSE of texts difficulties.]%
-	{Second-order latent variable model (SOLV). RMSE of texts difficulties.}
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of texts difficulties.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of texts difficulties.}
 	\label{tab:SOLV_RMSE_texts_diff}
 \end{table}
 %
@@ -856,8 +871,8 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		20 & NCP & $\sigma^{(3)}_{5}$ &   10 & 0.242 & 0.220 & 0.181 \\ 
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). RMSE of texts difficulty deviations.]%
-	{Second-order latent variable model (SOLV). RMSE of texts difficulty deviations.}
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of texts difficulty deviations.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of texts difficulty deviations.}
 	\label{tab:SOLV_RMSE_texts_dev}
 \end{table}
 %
@@ -865,7 +880,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\centering
 	\begin{tabular}{rlrrrrrr}
 		\hline
-		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ RMSE $( \eta^{(2)}_{k} )$ } \\ 
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{4}{c}{ $\text{RMSE}_{B}$ $( \eta^{(2)}_{k} )$ } \\ 
 		\cmidrule(rl){5-8}
 		& Parametrization & Sample size & items(replicas) & mean & sd & min & max \\  
 		\hline\hline
@@ -880,25 +895,10 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		6 & NCP &  500 & 25(10) & 0.218 & 0.012 & 0.204 & 0.227 \\ 
 		\hline
 	\end{tabular}
-	\caption[Second-order latent variable model (SOLV). Aggregated RMSE for items difficulties.]%
-	{Second-order latent variable model (SOLV). Aggregated RMSE for items difficulties.}
+	\caption[Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for items difficulties.]%
+	{Second-order latent variable model (SOLV). Aggregated $\text{RMSE}_{B}$ for items difficulties.}
 	\label{tab:SOLV_RMSE_items}
 \end{table}
-%
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}
-		\includegraphics[width=1\linewidth]{FOLV_CE_J100_Ndata1_items}
-	\end{subfigure}
-	%
-	\begin{subfigure}
-		\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata1_items}
-	\end{subfigure}
-	%
-	\caption[First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters.]%
-	{First-order latent variable model (FOLV). Sample size $100$, replica $1$. Items and text parameters. Top two panels correspond to the centered parametrization (CP). Top bottom panels correspond to the non-centered parametrization (NCP).}
-	\label{fig:FOLV_recovery2}
-\end{figure}
 %
 \begin{figure}[H]
 	\centering
@@ -915,7 +915,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\end{subfigure}
 	%
 	\caption[Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlations, and loading parameters.]%
-	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters.}
+	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters. The true correlation parameters corresponds to simulation values.}
 	\label{fig:SOLV_CE_recovery1}
 \end{figure}
 %
@@ -934,7 +934,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\end{subfigure}
 	%
 	\caption[Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlations, and loading parameters.]%
-	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters.}
+	{Second-order latent variable model (SOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, correlation, and loading parameters. The true correlation parameters corresponds to simulation values.}
 	\label{fig:SOLV_NC_recovery1}
 \end{figure}
 %
