@@ -530,8 +530,8 @@ file_id = function(chains_path, model_int){
   
   # # test
   # chains_path = file.path(getwd(), 'chains_post')
-  # model_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
-  
+  # model_int = c('FOLV_CE_mod','FOLV_CE','FOLV_NC_mod','FOLV_NC','SOLV_CE','SOLV_NC')
+  # 
   # list all files
   chains_list = list.files( chains_path )
   
@@ -548,7 +548,9 @@ file_id = function(chains_path, model_int){
   
   # sort files by replicate and chain
   list_model = data.frame(model_string=chains_list)
-  list_model$model = str_sub(chains_list, start=1, end=7)
+  
+  end = str_locate(chains_list, 'J')[,1]
+  list_model$model = str_sub(chains_list, start=1, end=end-2)
   
   start = str_locate(chains_list, 'J')[,2]
   list_model$sample = as.integer(str_sub(chains_list, start=start+1, end=start+3))
@@ -971,14 +973,17 @@ n_effective = function(stan_object1, stan_object2, est_par){
 # arguments:
 #     c_list = data.frame generated with file_id() function
 #     chains_path = location of csv files corresponding to stanfit objects
-#     file_save = location to save images
+#     file_save = location to save files
+#     file_name = name of the file to save 
+#     contr_pars = set of paramerter to calculate contrasts
 #
-stat_chain = function(c_list, chains_path, file_save, contr_pars){
+stat_chain = function(c_list, chains_path, file_save, file_name, contr_pars){
   
   # # test
   # c_list=chains_list
   # chains_path=chains_path
-  # file_save=file.path(getwd(), 'figures2')
+  # file_save=file.path(getwd(), 'figures4')
+  # file_name = 'stan_stats_no_mod'
   # contr_pars = c('b_G','b_E','b_X')
   
   # parameters
@@ -1032,55 +1037,59 @@ stat_chain = function(c_list, chains_path, file_save, contr_pars){
         # extract samples
         post = extract.samples( stan_model )
         idx = names(post) %in% contr_pars
-        post = post[idx]
-        # names(post)
         
-        # calculations
-        # k=1
-        for(k in 1:length(contr_pars) ){
+        if( !all(idx==F) ){
           
-          # selecting parameter
-          idx = detect_parameter(stan_result, contr_pars[k])
-          lab_par = rownames(stan_result)[idx]
-          npars = length(idx)
+          post = post[idx]
+          # names(post)
           
-          # storage
-          # i=2
-          # j=3
-          for(i in 1:npars){
-            for(j in 1:npars){
-              
-              if(j>i){
-                if(i == 1 & j==2 & k==1){
-                  diff = post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] 
-                  diff_name = paste( c( lab_par[j], lab_par[i]), collapse=' - ' )
-                } else{
-                  diff = cbind(diff ,
-                               post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] ) 
-                  diff_name = c(diff_name, 
-                                paste( c( lab_par[j], lab_par[i]), collapse=' - ' ) )
+          # calculations
+          # k=1
+          for(k in 1:length(contr_pars) ){
+            
+            # selecting parameter
+            idx = detect_parameter(stan_result, contr_pars[k])
+            lab_par = rownames(stan_result)[idx]
+            npars = length(idx)
+            
+            # storage
+            # i=2
+            # j=3
+            for(i in 1:npars){
+              for(j in 1:npars){
+                
+                if(j>i){
+                  if(i == 1 & j==2 & k==1){
+                    diff = post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] 
+                    diff_name = paste( c( lab_par[j], lab_par[i]), collapse=' - ' )
+                  } else{
+                    diff = cbind(diff ,
+                                 post[[contr_pars[k]]][,j] - post[[contr_pars[k]]][,i] ) 
+                    diff_name = c(diff_name, 
+                                  paste( c( lab_par[j], lab_par[i]), collapse=' - ' ) )
+                  }
                 }
+                
               }
-          
             }
+            
           }
           
+          # calculations
+          diff = data.frame(diff)
+          names(diff) = diff_name
+          res_diff = precis( diff, depth=4 )
+          
+          # contrast storage
+          res_diff = data.frame( model_type = models_int[m],
+                                 sample_size = sample_sizes[s],
+                                 data_number = data_number[d],
+                                 parameter = row.names(res_diff),
+                                 res_diff[,-5], 
+                                 n_eff = NA,
+                                 Rhat4 = NA)
+          stan_int = rbind(stan_int, res_diff)
         }
-        
-        # calculations
-        diff = data.frame(diff)
-        names(diff) = diff_name
-        res_diff = precis( diff, depth=4 )
-        
-        # contrast storage
-        res_diff = data.frame( model_type = models_int[m],
-                               sample_size = sample_sizes[s],
-                               data_number = data_number[d],
-                               parameter = row.names(res_diff),
-                               res_diff[,-5], 
-                               n_eff = NA,
-                               Rhat4 = NA)
-        stan_int = rbind(stan_int, res_diff)
         
         # remove row.names
         row.names(stan_int) = NULL
@@ -1098,7 +1107,7 @@ stat_chain = function(c_list, chains_path, file_save, contr_pars){
         stan_int = stan_int[!idx,]
         
         # save file
-        save(stan_int, file=file.path(file_save, 'stan_stats.RData') )
+        save(stan_int, file=file.path(file_save, paste0(file_name, '.RData') ) )
         print( paste0(models_int[m], '_J', sample_sizes[s], '_Ndata', data_number[d]) )
       
       }

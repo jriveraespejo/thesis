@@ -876,23 +876,44 @@ dev.off()
 
 ## 1.2 Performance ####
 
-# extract statistics
+# previous models
 chains_path = file.path(getwd(), 'chains_post')
-models_int = c('FOLV_CE', 'FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+models_int = c('FOLV_CE','FOLV_NC', 'SOLV_CE', 'SOLV_NC')
 chains_list = file_id(chains_path, models_int)
-
-# stat_chain(c_list = chains_list,
-#            chains_path = chains_path,
-#            file_save = file.path(getwd(), 'figures4'),
-#            contr_pars = c('b_G','b_E','b_X'))
-
-
+idx = str_detect(chains_list$model, '_mod')
+chains_list = chains_list[!idx, ]
 
 ### trace, trank, acf plots ####
 # # plots
 # figures_plot(c_list=chains_list, 
 #              chains_path=chains_path, 
 #              file_save=file.path(getwd(), 'figures3'))
+
+stat_chain(c_list = chains_list,
+           chains_path = chains_path,
+           file_save = file.path(getwd(), 'figures4'),
+           file_name = 'stan_stats_no_mod',
+           contr_pars = c('b_G','b_E','b_X'))
+
+
+
+# # extract statistics
+# chains_path = file.path(getwd(), 'chains_post')
+# models_int = c('FOLV_CE_mod','FOLV_CE','FOLV_NC_mod','FOLV_NC', 'SOLV_CE', 'SOLV_NC')
+# chains_list = file_id(chains_path, models_int)
+# stat_chain(c_list = chains_list,
+#            chains_path = chains_path,
+#            file_save = file.path(getwd(), 'figures4'),
+#            file_name = 'stan_stats_with_mod',
+#            contr_pars = c('b_G','b_E','b_X'))
+# load( file.path(getwd(), 'figures4', 'stan_stats.RData') )
+# idx = with(stan_int, model_type=='FOLV_NC_mod' & 
+#              parameter %in% c('Rho_theta_sub[1,2]', 'Rho_theta_sub[1,3]', 'Rho_theta_sub[2,3]'))
+# names(stan_int)[5] = 'mean1'
+# stan_int[idx,] %>%
+#   summarise(mean=mean(mean1), sd=sd(mean1))
+# # not enough to justify changes to the document
+
 
 
 

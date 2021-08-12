@@ -54,7 +54,7 @@ source('5_models_post.R')
 model_path = file.path(getwd(), 'models_post')
 model_list = list.files( model_path )
 model_list = model_list[ str_detect(model_list, '.stan') ]
-model_list = model_list[c(1:2,5:6,3:4)]
+model_list = model_list[c(1:4,5:6,7:8)]
 
 run_post( models = model_list,
           model_path = model_path,
