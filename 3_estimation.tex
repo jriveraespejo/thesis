@@ -23,7 +23,7 @@ The reasons on why bayesian statistics is attractive to perform the parameters' 
 	\begin{enumerate}
 		\item when we have small sample sizes.
 		
-		\item when individuals have null scores or aberrant response patterns \cite{Hambleton_et_al_1991a, Azevedo_2003}. The latter happens when examinees answered some relatively difficult and discriminating items correctly, while answering some of the easiest incorrectly.
+		\item when individuals have null scores or aberrant response patterns \cite{Hambleton_et_al_1991a, Azevedo_2003}. The latter happens when examinees answer some relatively difficult and discriminating items correctly, while answering some of the easiest incorrectly.
 		
 		\item when parameters need to be confined to a permitted space, e.g. the estimation of positive unique factors variances \cite{Martin_et_al_1975}.
 		
@@ -41,7 +41,7 @@ Off course the bayesian framework has shortcomings, among them:
 \begin{enumerate}	
 	\item It exposes the user to somewhat-arbitrary decisions about the running of the chains, in order to ensure a proper performance, e.g. how many iterates does the chain need to achieve precise estimates?, what is the right size for the burn-in and warm-up phases?, how should the thinning procedure be performed, if any?, should we follow the same procedure for all parameters of interest?, among others \cite{Skrondal_et_al_2004a}. 
 	
-	\item The user can include all type of information through the priors distributions, apparently making their elicitation convenient for manipulation, towards the use of highly informative priors.
+	\item The user can include all type of information through the priors distributions, making their elicitation convenient for manipulation.
 	
 	\item Multiple options are available to evaluate the performance of the method, and most of them are visual, making it hard to assess if a proper posterior investigation have been made \cite{Gelman_et_al_1996a}. More specifically, the user has multiple options to assess if the chain achieves the three requirements of a good performance: stationarity, convergence, and good mixing \cite{McElreath_2020}. 
 	
@@ -56,9 +56,9 @@ Off course the bayesian framework has shortcomings, among them:
 
 Although some of the previous shortcomings have made the Bayesian procedure a ``controversial" implementation, most of them already have acceptable solutions. 
 
-For the first point, a popular approach is to use a large number of iterates, burn-in and thinning processes. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling algorithms. However, recent solutions, like the Hamiltonian Monte Carlo (HMC) \cite{Betancourt_et_al_2013}, is less reliant on the decision of selecting these features, as it implements a different sampling mechanism (see section \ref{sub_sect:hmc}). 
+For the first point, a popular approach is to use a large number of iterates, burn-in and thinning processes. This is mostly applicable under the Metropolis-Hastings and Gibbs sampling algorithms. However, recent solutions, like the Hamiltonian Monte Carlo (HMC) \cite{Betancourt_et_al_2013}, is less reliant on selecting these features, as it implements a different sampling mechanism (see section \ref{sub_sect:hmc}). 
 
-On the second point, the literature has indicated that priors can be used in a subjective manner\footnote{see \citet{McElreath_2020} (Chapter 2, pp. 36), Rethinking section ``Prior, prior pants on fire", for an interesting stance contrary to this statement.}. However, as \citet{McElreath_2020} indicated, because they can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model, through the use of prior predictive simulations and/or sensitivity analysis  (see section \ref{sub_sect:prior_pred}).
+On the second point, the literature has indicated that priors can be used to reflect subjective beliefs\footnote{see \citet{McElreath_2020} (Chapter 2, pp. 36), Rethinking section ``Prior, prior pants on fire", for an interesting stance contrary to this statement.}. However, as \citet{McElreath_2020} indicated, because the priors can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model, through the use of prior predictive simulations and/or sensitivity analysis  (see section \ref{sub_sect:prior_pred}).
 
 About the third point, the literature on bayesian analysis acknowledge that the visual assessment of stationarity and convergence is easier, and these procedures usually has additional support from statistics like \texttt{Rhat} \cite{Gelman_et_al_2014}. On the contrary, a visual evaluation of `good' mixing remains as a hard task. Recent approaches have taken a more proactive stance on the latter, seeking to increase the possibility of a well mixed chain by changing the posterior sampling geometry of the model \cite{Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013, McElreath_2020} (see section \ref{sect:noncenter}).
 
@@ -172,7 +172,7 @@ Following \citet{Rabe_et_al_2004a}, the likelihood function is build in a recurs
 
 As indicated by \citet{Rabe_et_al_2004a}, in order to fully specify the model and provide a scale for the latent variables, we have to make assumptions for either the distribution of the disturbances $\pmb{\zeta}$, or the distribution of one or more of the latent variables $\pmb{\Theta}$. On the other hand, as point out by \citet{Fujimoto_2018b} and several others authors, we could also set restrictions for one or more of the loadings in $\pmb{\Lambda}$. The last is more prevalent in frequentist software packages like Winsteps \cite{Winsteps2021}.
 
-Furthermore, as it is hinted by equation (\ref{eq:lik3}), it is assumed the latent variables at different levels are independent from each other, whereas latent variables at the same level may present dependency. In case of the latter, we presume the latent variables at the same level have a multivariate normal distribution with a mean and covariance structure determined by equations (\ref{eq:structural_model2}) and (\ref{eq:structural_model3}). In the case of the covariance matrices, these are determined by the covariance of the specific disturbances $\pmb{\zeta}$. 
+Furthermore, as it is hinted by equation (\ref{eq:lik3}), it is assumed the latent variables at different levels are independent from each other, whereas latent variables at the same level may present dependency. Therefore, when the assumption is coherent under the context of a model, we will presume the latent variables at the same level have a multivariate normal distribution with a mean and covariance structure determined by equations (\ref{eq:structural_model2}) and (\ref{eq:structural_model3}). In the case of the covariance matrices, these are determined by the covariance of the specific disturbances $\pmb{\zeta}$. 
 
 Chapter \ref{chap:simulation} and \ref{chap:application} will show the model identification strategy in the context of a simulated and real data set, respectively.
 
@@ -184,23 +184,23 @@ Chapter \ref{chap:simulation} and \ref{chap:application} will show the model ide
 
 \subsection{Hamiltonian Monte Carlo} \label{sub_sect:hmc}
 
-For years the state-of-the-art platform for Bayesian statistical modeling have been the BUGS\footnote{Bayesian inference Using Gibbs Sampling} project \cite{Lunn_et_al_2000, Lunn_et_al_2009}, with its WinBUGS and OpenBUGS implementations. However, a more recent participant JAGS\footnote{Just Another Gibbs Sampling} \cite{Plummer_2003} has gain traction, due to its cross-platform capabilities. In any case, both platforms are not that different form each other. Both use two of the most popular and successful algorithms for performing MCMC: the Metropolis-Hastings \cite{Metropolis_et_al_1953, Hastings_1970} and Gibbs Sampling \cite{Geman_et_al_1984} algorithms.
+For years the state-of-the-art platform for Bayesian statistical modeling have been the BUGS\footnote{Bayesian inference Using Gibbs Sampling} project, with its WinBUGS and OpenBUGS implementations \cite{Lunn_et_al_2000, Lunn_et_al_2009}. However, a more recent participant JAGS\footnote{Just Another Gibbs Sampling} \cite{Plummer_2003} has gain traction, due to its cross-platform capabilities. In any case, both platforms are not that different form each other. Both use two of the most popular and successful algorithms for performing MCMC: the Metropolis-Hastings \cite{Metropolis_et_al_1953, Hastings_1970} and Gibbs Sampling \cite{Geman_et_al_1984} algorithms.
 
 In general lines, the Metropolis algorithm follows a two-step procedure: (i) it produces a new proposal for a parameter's value, and (ii) it evaluates the proposal against the current, accepting the new value if it is more likely under the posterior distribution. On the other hand, the Gibbs sampling uses a similar procedure, but it gains efficiency by exploiting the knowledge behind the target distribution. The latter improvement catapulted the Gibbs sampler into the workhorse of high dimensional Bayesian computing. 
 
 However, both methods remain as highly random procedures, and because of it, they still have important limitations. The most important of them all is that they do not yield independent and identically distributed samples ($iid$). This in turn means, the exploration of the posterior is made through a series of (sometimes highly dependent) values, causing the MCMC chain to converge to the target distribution only in the long run, i.e. when the number of iterations approach infinity ($t \rightarrow \infty$) \cite{Gelman_et_al_2014}. It is important to mention that while the non-fulfillment of $iid$ samples is a critic of all simulation based method, in no algorithms is more relevant than in the previous two. 
 
-In this setting three solutions have been proposed within the context of these algorithms, and oftentimes the aforementioned software packages use them in conjunction. The first consist on improving the sampling mechanism by using a Hybrid MCMC method. A good example is the ``Metropolis-within-Gibbs" algorithm \cite{Muller_1991}. The second consist on setting a warm-up phase that seeks to adapt the proposal distributions to favor the exploration of the posterior. Finally, the third consist on defining the number of iterates, burn-in and thinning processes in a way that it reduces the serial dependencies in the samples. 
+In this context, multiple approaches have been proposed to ensure an appropriate exploration of the posterior distribution, even in the face of non-$iid$ samples, and oftentimes, the aforementioned software packages use them in conjunction. The first consist on improving the sampling mechanism by using a Hybrid MCMC method. A good example of this is the ``Metropolis-within-Gibbs" algorithm \cite{Muller_1991}. The second consist on setting a warm-up phase, that seeks to adapt the proposal distributions to favor the exploration of the posterior. Finally, the third consist on defining the number of iterates, burn-in and thinning processes in a way, that it reduces the serial dependencies in the samples. 
 
 Nevertheless, the aforementioned solutions, while useful, do not solve all issues related to the MCMC chain's performance, as these can remain biased in subtle ways, that are more harder to identify \cite{McElreath_2020}. Therefore, researchers have decided instead to propose new improved algorithms. 
 
-Is in this context were the Hamiltonian Monte Carlo or Hybrid Monte Carlo (HMC) was proposed by \citet{Duane_et_al_1987}, using the theory of Hamiltonian Dynamics. While the full representation of method is out of the scope of this research, we can still make a high-level description of its process, with purpose of point out its benefits and shortcomings. 
+Is in this context were the Hamiltonian Monte Carlo or Hybrid Monte Carlo (HMC) was proposed by \citet{Duane_et_al_1987}. While the full representation of method is out of the scope of this research, we can still make a high-level description of its process, with purpose of point out its benefits and shortcomings. 
 
-Assuming we have continuous distributions and the partial derivatives of the log-density function (the gradient) exists, the method iterates the updating of two vector spaces of a particle \cite{Neal_2011, McElreath_2020}. First, it samples new values for the particle's momentum vector, independent of the current values of its position vector, i.e. it gives the particle a random ``flick". In the second iteration, using Hamiltonian dynamics, a Metropolis update is performed to propose a new position vector for the particle. In this sense, one can say the HMC runs a small physics simulation, where the position of the particle denotes the current parameter values in the Markov chain, the momentum denotes the proposed path to a new set of values, and the log-posterior provides the ``friction-less" surface over which the particle moves, where the gradient defines its curvature \cite{McElreath_2020}.
+Assuming we have continuous distributions and the partial derivatives of the log-density function (the gradient) exists, the method iterates between the updating of two vector spaces of a ``particle" \cite{Neal_2011, McElreath_2020}. First, it samples new values for the particle's momentum vector, independent of the current values of its position vector, i.e. it gives the particle a random ``flick". In the second iteration, using Hamiltonian dynamics, a Metropolis update is performed to propose a new position vector for the particle. In this sense, one can say the HMC runs a small physics simulation, where the position of the particle denotes the current parameter values in the Markov chain, the momentum denotes the proposed path to a new set of values, and the log-posterior provides the ``friction-less" surface over which the particle moves, where the gradient defines its curvature \cite{McElreath_2020}.
 
-In principle, because HMC produce ``more informed" proposals, it will accept all of them. In practice, however, HMC uses a rejection procedure that inform us when the method was not able to maintain the ``energy" of the system, producing a bad numeric approximation, i.e. a divergent transition (see section \ref{sect:noncenter} for an example). For more on the background theory on Hamiltonian Dynamics and specifics about the HMC algorithm refer to \citet{Neal_2011} and \citet{Betancourt_et_al_2013}.
+In principle, because HMC produce ``more informed" proposals, it will accept all of them. In practice, however, HMC uses a rejection procedure that inform us when the method was not able to maintain the ``energy" of the system, producing a bad numeric approximation, i.e. a divergent transition (see section \ref{sect:noncenter} for an example). For more on the background theory on Hamiltonian Dynamics and specifics about the HMC algorithm refer to \citet{Neal_2011}, and \citet{Betancourt_et_al_2013}.
 
-All of this just tells us that HMC is a highly complex algorithm. However, as \citet{McElreath_2020} point out, the Gibbs strategy got its improvement over the Metropolis-Hastings by being less random, not more. And in that sense, HMC pushes this principle to a greater length, but manages to improve the efficiency of the MCMC procedure. This is especially true in cases where ordinary Metropolis or Gibbs sampling cannot make a proper exploration of the parameter space, e.g. with highly correlated parameters or with models with hundreds or thousands of parameters, like complex hierarchical models. Moreover, as HCM is more efficient, it requires less number of iterations to make a proper posterior investigation \cite{McElreath_2020, Gelman_et_al_2014} 
+All of this just tells us that HMC is a highly complex algorithm. However, as \citet{McElreath_2020} pointed out, the Gibbs strategy got its improvement over the Metropolis-Hastings by being less random, not more. And in that sense, HMC pushes this principle to a greater length, but manages to improve the efficiency of the MCMC procedure. This is especially true in cases where ordinary Metropolis or Gibbs sampling cannot make a proper exploration of the parameter space, e.g. with highly correlated parameters or with models with hundreds or thousands of parameters, like complex hierarchical models. Moreover, as HCM is more efficient, it requires less number of iterations to make a proper posterior investigation \cite{McElreath_2020, Gelman_et_al_2014} 
 
 Off course, this comes with a cost. The methods is more computationally intensive than the previous. However, because of the efficiency improvement and the need of less number of iterations, the method requires less computer time in total, even when each individual sample needs more.
 
@@ -214,13 +214,13 @@ Off course, this comes with a cost. The methods is more computationally intensiv
 
 \subsection{What about burn-in and thinning?} \label{sub_sect:burn}
 
-Since HMC uses a different approach and produces more informative proposals, setting specific burn-in and thinning processes is no longer necessary.
+Since HMC uses a different approach and produces more informative proposals, setting specific burn-in and thinning processes are no longer necessary.
 
 However, the method does require to perform a warm-up procedure to adapt sampling, and to tune in two parameters of the algorithm: the number of steps (\texttt{leapfrogs}), and the \texttt{step size} \cite{Stan2020}. These parameters are used to make a discrete approximation of the momentum vector, i.e. the path of the particle \cite{Neal_2011, Betancourt_et_al_2013}. 
 
-Notice, this phase is similar to a procedure performed in JAGS, where the proposal distribution gets ``tuned up" to improve the posterior investigation. However, the similarities end there. The warm-up samples in HMC are not representative of the target posterior distribution, no matter how long the iterations continue \cite{McElreath_2020}. Finally, after the warm-up is finished, and assuming the adaption was successful, the method will sample directly from the target distribution.
+Notice, this phase is similar to a procedure performed in JAGS, where the proposal distribution gets ``tuned-up" to improve the posterior investigation. However, the similarities end there. The warm-up samples in HMC are not representative of the target posterior distribution, no matter how long the iterations continue \cite{McElreath_2020}. Finally, after the warm-up is finished, and assuming the adaption was successful, the method will sample directly from the target distribution.
 
-In the current research, we will use a total $3,000$ effective iterations, coming from $3$ chains of $2,000$ iterations each, where $1,000$ of them will be spend on warm-up. Notice this departs (by far) from most of the literature on bayesian IRT models, e.g. \citet{Fujimoto_2018a} used chains with $60,000$ iterations, where $15,000$ were discarded and the remaining were thinned in jumps of $3$; while \citet{Fujimoto_2018b} used $225,000$ iterations, with burn-in of $30,000$ and thinning with jumps of $15$; just to mention a few.
+In the current research, we will use a total $3,000$ effective iterations, coming from $3$ chains of $2,000$ iterations each, where $1,000$ of them will be spend on warm-up, and no thinning procedure will be performed. Notice this departs (by far) from most of the literature on bayesian IRT models, e.g. \citet{Fujimoto_2018a} used chains with $60,000$ iterations, where $15,000$ were discarded and the remaining were thinned in jumps of $3$; while \citet{Fujimoto_2018b} used $225,000$ iterations, with burn-in of $30,000$ and thinning with jumps of $15$; just to mention a few.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -244,18 +244,18 @@ Multiple studies have pointed out the benefits of using mildly informative prior
 	\label{fig:prior_elicitation}
 \end{figure}
 
-In our case, as stated in section \ref{sub_sect:bads}, because priors can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model \cite{McElreath_2020}. In that sense, we motivate the use of mildly informative priors though a simple illustration. Consider an example similar to one outlined by \citet{Seaman_et_al_2012} and \citet{McElreath_2020}, where a simple latent model is defined as follows:
+In our case, as stated in section \ref{sub_sect:bads}, because priors can be considered a part of the model assumptions, they can be chosen, evaluated, and revised as any other component of the model \cite{McElreath_2020}. In that sense, we motivate the use of mildly informative priors though a simple illustration. Consider an example similar to one outlined by \citet{Seaman_et_al_2012} and \citet{McElreath_2020}, where a simple latent variable model is defined as follows:
 %
 \begin{equation} \label{eq:prior_el1}
 	\begin{split}	
 		\theta &\sim N(0, 100) \\
-		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+		\text{logit}(p) &= \theta
 	\end{split}
 \end{equation}
 
-\noindent where $\theta$ denotes a latent dimension, and $p$ denotes the probability of a binary outcome, defined by the logit-link function. For pedagogical purposes, we did not declared the distribution of the responses, as we wanted to see what the prior implied for its probability, i.e. the expected value of an outcome with a Bernoulli distribution.
+\noindent where $\theta$ denotes a latent dimension, and $p$ denotes the probability of a binary outcome, defined by the logit-link function. For pedagogical purposes, we did not declared the distribution of the response, as we wanted to assess what the prior implied for its expected value/probability.
 
-Panel (A) from figure \ref{fig:prior_elicitation} shows the uninformative prior in equation (\ref{eq:prior_el1}) forces an unintended assumption on the expected value of the outcome (black continuous line). The model is now highly `skeptical' of probabilities that are not zero or one. This means that we are effectively using highly regularizing priors, but opposite on how they are supposed to be used, i.e. to avoid visiting non-likely parameter spaces.
+Panel (A) from figure \ref{fig:prior_elicitation} shows that the uninformative prior in equation (\ref{eq:prior_el1}) forces an unintended assumption onto the expected value of the outcome (black continuous line). The model is now highly `skeptical' of probabilities that are not zero or one. This means that we are effectively using highly regularizing priors, but opposite on how they are supposed to be used, i.e. to avoid visiting non-likely parameter spaces.
 
 The scenario gets equally bad with the presence of hyper-parameters, and even less extreme assumptions. Consider the following example:
 %
@@ -263,24 +263,24 @@ The scenario gets equally bad with the presence of hyper-parameters, and even le
 	\begin{split}
 		v &\sim \log N(0, 3) \\	
 		\theta &\sim N(0, v) \\
-		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+		\text{logit}(p) &= \theta
 	\end{split}
 \end{equation}
 
-\noindent where $v$ is distributed as a log-normal distribution ($v>0$). Panel (B) from figure \ref{fig:prior_elicitation} show the uninformative priors in equation (\ref{eq:prior_el2}) forces another unintended assumption on the expected value of the outcome (black solid line). The model is now highly `skeptical' of probabilities that are not $p = \{0, 0.5, 1\}$. Again is like using regularizing priors but ``in reverse".
+\noindent where $v$ is distributed as a log-normal distribution ($v>0$). Panel (B) from figure \ref{fig:prior_elicitation} shows that the uninformative priors in equation (\ref{eq:prior_el2}) forces another unintended assumption on the expected value of the outcome (black solid line). The model is now highly `skeptical' of probabilities that are not $p = \{0, 0.5, 1\}$. Again is like using regularizing priors but ``in reverse".
 
 Luckily, these extreme priors can be overcome with enough data. However, that does not discard the need to address the issue, as much of the time, researchers do not have a clear definition of how much is ``enough" data.
 
-In that sense, mildly informative priors can help alleviate the concern. Mildly/weakly informative priors are prior distributions that are not supplying any controversial information, are consistent with the likelihood, and are strong enough to pull the data away from inappropriate inferences \cite{Gelman_et_al_2014}. To illustrate its use, consider a mildly informative priors on equation (\ref{eq:prior_el1}):
+In that sense, mildly informative priors can help alleviate the concern. Mildly/weakly informative priors are prior distributions that are not supplying any controversial information, are consistent with the likelihood, and are strong enough to pull the data away from inappropriate inferences \cite{Gelman_et_al_2014}. To illustrate its use, consider a mildly informative prior on equation (\ref{eq:prior_el1}):
 %
 \begin{equation} \label{eq:prior_el3}
 	\begin{split}	
 		\theta &\sim N(0, 1) \\
-		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+		\text{logit}(p) &= \theta
 	\end{split}
 \end{equation}
 
-Notice now $\theta$ has a prior that is consistent with common IRT applications, and its distribution does not force the expected value of the outcome to be as extreme, as in the uninformative case. Panel (A) from figure \ref{fig:prior_elicitation} shows the prior probability of the outcome can now be in the full $[0,1]$ range, with extreme probability values assumed less likely (blue discontinuous line vs black solid line).
+Notice now $\theta$ has a prior that is consistent with common IRT applications, and its distribution does not force the expected value of the outcome to be as extreme, as in the uninformative case. Panel (A) from figure \ref{fig:prior_elicitation} shows the prior probability of the outcome can now be in the full $[0,1]$ range, where extreme probability values are assumed less likely (blue discontinuous line vs black solid line).
 
 Similarly, in the presence of hyper-parameters we can set mildly informative priors in the following form:
 %
@@ -288,13 +288,13 @@ Similarly, in the presence of hyper-parameters we can set mildly informative pri
 	\begin{split}
 		v &\sim \log N(0, 0.5) \\	
 		\theta &\sim N(0, v) \\
-		p &= \frac{ \text{exp}(\theta) }{ 1 + \text{exp}(\theta) }
+		\text{logit}(p) &= \theta
 	\end{split}
 \end{equation}
 
-\noindent where the blue discontinuous line on panel (B) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value scale.
+\noindent where the blue discontinuous line on panel (B) of figure \ref{fig:prior_elicitation} shows its transformation into the expected value of the outcome.
 
-One can imagine the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value for complex models, as in our current implementation.
+One can imagine the procedure of prior elicitation will get more complicated with a larger number of parameter and hyper-parameters. Therefore, the use of prior predictive simulation will be a tool of high value for complex models, as in our current implementation. See section \ref{sub_sect:prior_pred_inv} for an example on the use of prior predictive investigation, under simulated data.
 
 
 
@@ -316,11 +316,11 @@ A great example of this is what \citet{McElreath_2020} dubbed the Devil's funnel
 
 \noindent where $v$ is the \textit{hyper-parameter} of $\theta$, and $\theta$ is dependent on the samples of $v$. The latter is what the literature dubbed as the centered parametrization (CP).
 
-This joint distribution might seem familiar, as bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar types of requirements permeate IRT models. Moreover, it seems that any MCMC procedure would not have any issues exploring the posterior distribution of these parameters, as they are normally distributed and there are only two of them, but we would be wrong. The reader can find the \texttt{stan} and \texttt{jags} implementations for these examples in Appendix \ref{appC1_1:noncenter}. The \texttt{stan} implementation replicates the example stated by \citet{Betancourt_et_al_2013} and \citet{McElreath_2020}.
+This joint distribution might seem familiar, as bayesian hierarchical model practitioners often use it to ensure the standard deviation remains into the permitted parameter space ($\sigma \geq 0$). Similar types of requirements permeate IRT models. Moreover, it seems that any MCMC procedure would not have any issues exploring the joint distribution of these parameters, as they are normally distributed and there are only two of them, but we would be wrong. 
 
-Figure \ref{fig:devil_CE} show the chains resulting from implementing the model on equation (\ref{eq:devil}), through HMC (\texttt{stan}). For pedagogical purposes, the example was run without data, as the author wanted to emphasize the pathologies are present even before we feed the data to our model. However, its easy to extrapolate that these issues will remain present when data is available.
+For pedagogical purposes, the example was run without data, as the author wanted to emphasize the pathologies are present even before we feed the data to our model. However, its easy to extrapolate that these issues will remain present when data is available. The reader can find the \texttt{stan} and \texttt{jags} implementations for these examples in Appendix \ref{appC1_1:noncenter}. The \texttt{stan} implementation replicates the example stated by \citet{Betancourt_et_al_2013} and \citet{McElreath_2020}.
 
-As one can see from the figure, the joint posterior distribution is not explored properly. The chains show no sign of achieving ergodicity \cite{Metropolis_et_al_1953}, i.e. they do not show stationarity or convergence (top panels), nor a good mixing (middle and bottom panels). This is further supported by the \texttt{Rhat}, and effective sample sizes estimates \texttt{n\_eff} \cite{Gelman_et_al_2014}. The \texttt{Rhat} for all parameters did not approach $1$ properly (most of them were above $1.05$), indicating the chains did not achieve convergence: the between-chain variability was larger than the within-chain variability. Furthermore, the effective samples sizes were $34$ and $293$ for $v$ and $\theta$, respectively; indicating the values of the chains remained highly correlated (see bottom panels). This is striking as one expects effective sample sizes closer to the actual number of iterations $3,000$ ($3$ chains with $1,000$ samples each, after warm-up).
+Figure \ref{fig:devil_CE} show the chains resulting from implementing the model on equation (\ref{eq:devil}), through HMC (\texttt{stan}). As one can see from the figure, the joint posterior distribution is not explored properly. The chains show no sign of achieving ergodicity \cite{Metropolis_et_al_1953}, i.e. they do not show stationarity or convergence (top panels), nor a good mixing (middle and bottom panels). This is further supported by the \texttt{Rhat}, and effective sample sizes estimates \texttt{n\_eff} \cite{Gelman_et_al_2014}. The \texttt{Rhat} for all parameters did not properly approach the threshold of one (most of them were even above $1.05$), indicating the chains did not achieve convergence: the between-chain variability was larger than the within-chain variability. Furthermore, the effective samples sizes were $34$ and $293$ for $v$ and $\theta$, respectively; indicating the values of the chains remained highly correlated (see bottom panels). This is striking, as one expects effective sample sizes closer to the effective number of iterations ($3,000$, coming from $3$ chains with $1,000$ samples each, after warm-up).
 %
 \begin{figure}[h]
 	\centering
@@ -345,7 +345,7 @@ As one can see from the figure, the joint posterior distribution is not explored
 
 \subsection{Wasn't HMC the solution to this?}
 
-HMC is a powerful MCMC algorithm, and its benefits stand the test of other scenarios, as detailed by multiple authors \cite{McElreath_2020, Gelman_et_al_2014}. However, the issue with this example goes a little bit farther than what the algorithm can actually overcome, and this is true also for the Metropolis and Gibbs sampler. Nevertheless, we will see HMC still manages to be efficient within the constrains of the problem.
+HMC is a powerful MCMC algorithm, and its benefits stand the test of other scenarios, as detailed by multiple authors \cite{McElreath_2020, Gelman_et_al_2014}. However, the issue with this example goes a little bit farther than what the algorithm can actually overcome, and this is true also for the Metropolis and Gibbs sampling algorithms. Nevertheless, we will see HMC still manages to be efficient within the constrains of the problem.
 %
 \begin{figure}[h]
 	\centering
@@ -356,7 +356,7 @@ HMC is a powerful MCMC algorithm, and its benefits stand the test of other scena
 	\label{fig:devil_CE_geom}
 \end{figure}
 
-Figure \ref{fig:devil_CE_geom} shows the posterior sampling geometry of the model in equation (\ref{eq:devil}), for the HMC algorithm (\texttt{stan}, left) and Metropolis/Gibbs sampler (\texttt{jags}, right). 
+Figure \ref{fig:devil_CE_geom} shows the posterior sampling geometry of the model in equation (\ref{eq:devil}), for the HMC algorithm (\texttt{stan}, left) and Metropolis/Gibbs sampler (\texttt{jags}, right), respectively. 
 
 The first thing to notice is the complexity of the joint posterior geometry, with a steep funnel shape as the values of $v$ gets smaller and smaller. This makes sense, as the exponential of larger negative values, force the standard deviation of $\theta$ to be narrower and narrower around its mean (zero). 
 
@@ -369,7 +369,7 @@ Finally, although HMC did not fully explore the joint distribution, at least the
 
 \subsection{So, how can we solve this?}
 
-There are three proposed solutions for this issue: (i) adapt the HMC warm-up, (ii) use regularizing priors, and (iii) change the posterior sampling geometry. This section will explain briefly the first, outline the geometrical perspective of the second (as its results are well studied); and advocate for the benefits of the third, in the context of IRT models.
+There are three proposed solutions for the previously explained issue: (i) adapt the HMC warm-up, (ii) use regularizing priors, and (iii) change the posterior sampling geometry. This section will explain briefly the first, outline the geometrical perspective of the second (as its results are well studied); and advocate for the benefits of the third, in the context of IRT models.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -405,7 +405,7 @@ As previously mentioned, several authors have shown the benefits of using weakly
 	\label{fig:devil_prior_geom}
 \end{figure}
 
-Figure \ref{fig:devil_prior_geom} shows the joint posterior sampling geometry of equation (\ref{eq:devil_prior}), for the HMC algorithm (\texttt{stan}, left) and Metropolis/Gibbs sampler (\texttt{jags}, right). 
+Figure \ref{fig:devil_prior_geom} shows the joint posterior sampling geometry of equation (\ref{eq:devil_prior}), for the HMC algorithm (\texttt{stan}, left) and Metropolis/Gibbs sampler (\texttt{jags}, right), respectively. 
 
 The first thing to notice from the figure is that the geometry available for exploration seems more broad. However, what is actually happening is that by adding information about $v$, we are ``zooming" into the posterior geometry observed in figure \ref{fig:devil_CE_geom}, according to the range of the new priors. This further benefits the exploration of the posterior, as extreme ranges don't have to be visited from the start, e.g. the narrow funnel in the range $[-6,-2]$ of $v$ from figure \ref{fig:devil_CE_geom}.
 
@@ -436,7 +436,7 @@ Finally, we notice a mild improvement on the trace, tranks and ACF plots in figu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Non-Centered Parametrization}
+\subsubsection{Non-centered parametrization}
 
 It would seem that, increasing the regularizing power of the priors is the answer to get rid of the sampling issues raised by a complex posterior sampling geometry. However, there is a limit on the information a prior can contain, without imposing strong assumptions about the parameters (see section \ref{sub_sect:prior_pred} for an example). Furthermore, sometimes researchers want the information on the data dominates the posterior parameter space. In those cases, imposing even mildly informative priors is a solution that is out of the picture.
 %
@@ -468,7 +468,7 @@ In this context, \citet{Betancourt_et_al_2013} indicated that prior information 
 	\caption[The Devil's funnel. Non-centered Parametrization.]%
 	{The Devil's funnel. Non-centered Parametrization. (Top) Trace plots for the iterations on three chains. (Middle) Trank plots for the same data. (Bottom) Auto-correlation Functions (ACF) plots for the iterations.}
 	\label{fig:devil_NC}
-\end{figure}\\
+\end{figure}
 
 Following \citet{Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007}, and \citet{Betancourt_et_al_2013}, under the Bayesian framework, a change in geometry consist on a model re-parameterization that seeks to remove the dependence of parameters on other sampled parameters, therefore favoring the performance of the MCMC chains. This is what the literature has dubbed as the non-centered parametrization (NCP).
 
@@ -486,8 +486,8 @@ In light of previous examples, changing the posterior sampling geometry means to
 
 The motivation for this re-parametrization have seeds in the calculation of the standard score (z-sore). Notice that if $\theta \sim N(\mu_{\theta}, \sigma_{\theta})$ where $\sigma_{\theta} = \text{exp}(v)$, then $(\theta - \mu_{\theta})/\sigma_{\theta} = z$ and $z \sim N(0,1)$. Using this process in reverse, we notice $\theta = \mu_{\theta} + \sigma_{\theta} z = \text{exp}(v) \; z$ when $\mu_{\theta}=0$, then $\theta \sim N(0, \text{exp}(v))$. As the previous, there are transformation that can be done for other distributions, and they can even be extended to the multivariate normal case, through the use of the Cholesky decomposition \cite{McElreath_2020}.
 
-Figure \ref{fig:devil_NC_geom} show the posterior sampling geometry for the HMC and Gibbs sampler, under the re-parametrization. Notice both algorithms manage to explore more successfully the posterior distribution, although HMC does it a bit better on the extremes of $v$. Moreover, HMC shows no divergent transitions, meaning the posterior is ``visited" without issues The latter can be as seen on figure \ref{fig:devil_NC}, where the chains show clear signs of stationarity, convergence and good mixing.
+Figure \ref{fig:devil_NC_geom} show the posterior sampling geometry for the HMC and Gibbs sampler, under the re-parametrization. Notice both algorithms manage to explore more successfully the posterior distribution, although the HMC does it a bit better on the extremes of $v$. Moreover, the HMC shows no divergent transitions, meaning the posterior is ``visited" without issues. Evidence of the latter can be as seen on figure \ref{fig:devil_NC}, where the chains show clear signs of stationarity, convergence and good mixing.
 
-Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither CP or NCP is more ``optimal" than the other. The author pointed out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore, due to this complementary behavior, it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements can be obtained by leveraging on the ``best of both worlds", e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
+Finally, \citet{Papaspiliopoulos_et_al_2007} indicated that the success of the NCP strategy is largely dependent on the specifics of the model, i.e. neither CP or NCP is more ``optimal" than the other. The author pointed out that the natural CP showed better performance when conditional conjugacy was present, i.e. when the posterior distribution belonged to the same parametric family as the likelihood or prior distribution. On the other hand, the NCP worked as its complement, excelling when the previous requirement was not present. Therefore, due to this complementary behavior, it makes sense that recent advancements on the topic are focused on producing sample mechanisms located in a continuous between CP and NCP, as greater performance improvements can be obtained by leveraging on both, e.g. Interleaved HMC (iHMC) or Variational Inference (VI) \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Gorinova_et_al_2019}.
 
 Chapter \ref{chap:simulation} and \ref{chap:application} will show the application of NCP in the context of an IRT model.
