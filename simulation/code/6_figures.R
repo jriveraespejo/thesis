@@ -884,10 +884,11 @@ idx = str_detect(chains_list$model, '_mod')
 chains_list = chains_list[!idx, ]
 
 ### trace, trank, acf plots ####
-# # plots
-# figures_plot(c_list=chains_list, 
-#              chains_path=chains_path, 
-#              file_save=file.path(getwd(), 'figures3'))
+
+# plots
+figures_plot(c_list=chains_list,
+             chains_path=chains_path,
+             file_save=file.path(getwd(), 'figures3'))
 
 stat_chain(c_list = chains_list,
            chains_path = chains_path,

@@ -481,9 +481,9 @@ tri_plot = function(stan_object, pars){
   # plot
   par(mfrow=c(length(pars), 3), mar=c(3,3.5,1.5,1)+0.1)
   for(i in 1:length(idx)){
-    trace_plot(stan_model, pars=idx[i]) 
-    trank_plot(stan_model, pars=idx[i])
-    acf_plot(stan_model, pars=idx[i])
+    trace_plot(stan_object, pars=idx[i]) 
+    trank_plot(stan_object, pars=idx[i])
+    acf_plot(stan_object, pars=idx[i])
   }
   par(mfrow=c(1,1), mar=opar$mar)
   
@@ -580,10 +580,10 @@ file_id = function(chains_path, model_int){
 #
 figures_plot = function(c_list, chains_path, file_save){
   
-  # # test
-  # c_list=chains_list
-  # chains_path=chains_path
-  # file_save=file.path(getwd(), 'figures2')
+  # test
+  c_list=chains_list
+  chains_path=chains_path
+  file_save=file.path(getwd(), 'figures3')
   
   # parameters
   models_int = unique(c_list$model)
