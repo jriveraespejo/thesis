@@ -1265,6 +1265,14 @@ stan_rmse[idx2,] %>%
   xtable( caption='caption', label = 'tab:')
 
 
+#### moadings ####
+idx = stan_rmse$parameter %in% paste0('loads[',1:3,']')
+idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
+
+stan_rmse[idx2,] %>%
+  spread(key=sample_size, value=RMSE) %>%
+  xtable( caption='caption', label = 'tab:')
+
 
 #### texts ####
 idx = str_detect(stan_rmse$parameter, 'm_b')
@@ -1372,6 +1380,7 @@ stan_rmse[idx2,] %>%
 
 
 
+
 ### 1.3.2 recovery plots ####
 file_save = file.path(getwd(), 'figures5')
 load( file.path(file_save, 'results_pars.RData') )
@@ -1428,7 +1437,7 @@ rmse_final[rmse_final$type=='out',] %>%
             mean_B=mean(RMSE_between), 
             min_B=min(RMSE_between), 
             max_B=max(RMSE_between)) %>%
-  xtable( caption='caption', label = 'tab:')
+  xtable( caption='caption', label = 'tab:', digits=3)
 
 
 load( file.path(getwd(), 'figures6', 'rmse_WB_IDtext.RData') )
