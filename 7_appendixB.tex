@@ -768,7 +768,7 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 		\hline\hline
 		1 & CP & \footnotesize{females - males} & $\Gamma_{1}[2] - \Gamma_{1}[1]$ & 10 & 0.29 & 0.51 & 0.56 \\ 
 		2 & CP & \footnotesize{university -  institute} & $\Gamma_{3}[2] - \Gamma_{3}[1]$ & 10 & 0.78 & 1.06 & 1.32 \\ 
-		3 & CP & b\footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ & 10 & 0.57 & 0.58 & 0.72 \\ 
+		3 & CP & \footnotesize{both -  institute} & $\Gamma_{3}[3] - \Gamma_{3}[1]$ & 10 & 0.57 & 0.58 & 0.72 \\ 
 		4 & CP & \footnotesize{both - university} & $\Gamma_{3}[3] - \Gamma_{3}[2]$ & 10 & 0.43 & 0.52 & 0.67 \\
 		5 & CP & \footnotesize{$5y - 0y$} & $\Gamma_{4}[2] - \Gamma_{4}[1]$ & 10 & 0.30 & 0.41 & 0.65 \\ 
 		6 & CP & \footnotesize{$10y - 0y$} & $\Gamma_{4}[3] - \Gamma_{4}[1]$ & 10 & 0.34 & 0.50 & 1.07 \\
@@ -818,6 +818,30 @@ Moreover, in case the reader wants to inspect the recovery plots per model, para
 	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.]%
 	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of correlations among sub-dimensions.}
 	\label{tab:SOLV_RMSE_corr}
+\end{table}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rllrrrr}
+		\hline
+		\multicolumn{3}{c}{ } & Number of &\multicolumn{3}{c}{ Sample size } \\ 
+		\cmidrule(rl){5-7}
+		& Parametrization  & Parameter & replicas & 100 & 250 & 500 \\  
+		\hline\hline
+		1 & CP & $\lambda^{(2)}_{1}$ &  10 & 0.35 & 0.51 & 0.52 \\ 
+		2 & CP & $\lambda^{(2)}_{2}$ &  10 & 0.43 & 0.47 & 0.54 \\ 
+		3 & CP & $\lambda^{(2)}_{3}$ &  10 & 0.42 & 0.47 & 0.53 \\ 
+		%
+		\hline
+		%
+		4 & NCP & $\lambda^{(2)}_{1}$ &  10 & 0.35 & 0.51 & 0.53 \\ 
+		5 & NCP & $\lambda^{(2)}_{2}$ &  10 & 0.43 & 0.47 & 0.54 \\ 
+		6 & NCP & $\lambda^{(2)}_{3}$ &  10 & 0.42 & 0.47 & 0.53 \\ 
+		\hline
+	\end{tabular}
+	\caption[Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of the loadings for each sub-dimension.]%
+	{Second-order latent variable model (SOLV). $\text{RMSE}_{B}$ of the loadings for each among sub-dimension.}
+	\label{tab:SOLV_RMSE_loads}
 \end{table}
 %
 \begin{table}[H]
@@ -972,28 +996,28 @@ On the other hand, if the reader wants to replicate or inspect the retrodictive 
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_items}
+	\includegraphics[width=0.9\linewidth]{FOLV_NC_J100_Ndata4_HitRate_items}
 	%
-	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.]%
-	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.}
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.}
 	\label{fig:FOLV_NC_hitrate_items}
 \end{figure}
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_dims}
+	\includegraphics[width=0.9\linewidth]{FOLV_NC_J100_Ndata4_HitRate_dims}
 	%
-	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.]%
-	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.}
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.}
 	\label{fig:FOLV_NC_hitrate_dim}
 \end{figure}
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{FOLV_NC_J100_Ndata4_HitRate_texts}
+	\includegraphics[width=0.9\linewidth]{FOLV_NC_J100_Ndata4_HitRate_texts}
 	%
-	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.]%
-	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.}
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.}
 	\label{fig:FOLV_NC_hitrate_text}
 \end{figure}
 %
@@ -1001,8 +1025,8 @@ On the other hand, if the reader wants to replicate or inspect the retrodictive 
 	\centering
 	\includegraphics[width=0.95\linewidth]{FOLV_CE_J100_Ndata1_ICC}
 	%
-	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Centered parametrization. Item characteristic curves (ICC).]%
-	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Centered parametrization. Item characteristic curves (ICC)}
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica number $1$. Centered parametrization. Item characteristic curves (ICC).]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica number $1$. Centered parametrization. Item characteristic curves (ICC). (black solid line) true ICC, (gray solid line) simulated predicted ICC, (blue discontinuous line) average predicted ICC, (red discontinuous line) marginal predicted ICC. }
 	\label{fig:FOLV_CE_ICC}
 \end{figure}
 %
@@ -1010,7 +1034,118 @@ On the other hand, if the reader wants to replicate or inspect the retrodictive 
 	\centering
 	\includegraphics[width=0.95\linewidth]{FOLV_CE_J100_Ndata1_IIF}
 	%
-	\caption[First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF).]%
-	{First-Order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF).}
+	\caption[First-order latent variable model (FOLV). Sample size $100$, replica number $1$. Non-centered parametrization. Item information function (IIF).]%
+	{First-order latent variable model (FOLV). Sample size $100$, replica number $1$. Non-centered parametrization. Item information function (IIF). (black solid line) true ICC, (gray solid line) simulated predicted ICC, (blue discontinuous line) average predicted ICC, (red discontinuous line) marginal predicted ICC.}
 	\label{fig:FOLV_CE_IIF}
 \end{figure}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlrrrrrrrrr}
+		\hline
+		& & Sample && \multicolumn{3}{c}{ $\overline{\text{RMSE}}_{W}$ } && \multicolumn{3}{c}{ $\text{RMSE}_{B}$ } \\
+		\cmidrule(rl){5-7} \cmidrule(rl){9-11}  
+		& Parametrization & size  && mean & min & max && mean & min & max \\ 
+		\hline\hline
+		1 & CP & 100 && 0.026 & 0.024 & 0.028 && 0.002 & 0.001 & 0.004 \\   
+		2 & CP & 250 && 0.016 & 0.015 & 0.017 && 0.001 & 0.000 & 0.001 \\
+		3 & CP & 500 && 0.011 & 0.010 & 0.012 && 0.000 & 0.000 & 0.001 \\ 
+		%
+		\hline
+		%
+		4 & NCP & 100 && 0.026 & 0.023 & 0.027 && 0.002 & 0.001 & 0.003 \\
+		5 & NCP & 250 && 0.016 & 0.015 & 0.018 && 0.001 & 0.000 & 0.002 \\  
+		6 & NCP & 500 && 0.011 & 0.010 & 0.012 && 0.000 & 0.000 & 0.001 \\
+		\hline
+	\end{tabular}
+	\caption[First-order latent variable model (FOLV). Centered and non-centered parametrization. Within and between replicas items predictive RMSE.]%
+	{First-order latent variable model (FOLV). Centered and non-centered parametrization. Within and between replicas items predictive RMSE.}
+	\label{tab:FOLV_accuracy_items}
+\end{table}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{SOLV_NC_J100_Ndata4_HitRate_ind}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Individual predictive plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Individual predictive plot.}
+	\label{fig:SOLV_NC_hitrate_ind}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{SOLV_NC_J100_Ndata4_HitRate_var}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Individual predictive plot per covariate.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Individual predictive plot per covariate.}
+	\label{fig:SOLV_NC_hitrate_var}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{SOLV_NC_J100_Ndata4_HitRate_items}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Items predictive plot.}
+	\label{fig:SOLV_NC_hitrate_items}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{SOLV_NC_J100_Ndata4_HitRate_dims}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Dimension predictive plot.}
+	\label{fig:SOLV_NC_hitrate_dim}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{SOLV_NC_J100_Ndata4_HitRate_texts}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Text predictive plot.}
+	\label{fig:SOLV_NC_hitrate_text}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{SOLV_NC_J100_Ndata4_ICC}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item characteristic curves (ICC).]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item characteristic curves (ICC). (black solid line) true ICC, (gray solid line) simulated predicted ICC, (blue discontinuous line) average predicted ICC, (red discontinuous line) marginal predicted ICC.}
+	\label{fig:SOLV_CE_ICC}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{SOLV_NC_J100_Ndata4_IIF}
+	%
+	\caption[Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF).]%
+	{Second-order latent variable model (SOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Item information function (IIF). (black solid line) true ICC, (gray solid line) simulated predicted ICC, (blue discontinuous line) average predicted ICC, (red discontinuous line) marginal predicted ICC.}
+	\label{fig:SOLV_CE_IIF}
+\end{figure}
+%
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rlrrrrrrrrr}
+		\hline
+		&  & Sample && \multicolumn{3}{c}{ $\overline{\text{RMSE}}_{W}$ } && \multicolumn{3}{c}{ $\text{RMSE}_{B}$ } \\
+		\cmidrule(rl){5-7} \cmidrule(rl){9-11}  
+		& Parametrization & size  && mean & min & max && mean & min & max \\ 
+		\hline\hline
+		1 & CP & 100 && 0.025 & 0.023 & 0.027 && 0.002 & 0.001 & 0.003 \\
+		2 & CP & 250 && 0.016 & 0.015 & 0.017 && 0.001 & 0.000 & 0.002 \\  
+		3 & CP & 500 && 0.011 & 0.010 & 0.012 && 0.001 & 0.000 & 0.001 \\ 
+		%
+		\hline
+		%
+		4 & NCP & 100 && 0.025 & 0.023 & 0.027 && 0.002 & 0.001 & 0.003 \\
+		5 & NCP & 250 && 0.016 & 0.015 & 0.017 && 0.001 & 0.000 & 0.002 \\ 
+		6 & NCP & 500 && 0.011 & 0.010 & 0.012 && 0.001 & 0.000 & 0.001 \\  
+		\hline
+	\end{tabular}
+	\caption[Second-order latent variable model (SOLV). Centered and non-centered parametrization. Within and between replicas items predictive RMSE.]%
+	{Second-order latent variable model (SOLV). Centered and non-centered parametrization. Within and between replicas items predictive RMSE.}
+	\label{tab:SOLV_accuracy_items}
+\end{table}

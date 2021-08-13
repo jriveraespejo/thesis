@@ -1,9 +1,5 @@
 \chapter{Code} \label{appC:additional}
 
-This section provides the most important set of codes used throughout the current research. However, in case the reader wants to replicate the full simulation analysis, we provide the full set of codes in the ``simulation" section of the accompanying github page:
-
-\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/simulation} \\
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,8 +110,12 @@ model{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\newpage
 \section{Chapter 4: Simulation study} \label{appC2:chapter4}
+
+This section provides the most important set of codes used throughout the current research. However, in case the reader wants to replicate the full simulation analysis, we provide the full set of codes in the ``simulation" section of the accompanying github page:
+
+\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/simulation} \\
 
 \subsection{Algorithm} \label{appC2_1:sim}
 
@@ -360,8 +360,6 @@ save(data_post, file=file.path(file_dir, file_name) )
 
 \subsubsection{Models}
 
-it has the stan model used to analize the data \\
-
 \noindent \textbf{FOLV CP}
 %
 \begin{lstlisting}
@@ -462,6 +460,7 @@ model{
 //# }
 \end{lstlisting} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \noindent \textbf{FOLV NCP}
 %
@@ -576,6 +575,7 @@ model{
 \end{lstlisting}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \noindent \textbf{SOLV CP}
 %
@@ -689,6 +689,7 @@ model{
 //# }
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \noindent \textbf{SOLV NCP}
 %
@@ -816,6 +817,7 @@ model{
 //# }
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Prior predictive investigation}
 
@@ -875,6 +877,7 @@ for(j in 1:length(models) ){
 }
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Posterior predictive}
 
@@ -971,3 +974,524 @@ for(j in 1:length(models) ){
 
 }
 \end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Chapter 5: Application} \label{appC3:chapter5}
+
+
+\subsection{Models} \label{appC3_1:models}
+
+\noindent \textbf{FOLV CP}
+%
+\begin{lstlisting}
+data{
+	// evaluation
+	int N;
+	int J;
+	int K;
+	int L;
+	int D;
+	int IDj[N];
+	int IDk[N];
+	int IDl[N];
+	int IDd[N];
+	int G[N];
+	real A[N];
+	int E[N];
+	int S[N];
+	int Xpu[N];
+	int Xpr[N];
+	int Di[N];
+	int y[N];
+	
+	// individuals
+	int IDind[J];
+	int GE[J];
+	real AG[J];
+	int ED[J];
+	int SP[J];
+	int XPpu[J];
+	int XPpr[J];
+	int DI[J];
+	
+	// items
+	int IDitem[K];
+	int IDtext[K];
+	int IDdim[K];
+} 
+transformed data {
+	real min_AG;
+	min_AG = min(AG);
+}
+parameters{
+	// items
+	real m_b[L];
+	real<lower=0> s_b[L];
+	real b_k[K];
+	
+	// betas
+	real a;
+	real b_G[2];
+	real b_A;
+	real b_E[3];
+	real b_S[3];
+	real b_Xpu[4];
+	real b_Xpr[4];
+	real b_Di[4];
+	
+	// abilities
+	corr_matrix[D] Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	vector[D] theta_sub[J]; 
+}
+model{
+	// declare
+	vector[D] m_mult[J];
+	real v;
+	real p;
+	
+	// items
+	m_b ~ normal(0, 1);
+	s_b ~ exponential(2);
+	for(k in 1:K){            // priors
+		b_k[k] ~ normal( m_b[ IDtext[k] ], s_b[ IDtext[k] ]); 
+	}
+	
+	// abilities
+	a ~ normal(0, 0.5);
+	b_G ~ normal(0, 0.5);
+	b_A~ normal(0, 0.5);
+	b_E ~ normal(0, 1);
+	b_S ~ normal(0, 0.5);
+	b_Xpu ~ normal(0, 0.5);
+	b_Xpr ~ normal(0, 0.5);
+	b_Di ~ normal(0, 0.5);
+	Rho_theta_sub ~ lkj_corr(2);
+	for(j in 1:J){
+		m_mult[j,] = rep_vector( a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
+		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
+		// using the same predictor for the three latents
+	}
+	theta_sub ~ multi_normal( m_mult, Rho_theta_sub );
+	
+	// model
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		y[i] ~ bernoulli(p);
+	}
+}
+generated quantities{
+	vector[N] log_lik;
+	real v;
+	real p;
+	
+	// likelihood
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		log_lik[i] = bernoulli_lpmf( y[i] | p);
+	}
+}
+\end{lstlisting} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{FOLV NCP}
+%
+\begin{lstlisting}
+data{
+	// evaluation
+	int N;
+	int J;
+	int K;
+	int L;
+	int D;
+	int IDj[N];
+	int IDk[N];
+	int IDl[N];
+	int IDd[N];
+	int G[N];
+	real A[N];
+	int E[N];
+	int S[N];
+	int Xpu[N];
+	int Xpr[N];
+	int Di[N];
+	int y[N];
+	
+	// individuals
+	int IDind[J];
+	int GE[J];
+	real AG[J];
+	int ED[J];
+	int SP[J];
+	int XPpu[J];
+	int XPpr[J];
+	int DI[J];
+	
+	// items
+	int IDitem[K];
+	int IDtext[K];
+	int IDdim[K];
+} 
+transformed data {
+	real min_AG;
+	min_AG = min(AG);
+}
+parameters{
+	// items
+	real m_b[L];
+	real<lower=0> s_b[L];
+	real zb_k[K];
+	
+	// betas
+	real a;
+	real b_G[2];
+	real b_A;
+	real b_E[3];
+	real b_S[3];
+	real b_Xpu[4];
+	real b_Xpr[4];
+	real b_Di[4];
+	
+	// abilities
+	cholesky_factor_corr[D] L_Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	matrix[D, J] ztheta_sub; 
+}
+transformed parameters{
+	real b_k[K];
+	matrix[D, D] Rho_theta_sub;
+	matrix[J, D] m_mult;
+	matrix[J, D] theta_sub;
+	
+	// items
+	for(k in 1:K){
+		b_k[k] = m_b[ IDtext[k] ] + s_b[ IDtext[k] ] * zb_k[k]; 
+	}
+	
+	// abilities
+	Rho_theta_sub = multiply_lower_tri_self_transpose(L_Rho_theta_sub);
+	for(j in 1:J){
+		m_mult[j,] = rep_row_vector( a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
+		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
+	}
+	theta_sub = m_mult + (L_Rho_theta_sub * ztheta_sub)';
+}
+model{
+	// declare
+	real v;
+	real p;
+	
+	// items
+	m_b ~ normal(0, 1);
+	s_b ~ exponential(2);
+	zb_k ~ normal(0, 1);
+	
+	// abilities
+	a ~ normal(0, 0.5);
+	b_G ~ normal(0, 0.5);
+	b_A~ normal(0, 0.5);
+	b_E ~ normal(0, 1);
+	b_S ~ normal(0, 0.5);
+	b_Xpu ~ normal(0, 0.5);
+	b_Xpr ~ normal(0, 0.5);
+	b_Di ~ normal(0, 0.5);
+	L_Rho_theta_sub ~ lkj_corr_cholesky(2);
+	to_vector(ztheta_sub) ~ normal(0,1);
+	
+	// model
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		y[i] ~ bernoulli(p);
+	}
+}
+generated quantities{
+	vector[N] log_lik;
+	real v;
+	real p;
+	
+	// likelihood
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		log_lik[i] = bernoulli_lpmf( y[i] | p);
+	}
+}
+\end{lstlisting} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{SOLV CP}
+%
+\begin{lstlisting}
+data{
+	// evaluation
+	int N;
+	int J;
+	int K;
+	int L;
+	int D;
+	int IDj[N];
+	int IDk[N];
+	int IDl[N];
+	int IDd[N];
+	int G[N];
+	real A[N];
+	int E[N];
+	int S[N];
+	int Xpu[N];
+	int Xpr[N];
+	int Di[N];
+	int y[N];
+	
+	// individuals
+	int IDind[J];
+	int GE[J];
+	real AG[J];
+	int ED[J];
+	int SP[J];
+	int XPpu[J];
+	int XPpr[J];
+	int DI[J];
+	
+	// items
+	int IDitem[K];
+	int IDtext[K];
+	int IDdim[K];
+} 
+transformed data {
+	real min_AG;
+	min_AG = min(AG);
+}
+parameters{
+	// items
+	real m_b[L];
+	real<lower=0> s_b[L];
+	real b_k[K];
+	
+	// betas
+	real a;
+	real b_G[2];
+	real b_A;
+	real b_E[3];
+	real b_S[3];
+	real b_Xpu[4];
+	real b_Xpr[4];
+	real b_Di[4];
+	
+	// abilities
+	vector[J] theta;              // reading comprehension
+	real<lower=0> loads[D];       // loadings
+	corr_matrix[D] Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	vector[D] theta_sub[J]; 
+}
+model{
+	// declare
+	vector[J] m_theta;
+	vector[D] m_mult[J];
+	real v;
+	real p;
+	
+	// items
+	m_b ~ normal(0, 1);
+	s_b ~ exponential(2);
+	for(k in 1:K){            // priors
+		b_k[k] ~ normal( m_b[ IDtext[k] ], s_b[ IDtext[k] ]); 
+	}
+	
+	// SOLV
+	a ~ normal(0, 0.5);
+	b_G ~ normal(0, 0.5);
+	b_A~ normal(0, 0.5);
+	b_E ~ normal(0, 1);
+	b_S ~ normal(0, 0.5);
+	b_Xpu ~ normal(0, 0.5);
+	b_Xpr ~ normal(0, 0.5);
+	b_Di ~ normal(0, 0.5);
+	for(j in 1:J){
+		m_theta[j] = a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
+		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
+	}
+	theta ~ normal(m_theta, 1); 
+	// setting the scale at this level
+	
+	// FOLV
+	loads ~ lognormal(0, 0.5);
+	for(j in 1:J){
+		m_mult[j,] = [ loads[1]*theta[j], loads[2]*theta[j], loads[3]*theta[j] ]';
+	}
+	Rho_theta_sub ~ lkj_corr(2);
+	theta_sub ~ multi_normal( m_mult, Rho_theta_sub ); 
+	// also setting scale here
+	
+	// model
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		y[i] ~ bernoulli(p);
+	}
+}
+generated quantities{
+	vector[N] log_lik;
+	real v;
+	real p;
+	
+	// likelihood
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		log_lik[i] = bernoulli_lpmf( y[i] | p);
+	}
+}
+\end{lstlisting} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{SOLV NCP}
+%
+\begin{lstlisting}
+data{
+	// evaluation
+	int N;
+	int J;
+	int K;
+	int L;
+	int D;
+	int IDj[N];
+	int IDk[N];
+	int IDl[N];
+	int IDd[N];
+	int G[N];
+	real A[N];
+	int E[N];
+	int S[N];
+	int Xpu[N];
+	int Xpr[N];
+	int Di[N];
+	int y[N];
+	
+	// individuals
+	int IDind[J];
+	int GE[J];
+	real AG[J];
+	int ED[J];
+	int SP[J];
+	int XPpu[J];
+	int XPpr[J];
+	int DI[J];
+	
+	// items
+	int IDitem[K];
+	int IDtext[K];
+	int IDdim[K];
+} 
+transformed data {
+	real min_AG;
+	min_AG = min(AG);
+}
+parameters{
+	// items
+	real m_b[L];
+	real<lower=0> s_b[L];
+	real zb_k[K];
+	
+	// betas
+	real a;
+	real b_G[2];
+	real b_A;
+	real b_E[3];
+	real b_S[3];
+	real b_Xpu[4];
+	real b_Xpr[4];
+	real b_Di[4];
+	
+	// abilities
+	vector[J] ztheta;             // reading comprehension
+	real<lower=0> loads[D];       // loadings
+	cholesky_factor_corr[D] L_Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	matrix[D, J] ztheta_sub; 
+}
+transformed parameters{
+	real b_k[K];
+	vector[J] m_theta;
+	vector[J] theta;             // reading comprehension
+	matrix[D, D] Rho_theta_sub;
+	matrix[J, D] m_mult;
+	matrix[J, D] theta_sub;
+	
+	// items
+	for(k in 1:K){
+		b_k[k] = m_b[ IDtext[k] ] + s_b[ IDtext[k] ] * zb_k[k]; 
+	}
+	
+	// SOLV
+	for(j in 1:J){
+		m_theta[j] = a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
+		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
+	}
+	theta = m_theta + 1 * ztheta;
+	// setting the scale at this level
+	
+	// FOLV
+	Rho_theta_sub = multiply_lower_tri_self_transpose(L_Rho_theta_sub);
+	for(j in 1:J){
+		m_mult[j,] = to_row_vector( [ loads[1]*theta[j], loads[2]*theta[j], loads[3]*theta[j] ] );
+	}
+	theta_sub = m_mult + (L_Rho_theta_sub * ztheta_sub)';
+	// also setting scale here
+}
+model{
+	// declare
+	real v;
+	real p;
+	
+	// items
+	m_b ~ normal(0, 1);
+	s_b ~ exponential(2);
+	zb_k ~ normal(0, 1);
+	
+	// abilities
+	a ~ normal(0, 0.5);
+	b_G ~ normal(0, 0.5);
+	b_A~ normal(0, 0.5);
+	b_E ~ normal(0, 1);
+	b_S ~ normal(0, 0.5);
+	b_Xpu ~ normal(0, 0.5);
+	b_Xpr ~ normal(0, 0.5);
+	b_Di ~ normal(0, 0.5);
+	ztheta ~ normal(0,1);
+	L_Rho_theta_sub ~ lkj_corr_cholesky(2);
+	loads ~ lognormal(0, 0.5);
+	to_vector(ztheta_sub) ~ normal(0,1);
+	
+	// model
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		y[i] ~ bernoulli(p);
+	}
+}
+generated quantities{
+	vector[N] log_lik;
+	real v;
+	real p;
+	
+	// likelihood
+	for( i in 1:N ) {
+		v = theta_sub[ IDj[i], IDd[i] ] - b_k[ IDk[i] ];
+		p = inv_logit(v);
+		log_lik[i] = bernoulli_lpmf( y[i] | p);
+	}
+}
+\end{lstlisting} 
