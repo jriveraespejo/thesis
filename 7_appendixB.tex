@@ -1149,3 +1149,62 @@ On the other hand, if the reader wants to replicate or inspect the retrodictive 
 	{Second-order latent variable model (SOLV). Centered and non-centered parametrization. Within and between replicas items predictive RMSE.}
 	\label{tab:SOLV_accuracy_items}
 \end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Chapter 5: Application} \label{app:chapter5}
+
+This section shows only a small set of figures related to the MCMC chains for the application. In case the reader wants to inspect any other plot produced for this section refer to the ``application plots" image section of the accompanying github page:
+
+\noindent \url{https://github.com/jriveraespejo/thesis/tree/master/images/application_plots} \\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Parametrization performance} \label{app_c5:noncenter}
+
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{SOLV_CE_bk_1_5}
+	%
+	\caption[Application's second-order latent variable model (SOLV). Centered parametrization. Items difficulty. Trace, trank and auto-correlation plots.]%
+	{Application's second-order latent variable model (SOLV). Centered parametrization. Items difficulty: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
+	\label{fig:FOLV_CE_chains1}
+\end{figure}
+
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{SOLV_NC_bk_1_5}
+	%
+	\caption[Application's second-order latent variable model (SOLV). Non-centered parametrization. Items difficulty. Trace, trank and auto-correlation plots.]%
+	{Application's second-order latent variable model (SOLV). Non-centered parametrization. Items difficulty: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
+	\label{fig:FOLV_NC_chains1}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{SOLV_stat_bk}
+	%
+	\caption[Application's second-order latent variable model (SOLV). CP and NCP comparison plot.]%
+	{Application's second-order latent variable model (SOLV). CP and NCP comparison plot. (A) \texttt{n\_eff} for items' difficulties. (B) \texttt{Rhat} for items' difficulties. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines set in A corresponds to \texttt{n\_eff}$=100$. Vertical and horizontal discontinuous lines set in B corresponds to \texttt{Rhat}$=1.05$. }
+	\label{fig:SOLV_stat_bk1}
+\end{figure}
+%
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}
+		\includegraphics[width=0.9\linewidth]{SOLV_recovery_items}
+	\end{subfigure}
+	%
+	\begin{subfigure}
+		\includegraphics[width=0.87\linewidth]{SOLV_recovery_texts}
+	\end{subfigure}
+	%
+	\caption[Application's second-order latent variable model (SOLV). Centered and non-centered parametrization. Items, and texts difficulties, and texts deviations.]%
+	{Application's second-order latent variable model (SOLV). Centered and non-centered parametrization. Items, and texts difficulties, and texts deviations.}
+	\label{fig:SOLV_CE.NC_recovery}
+\end{figure}
