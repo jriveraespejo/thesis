@@ -2,34 +2,47 @@
 
 \section{Objectives}
 
-Supported by the theoretical framework of measurement and analysis, the current application has the purpose to apply the proposed model, in order to assess:
+Considering the GLLAMM model developed in previous chapters, the current section has a four-fold purpose, related to its application on a real data set:
+
 \begin{enumerate}
-	\item Pychometric properties of the items and texts, texts is an extra
-	\item related to the hypothesis of regression variables
-	\item Retrodictive accuracy, and concurrent analysis: how the classified poeple is characterized, math scales vs the scores (cut-of of 30 points, or 15 items, 2 points / item)
+	%
+	\item \textbf{Performance of the parametrizations.} In line with the previous chapter, the researcher wants to assess if changing the posterior sampling geometries would benefit the performance of the MCMC method.
+	%
+	\item \textbf{Assess psychometric properties.} As in any standardized evaluation, instrument developers has a special interest in determine how difficult were the items/texts, with the purpose 
+	%
+	\item \textbf{Evaluate hypothesis.} related to the hypothesis of regression variables
+	%
+	\item \textbf{Retrodictive accuracy.} Retrodictive accuracy, and concurrent analysis: how the classified poeple is characterized, math scales vs the scores (cut-of of 30 points, or 15 items, 2 points / item)
+	%
 \end{enumerate}
 
 to a real data set corresponding to 
 
-
-La presente aplicación se apoya en este marco teórico de medición y análisis, y tiene
-como principal propósito el aplicar el modelo investigado a un conjunto de datos reales; y
-como propósitos secundarios comprobar si el modelo permite hallar un ordenamiento en las
-categorı́as inicialmente no ordenadas, si brinda información relevante para valorar la calidad
-de un ı́tem y sus alternativas, y finalmente, corroborar si es útil para caracterizar a los
+corroborar si es útil para caracterizar a los
 individuos expuestos al instrumento de evaluación; es decir, encontrar perfiles de docentes.
-El modelo fue aplicado en un conjunto de datos que se caracterizó por:
-1. Una muestra anónima, aleatoria y representativa de 1641 docentes del nivel secundario
-de la especialidad de Inglés, modalidad de Educación Básica Regular (EBR), evalua-
-dos en el primer concurso de Ingreso a la Carrera Publica Magisterial y Contratación
-Docente aplicado en el 2015 (en adelante Nombramiento 2015); y
-2. Un conjunto de 25 ı́tems correspondientes a la sub-prueba de Comprensión de Textos
-del mismo concurso.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Instruments}
 
+El instrumento completo consistió en una evaluación estandarizada de 90 preguntas de
+opción múltiple, con cuatro alternativas por ı́tem, organizados en tres sub-prueba: (i) Com-
+prensión Lectora, a la que le corresponden los primeros 25 ı́tems, (ii) Razonamiento
+Lógico, evaluados en los siguientes 25 ı́tems y (iii) Conocimientos Pedagógicos y de la
+Especialidad, evaluado en los últimos 40 ı́tems.
+La sección elegida para ser analizada bajo el modelo estudiado fue la de Comprensión
+Lectora. La sub-prueba fue diseñada para evaluar la capacidad que un docente posee para
+reconstruir el significado de diversos tipos de textos en distintos formatos. La sub-prueba
+evaluó tres dominios:
+
+Comprensión literal : Capacidad para ubicar información explı́cita en textos comple-
+jos,
+Comprensión inferencial : Capacidad para integrar información de un texto con el
+objetivo de inferir su temática, propósito o relaciones lógicas implı́citas en sus distintos
+componentes,
+Reflexión sobre el texto: Capacidad de reflexionar crı́ticamente sobre el contenido
+y forma de textos diversos.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,14 +51,33 @@ del mismo concurso.
 
 \subsection{Collection}
 
+Para tener acceso a los datos referidos se siguió el trámite de acceso a la información en
+la sede principal del Ministerio de Educación (MINEDU).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Sample scheme}
+
+Con el fin de comparar los estimados que se obtengan del modelo NRM, proveniente de
+los métodos MML y MCMC, se accedió a una muestra anónima, aleatoria y representativa
+de 1641 docentes que fueron expuestos a la evaluación de interés.
+
+El modelo fue aplicado en un conjunto de datos que se caracterizó por:
+1. Una muestra anónima, aleatoria y representativa de 1641 docentes del nivel secundario
+de la especialidad de Inglés, modalidad de Educación Básica Regular (EBR), evalua-
+dos en el primer concurso de Ingreso a la Carrera Publica Magisterial y Contratación
+Docente aplicado en el 2015 (en adelante Nombramiento 2015); y
+2. Un conjunto de 25 ı́tems correspondientes a la sub-prueba de Comprensión de Textos
+del mismo concurso.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Results}
+
+\subsection{Parametrization performance}
+
+of were wants to assess  Pychometric properties of the items and texts, texts is an extra
 
 All of the preceding suggests one way to navigate overfitting and underfitting: Evaluate our models out-of-sample. using cross validation and information criteria
 

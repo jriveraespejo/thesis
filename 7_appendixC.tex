@@ -1072,9 +1072,10 @@ model{
 	b_Di ~ normal(0, 0.5);
 	Rho_theta_sub ~ lkj_corr(2);
 	for(j in 1:J){
-		m_mult[j,] = rep_vector( a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
-		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
-		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
+		m_mult[j,] = rep_vector( a + b_G[ GE[j] ] + 
+			b_A*(AG[j] - min_AG) +
+			b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+			b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
 		// using the same predictor for the three latents
 	}
 	theta_sub ~ multi_normal( m_mult, Rho_theta_sub );
@@ -1161,7 +1162,7 @@ parameters{
 	real b_Di[4];
 	
 	// abilities
-	cholesky_factor_corr[D] L_Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	cholesky_factor_corr[D] L_Rho_theta_sub; 
 	matrix[D, J] ztheta_sub; 
 }
 transformed parameters{
@@ -1178,9 +1179,10 @@ transformed parameters{
 	// abilities
 	Rho_theta_sub = multiply_lower_tri_self_transpose(L_Rho_theta_sub);
 	for(j in 1:J){
-		m_mult[j,] = rep_row_vector( a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
-		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
-		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
+		m_mult[j,] = rep_row_vector( a + b_G[ GE[j] ] + 
+			b_A*(AG[j] - min_AG) +
+			b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+			b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ] , D);
 	}
 	theta_sub = m_mult + (L_Rho_theta_sub * ztheta_sub)';
 }
@@ -1319,8 +1321,8 @@ model{
 	b_Di ~ normal(0, 0.5);
 	for(j in 1:J){
 		m_theta[j] = a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
-		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
-		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
+			b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+			b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
 	}
 	theta ~ normal(m_theta, 1); 
 	// setting the scale at this level
@@ -1328,7 +1330,9 @@ model{
 	// FOLV
 	loads ~ lognormal(0, 0.5);
 	for(j in 1:J){
-		m_mult[j,] = [ loads[1]*theta[j], loads[2]*theta[j], loads[3]*theta[j] ]';
+		m_mult[j,] = [ loads[1]*theta[j], 
+				loads[2]*theta[j], 
+				loads[3]*theta[j] ]';
 	}
 	Rho_theta_sub ~ lkj_corr(2);
 	theta_sub ~ multi_normal( m_mult, Rho_theta_sub ); 
@@ -1418,7 +1422,7 @@ parameters{
 	// abilities
 	vector[J] ztheta;             // reading comprehension
 	real<lower=0> loads[D];       // loadings
-	cholesky_factor_corr[D] L_Rho_theta_sub; // sub-dimensions: lit, inf, ref
+	cholesky_factor_corr[D] L_Rho_theta_sub; 
 	matrix[D, J] ztheta_sub; 
 }
 transformed parameters{
@@ -1437,8 +1441,8 @@ transformed parameters{
 	// SOLV
 	for(j in 1:J){
 		m_theta[j] = a + b_G[ GE[j] ] + b_A*(AG[j] - min_AG) +
-		b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
-		b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
+			b_E[ ED[j] ] + b_S[ SP[j] ] + b_Di[ DI[j] ] +
+			b_Xpu[ XPpu[j] ] + b_Xpr[ XPpr[j] ];
 	}
 	theta = m_theta + 1 * ztheta;
 	// setting the scale at this level
@@ -1446,7 +1450,10 @@ transformed parameters{
 	// FOLV
 	Rho_theta_sub = multiply_lower_tri_self_transpose(L_Rho_theta_sub);
 	for(j in 1:J){
-		m_mult[j,] = to_row_vector( [ loads[1]*theta[j], loads[2]*theta[j], loads[3]*theta[j] ] );
+		m_mult[j,] = to_row_vector( 
+				[ loads[1]*theta[j], 
+				loads[2]*theta[j], 
+				loads[3]*theta[j] ] );
 	}
 	theta_sub = m_mult + (L_Rho_theta_sub * ztheta_sub)';
 	// also setting scale here

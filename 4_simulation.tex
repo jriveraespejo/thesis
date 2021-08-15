@@ -165,11 +165,11 @@ In a similar manner, we can calculate the same statistics for each item, text, d
 
 \section{Parameter estimation}
 
-\subsection{Models and identification}
+\subsection{Likelihood, priors and hyper-priors}
 
-As stated in previous sections, we analyze two models: (i) the FOLV model depicted in figure \ref{fig:FOLV_model}, and (ii) the SOLV model depicted in figure \ref{fig:SOLV_model}. In this section, we proceed to enumerate the likelihood functions, and the full set of priors and \textit{hyper-priors} used. 
+As stated in previous sections, we analyze two models: (i) the FOLV model depicted in figure \ref{fig:FOLV_model}, and (ii) the SOLV model depicted in figure \ref{fig:SOLV_model}. In this section, we proceed to enumerate the likelihood functions, and the full set of priors and \textit{hyper-priors} used, for the centered and non-centered parametrizations.
 
-First, as stated in equations (\ref{eq:dist}), (\ref{eq:lin_pred}), and (\ref{eq:prob}), the distributional and systematic part of both models was defined as follows:
+First, for the centered parametrization (CP), as stated in equations (\ref{eq:lin_pred}), (\ref{eq:prob}), and (\ref{eq:dist}), the distributional and systematic part of both models was defined as follows:
 %
 \begin{align}
 	%
@@ -185,17 +185,17 @@ First, as stated in equations (\ref{eq:dist}), (\ref{eq:lin_pred}), and (\ref{eq
 	%
 \end{align}
 
-Notice the linear predictor can be considered a multilevel-multidimensional extension of the well known Rasch IRT model \cite{Rasch_1980}. Second, the first-order latent variables were defined as follows:
+Notice the linear predictor can be considered a multilevel-multidimensional extension of the well known Rasch IRT model \cite{Rasch_1980}. The first-order latent variables were defined as follows:
 %
 \begin{align}
 	%
 	\boldsymbol{\theta}^{(2)}_{j} &= \left[ \theta_{j1}^{(2)}, \theta_{j2}^{(2)}, \theta_{j3}^{(2)} \right] \\
 	%
-	\boldsymbol{\theta}^{(2)}_{j} &\sim \text{MVNormal} \left( \boldsymbol{\mu}^{(2)}_{j}, \boldsymbol{\Sigma}^{(2)} \right)
+	\boldsymbol{\theta}^{(2)}_{j} &\sim \text{MVNormal} \left( \boldsymbol{\mu}^{(2)}_{j}, \boldsymbol{\Sigma}^{(2)} \right) \label{eq:theta_sub}
 	%
 \end{align}
 
-where $\boldsymbol{\Sigma}^{(2)}$ was defined by factoring the variances and correlations structures, in the following form:
+\noindent where $\boldsymbol{\Sigma}^{(2)}$ was defined by a factorization of the variances and correlations structures, in the following form:
 %
 \begin{align} \label{eq:sigma_factoring}
 	%
@@ -206,7 +206,7 @@ where $\boldsymbol{\Sigma}^{(2)}$ was defined by factoring the variances and cor
 		\sigma^{2}_{1}	& 0 			 	& 0 				\\
 		0 				& \sigma^{2}_{2} 	& 0 				\\
 		0 				& 0					& \sigma^{2}_{3} 
-	\end{pmatrix} \\
+	\end{pmatrix} \label{eq:sigmas}\\
 	%
 	\boldsymbol{R}^{(2)} &= 
 	\begin{pmatrix}
@@ -217,17 +217,17 @@ where $\boldsymbol{\Sigma}^{(2)}$ was defined by factoring the variances and cor
 	%
 \end{align}
 
-while $\boldsymbol{\mu}^{(2)}_{j}$ was defined in two ways, depending on the model we were fitting. For the FOLV model, the mean vector was defined as follows:
+\noindent while $\boldsymbol{\mu}^{(2)}_{j}$ was defined in two ways, depending on the model we were fitting. For the FOLV model, the mean vector was defined as follows:
 %
 \begin{align}
 	%
-	\boldsymbol{\mu}^{(2)}_{j} &= \left[ \mu^{(2)}_{j1}, \; \mu^{(2)}_{j2}, \mu^{(2)}_{j3} \right] \\
+	\boldsymbol{\mu}^{(2)}_{j} &= \left[ \mu^{(2)}_{j1}, \; \mu^{(2)}_{j2}, \mu^{(2)}_{j3} \right] \label{eq:mu_FOLV} \\
 	%
 	\mu^{(2)}_{jd} &= \Gamma_{0} + \Gamma_{1} W_{1j} + \Gamma_{2} (W_{2j} - W_{2\text{min}}) + \Gamma_{3} W_{3j} + \Gamma_{4} W_{4j}
 	%
 \end{align}
 
-where $\Gamma_{p}$ and $W_{jp}$ are defined as in section \ref{sect:algorithm}. Notice the regression parameters were not dimension specific. On the other hand, for the SOLV model, $\boldsymbol{\mu}^{(2)}_{j}$ was defined by:
+\noindent where $\Gamma_{p}$ and $W_{jp}$ are defined as in section \ref{sect:algorithm}. Notice the regression parameters were not dimension specific. On the other hand, for the SOLV model, $\boldsymbol{\mu}^{(2)}_{j}$ was defined by:
 %
 \begin{align}
 	%
@@ -239,28 +239,28 @@ where $\Gamma_{p}$ and $W_{jp}$ are defined as in section \ref{sect:algorithm}. 
 	%
 \end{align}
 
-where $d$ denotes the index of the individual's dimension. Lastly, because the SOLV contemplates an additional level, corresponding to the reading comprehension ability, an additional set of parameters was defined as follows:
+\noindent where $d$ denotes the index of the individual's dimension. Lastly, because the SOLV contemplates an additional level, corresponding to the reading comprehension ability, an additional set of parameters was defined as follows:
 %
 \begin{align}
 	%
-	\theta^{(3)}_{j} &\sim \text{Normal} \left( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} \right) \\
+	\theta^{(3)}_{j} &\sim \text{Normal} \left( \mu^{(3)}_{j}, \sigma^{(3)}_{\theta} \right) \label{eq:theta} \\
 	%
-	\mu^{(3)}_{j} &=  \Gamma_{0} + \Gamma_{1} W_{1j} + \Gamma_{2} (W_{2j} - W_{2\text{min}}) + \Gamma_{3} W_{3j} + \Gamma_{4} W_{4j}
+	\mu^{(3)}_{j} &=  \Gamma_{0} + \Gamma_{1} W_{1j} + \Gamma_{2} (W_{2j} - W_{2\text{min}}) + \Gamma_{3} W_{3j} + \Gamma_{4} W_{4j} \label{eq:mu_SOLV}
 \end{align}
 
-Third, turning now our attention to the items' parameters $\eta^{(2)}_{k}$, both models had:
+Turning now our attention to the items' parameters $\eta^{(2)}_{k}$, both models had:
 %
 \begin{align}
 	%
-	\eta^{(2)}_{k} &\sim \text{Normal} \left( \mu^{(2)}_{k}, \sigma^{(2)}_{k} \right) \\
+	\eta^{(2)}_{k} &\sim \text{Normal} \left( \mu^{(2)}_{k}, \sigma^{(2)}_{k} \right) \label{eq:items} \\
 	%
-	\mu^{(2)}_{k} &= \pmb{\eta}^{(3)} \mathbf{A} \\
+	\mu^{(2)}_{k} &= \pmb{\eta}^{(3)} \mathbf{A} \label{eq:mu_items} \\
 	%
-	\sigma^{(2)}_{k} &= \pmb{\sigma}^{(3)} \mathbf{A}
+	\sigma^{(2)}_{k} &= \pmb{\sigma}^{(3)} \mathbf{A} \label{eq:sigma_items}
 	%
 \end{align}
 
-where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5} ]$ represented the texts difficulties, $\pmb{\sigma}^{(3)} = [ \sigma^{(3)}_{1}, \sigma^{(3)}_{2}, \sigma^{(3)}_{3}, \sigma^{(3)}_{4}, \sigma^{(3)}_{5} ]$ the text deviations from such difficulties; and $\mathbf{A}$ was a block design matrix that mapped the items to its corresponding passage. In addition, $\eta^{(3)}_{k}$ and $\sigma^{(3)}_{k}$ were distributed as follows:
+\noindent where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{2}, \eta^{(3)}_{3}, \eta^{(3)}_{4}, \eta^{(3)}_{5} ]$ represented the texts difficulties, $\pmb{\sigma}^{(3)} = [ \sigma^{(3)}_{1}, \sigma^{(3)}_{2}, \sigma^{(3)}_{3}, \sigma^{(3)}_{4}, \sigma^{(3)}_{5} ]$ the text deviations from such difficulties; and $\mathbf{A}$ was a block design matrix that mapped the items to its corresponding passage. In addition, $\eta^{(3)}_{k}$ and $\sigma^{(3)}_{k}$ were distributed as follows:
 %
 \begin{align}
 	%
@@ -270,7 +270,7 @@ where $k=1, \dots, 25$ items, $\pmb{\eta}^{(3)} = [ \eta^{(3)}_{1}, \eta^{(3)}_{
 	%
 \end{align}
 
-Fourth, we declared all the required \textit{hyper-priors} in the following form::
+Lastly, we declare the remaining prior and \textit{hyper-priors} in the following form::
 %
 \begin{align}
 	\boldsymbol{R}^{(2)} &\sim \text{LkjCorrelation}( 2 ) \\
@@ -281,11 +281,61 @@ Fourth, we declared all the required \textit{hyper-priors} in the following form
 	%
 \end{align}
 
-\noindent where $\text{LkjCorrelation}(\cdot)$ denotes the Lewandowski, Kurowicka, and Joe prior correlation distribution \cite{Lewandowski_et_al_2009}. Notice from equation (\ref{eq:sigma_factoring}), and the aforementioned prior, that the current research departs from the usual setting of prior distributions for covariances matrices. As it is point out by \citet{Depaoli_2021}, the literature on bayesian MSEM/CFA have favored the use of the Inverse-Wishart distribution, based on its conjugancy properties. However, the assumptions derived from its use, that is, the priors are equally informative for variances and covariances, is sometimes restrictive. Following \citet{McElreath_2020}, we believe that by factoring the covariance matrix into variances and correlations, allow us gain control on the preliminary assumptions set to those parameters. Moreover, it makes easier to identify when the researcher is using the unit variance identification (UVI) scheme to ensure, the model's identification.
+\noindent where $\text{LKJCorrelation}(\cdot)$ denotes the Lewandowski, Kurowicka, and Joe prior correlation distribution \cite{Lewandowski_et_al_2009}. Notice from equation (\ref{eq:sigma_factoring}), and the aforementioned prior, that the current research departs from the usual setting of prior distributions for covariances matrices. As it is point out by \citet{Depaoli_2021}, the literature on bayesian MSEM/CFA/IRT have favored the use of the Inverse-Wishart distribution, based on its conjugancy properties. However, the assumptions derived from its use, that is, the priors are equally informative for variances and covariances, is sometimes restrictive. Therefore, following \citet{McElreath_2020}, we believe that by factoring the covariance matrix into variances and correlations, allow us gain control on the preliminary assumptions set to those parameters. Moreover, it makes easier to identify when the researcher is using the unit variance identification scheme (UVI, see next section); and allow us to transition easily to the non-centered parametrization (NCP).
 
-In that sense, in order to fully specify the model and provide a scale for the latent variables, the current research decided to use the UVI scheme, i.e. set the scale of the higher-order dimension and sub-dimensions to one,  $\sigma^{(3)}_{\theta} = 1$, and $\mathbf{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I}$ with $\pmb{\sigma}^{(2)}_{\theta} = [1, 1, 1]^{T}$. Moreover, we identified the texts' and items' by setting $\mu_{\eta} = 0$, $\sigma_{\eta}=1$, $\delta_{\eta}=2$.
+Second, as it was outlined in section \ref{subsub_sec:NCP}, to identify parameters that can be transformed into the NCP, we need to recognize equations where the parameters' sampling procedure is dependent on other sampled parameters. A careful inspection of the preceding parametrization reveals that equations (\ref{eq:theta_sub}), (\ref{eq:theta}), and (\ref{eq:items}) fulfill this characteristic. Therefore, under the NCP, equation (\ref{eq:items}) is re-defined as follows:
+%
+\begin{align}
+	%
+	\eta^{(2)}_{k} &= \mu^{(2)}_{k} + \sigma^{(2)}_{k} z^{(2)}_{k} \\
+	%
+	z^{(2)}_{k} &\sim \text{Normal}(0,1)
+	%
+\end{align}
 
-Notice we needed to set the scales for all the individuals' dimensions equal to one, because otherwise the latent structure would not be identified. In either model, at the level of the first-order latent variables (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available, corresponding to the variances and covariances of the latent variables. Then, the information will be used to estimate $10$ parameters, i.e. $3$ loadings, $3$ variances corresponding to the first--order latent variable, $1$ variance for the second-order latent variable (if present), and $3$ correlations among sub-dimensions. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (correlations and loading, if present). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
+\noindent where $\mu^{(2)}_{k}$ and $\sigma^{(2)}_{k}$ are defined as in equations (\ref{eq:mu_items}) and (\ref{eq:sigma_items}), respectively; while $z^{(2)}_{k}$ are samples from independent standard normal distributions, one for each item corresponding to a text passage.
+
+Moreover, equation (\ref{eq:theta_sub}) is re-defined as follows:
+%
+\begin{align}
+	%
+	\boldsymbol{\theta}^{(2)}_{j} &= \boldsymbol{\mu}^{(2)}_{j} + \boldsymbol{S}^{(2)} \cdot \boldsymbol{L}^{(2)}_{\Sigma} \cdot  (\mathbf{z}_{j} \mathbf{I}) \\
+	%
+	\mathbf{z}_{j} &= [ z_{j1}, \dots, z_{jd}]^{T}
+	%
+\end{align}
+
+\noindent where $\boldsymbol{\mu}^{(2)}_{j}$ is defined as in equation (\ref{eq:mu_FOLV}), $\boldsymbol{S}^{(2)}$ is defined as in equation (\ref{eq:sigmas}), and $\mathbf{I}$ is an identity matrix. Additionally, we have:
+%
+\begin{align}
+	%
+	z_{jd} &\sim \text{Normal}(0,1) \\
+	%
+	\boldsymbol{L}^{(2)}_{\Sigma} &\sim \text{LKJCorrelationCholesky}(2)
+	%
+\end{align}
+
+\noindent where $z_{jd}$ are samples from independent standard normal distributions (one for each dimension and individual); while $\boldsymbol{L}^{(2)}_{\Sigma}$ denotes the Cholesky factorization of correlation matrix $\boldsymbol{R}^{(2)}$. A Cholesky factorization is a decomposition of any positive-definite matrix $\mathbf{A}$, into the product of a lower triangular matrix and its conjugate transpose, i.e. $\mathbf{A} = \boldsymbol{L} \cdot \boldsymbol{L}^{T}$. Notice the prior distribution of the decomposition $\text{LKJCorrelationCholesky}(\cdot)$, imply the same assumption as before, that is, $\boldsymbol{R}^{(2)} = \boldsymbol{L}^{(2)}_{\Sigma} \cdot \boldsymbol{L}^{(2)T}_{\Sigma} \sim  \text{LKJCorrelation}(2)$\footnote{See \citet{Stan2020} for a detailed explanation on the implementation.}.
+
+Furthermore, as in the previous cases, equation (\ref{eq:theta}) also shows sampling dependence. Therefore, the equation is re-defined as follows:
+%
+\begin{align}
+	%
+	\theta^{(3)}_{j} &= \mu^{(3)}_{j} + \sigma^{(3)}_{\theta} z_{j} \\
+	%
+	z_{j} &\sim \text{Normal}(0,1)
+	%
+\end{align}
+
+\noindent where $\mu^{(3)}_{j}$ is defined as in equation (\ref{eq:mu_SOLV}), and $z_{j}$ are samples from independent standard normal distributions, one for each individual. Finally, the remaining equations defined under the CP maintain their description under the NCP.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Identification}
+
+In order to fully specify the model and provide a scale for the latent variables, we decided to use the UVI scheme, that is, to set the scale of the higher-order dimension and sub-dimensions to one,  $\sigma^{(3)}_{\theta} = 1$ and $\mathbf{S}^{(2)} = \pmb{\sigma}^{(2)}_{\theta} \mathbf{I}$ with $\pmb{\sigma}^{(2)}_{\theta} = [1, 1, 1]^{T}$. The previous effectively turned the covariance matrix $\boldsymbol{\Sigma}^{(2)}$ into a correlation, i.e. $\boldsymbol{\Sigma}^{(2)} = \boldsymbol{R}^{(2)}$ (see equation \ref{eq:sigma_factoring}). Moreover, we identified the texts' and items' by setting $\mu_{\eta} = 0$, $\sigma_{\eta}=1$, $\delta_{\eta}=2$.
+
+Notice we needed to set the scales for all the individuals' dimensions equal to one, because otherwise the latent structure would be under-identified. In either model, at the level of the first-order latent variables (level-2), we would have $(3 \times 4)/2 = 6$ pieces of information available, corresponding to the variances and covariances of the latent variables. Then, the information would need to estimate $10$ parameters, i.e. $3$ loadings, $3$ variances corresponding to the first--order latent variable, $1$ variance for the second-order latent variable (if present), and $3$ correlations among sub-dimensions, making that portion of the model under-identified. Therefore, by restricting the variances to one, we have enough information to estimate the other parameters of interest (correlations and loading, if present). Additionally, this is further justified by the fact that latent variables have no inherent unit in which they are measured, consequently, setting their scale is an arbitrary  decision \cite{Beaujean_2014}.
 
 
 \begin{comment}
