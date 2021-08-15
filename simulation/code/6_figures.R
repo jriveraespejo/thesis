@@ -1266,7 +1266,7 @@ stan_rmse[idx2,] %>%
   xtable( caption='caption', label = 'tab:')
 
 
-#### moadings ####
+#### loadings ####
 idx = stan_rmse$parameter %in% paste0('loads[',1:3,']')
 idx2 = idx & str_detect(stan_rmse$model_type, '^SOLV')
 
@@ -1391,6 +1391,18 @@ recovery_plots(result_object = res_stan,
 
 
 
+
+# correlation plots ####
+
+chains_path = file.path(getwd(), 'chains_post')
+models_int = c('SOLV_CE', 'SOLV_NC')
+chains_list = file_id(chains_path, models_int)
+idx = str_detect(chains_list$model, '_mod')
+chains_list = chains_list[!idx, ]
+
+post_corr(c_list = chains_list,
+          file_save = file.path(getwd(), 'figures5'))
+  
 
 
 
