@@ -8,11 +8,11 @@ Considering the GLLAMM model developed in previous chapters, its application on 
 	%
 	\item \textbf{Evaluate the performance of the parametrizations.} We assessed if changing the posterior sampling geometry benefited the performance of the MCMC method.
 	%
-	\item \textbf{Assess psychometric properties.} We had a special interest in determine how difficult the items were, and in what part of the abilities measurement range they were located.
+	\item \textbf{Evaluate the retrodictive accuracy.} We wanted to assess how well the model retrodicted the data, and what was the evidence in favor of any of the proposed models.
 	%
-	\item \textbf{Assess explanatory power of covariates.} We were interested on making hypothesis about the explanatory power a set of covariates had on the latent dimensions. 
+	\item \textbf{Assess the psychometric properties.} We had a special interest in determine how difficult the items were, and in what part of the abilities measurement range they were located.
 	%
-	\item \textbf{Evaluate the retrodictive accuracy.} We wanted to assess how well the model retrodicted the data, what was the evidence in favor of the proposed models, and what the model can tell to the educational authorities.
+	\item \textbf{Assess the explanatory power of covariates.} We were interested on testing hypothesis about the explanatory power a set of covariates had on the latent dimensions, and what were the implications of these, for the educational authority's policy decision making.
 	%
 \end{enumerate}
 
@@ -34,16 +34,24 @@ Finally, besides being nested in dimensions, the items were bundled in groups of
 
 \section{Data}
 
-The access to data set was done through the proper legal requirement of open information to the Ministry of Education of Peru (MINEDU). The data set was anonymized and transferred through digital mean to the researcher.
+The data set was accessed through the proper legal requirement of open information to the Ministry of Education of Peru (MINEDU). The data was anonymized and transferred through digital mean to the researcher.
 
-Finally, given the large amount of individuals exposed to the aforementioned evaluation, approximately $194,000$, a simple random sample of $2,000$ individuals was taken.
+Finally, given the large amount of individuals exposed to the aforementioned evaluation (approximately $194,000$), a simple random sample of $2,000$ individuals was taken. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Results}
+\section{Hypothesis}
 
-Figure \ref{fig:design} shows the path diagram of the hypothesized dimensional structure, for the hierarchical cross-classified IRT model corresponding with the instrument. The figure represents the responses of one person on $12$ items.
+On it core, statistical models are neat association engines. Through their use, one is able to detect associations between variables, and estimate their effects. However, when a researcher find itself in the position of trying to determine what are the consequences of intervening on a variable, i.e. infer causes, statistical models are never sufficient. Information outside the data, related to the causal hypothesis between the variables, is always required \cite{McElreath_2020}. Nevertheless, since much of time the statistical endeavor has to do with produce understanding that leads to generalization and application; there must be a reasonable way to state our hypothesis, and to think formally about causal inference.
+
+Luckily, as \citet{McElreath_2020}, \citet{Hernan_et_al_2020}, and several other authors indicate, Graphical Causal Models (GCM) can come to the rescue. The simplest and yet powerful GCM is the Directed Acyclic Graph (DAG). A DAG is a heuristic model that contains information that is not purely statistical, but unlike a detailed statistical model, the graph allow us to deduce which variable relationships can provide valid causal inferences. However, abide by the ``no-free lunch" rule, the causal inferences produced under a DAG, are only valid if the assumed DAG is correct. On the latter, one would think the aforementioned caveat is an insurmountable critic of the tool, but one would forget that any statistical analysis hinges on assumption, and a DAG is just a tool to make assumptions more transparent.
+
+Figures \ref{fig:FOLV_app} and \ref{fig:SOLV_app} show the DAGs of the application's first- and second-order latent variable model (FOLV and SOLV, respectively). The figures aim to reflect the hierarchies and hypothesized dimensional structure of the instrument, while also describing the assumed qualitative relationships among the structural covariates. 
+
+A careful inspection of both figures reveal they are similar to the ones implemented in the previous chapter. Therefore, the definitions of the likelihoods, priors, and \textit{hyper-priors} were similar in nomenclature and even in distributional assumptions, as the simulated counterparts. The previous cannot be fully extended to the structural covariates, as one can notice the models have a different set of variables than their simulated counterparts. Consequently, in this section we proceed to define them and outline their assumed causal hypothesis.
+
+It is paramount to emphasize that the hypothesis presented in this section, and the results presented in section \ref{sect:explanation}, will take a diagnostic perspective, that is, we will emphasize on what factors does the educational authorities need to give priority, to ensure a fair and equitable development of teachers.
 %
 \begin{figure}[H]
 	\centering
@@ -53,6 +61,10 @@ Figure \ref{fig:design} shows the path diagram of the hypothesized dimensional s
 	{Directed Acyclig Graph (DAG). Application's first-order latent variable model (FOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large squares represent nesting in specific units.}
 	\label{fig:FOLV_app}
 \end{figure}
+
+First, we assumed the reading abilities were affected by age ($A$). In this particular case, age was used as a proxy for the educational exposure and style of teaching. As it is point out by the current National Basic Regular Education Curriculum of Peru\footnote{National Basic Regular Education Curriculum (2017). URL: \url{ http://www.minedu.gob.pe/curriculo/pdf/curriculo-nacional-2016-2.pdf} }, approximately forty years ago, an individual was considered literate if he/she had acquired the basic knowledge of reading, writing, and performing mathematics; while having a preliminary exposure to trades's dexterity and abilities. Much of this has been changing throughout the years, and although reading and writing are still important, the criteria to determine if a person is literate, now goes beyond assessing if an individual knows the basic of how to read, write, or apply mathematics. Therefore, giving this incidental evidence, it is sensible to assume that age could inform us about individuals following a style of teaching based on the previous requirements of literacy. Moreover, by assessing this effect, albeit proxy, educational authorities could be able to target in-training services to those individuals.
+
+Second, we further assumed that disability ($D$) is a variable that causally explains the level of reading comprehension abilities on individuals. One can expect such relationship is particularly true for vision disabilities, where individuals are forced to learn completely different set of tools and strategies to be able to read and write, e.g. learn Braille or receive text-to-speech support. However, one cannot discard that other disabilities could also had an impact on the development of reading comprehension. Much as the previous case, by identifying the magnitude the people with disabilities lagged behind their peers, educational authorities will be able to implement remedial measures.
 %
 \begin{figure}[H]
 	\centering
@@ -62,6 +74,22 @@ Figure \ref{fig:design} shows the path diagram of the hypothesized dimensional s
 	{Directed Acyclig Graph (DAG). Application's second-order latent variable model (SOLV). Circles represent latent variables. Squares represent parameters or parameters for priors. Large squares represent nesting in specific units.}
 	\label{fig:SOLV_app}
 \end{figure}
+
+Third, we assumed the type of education an individual received ($E$), i.e. if the person received education only from an institute, university, or both, affected the reading comprehension abilities. The causal assumption behind this variable derives from incidental evidence about the quality of training on pedagogical institutes. In Peru, there is silent, but widely accepted notion that most pedagogical institutes produce teacher with low levels of pedagogical abilities. Multiple reason have been considered, that is, a poorly devised or outdated curricula of teaching; the fact that mostly institutes are specialized on training people with disabilities; or the fact that because institutes are easier to enter and less expensive than private universities, people coming the lower tiers of income (another proxy of educational opportunities and development), select institutes to begin their education. Considering the previous, it could be of interest for the educational authority to have evidence about this hypothesis, again with the purpose to provide remedial measures. Additionally, notice from the previous paragraphs and figures, that we have assumed a backdoor path exist from the education variable to disability (see non-labeled line connecting the variables). A backdoor path is a path that can confound the effect of a predictor on an outcome. Therefore, in order to obtain unbiased estimates for the effects of education and/or disability, both variables needs to considered in the model. 
+
+talk about experiences.
+
+Fourth, we assumed specialty ($S$) also explained causally the reading comprehension abilities. \\
+
+gender fro males and females, age, education is more related to income but is useful to target future chages of curricula, specialty is personal decision, Xpr and Xpu related to the oportunities of development each individual had, same as Disability
+
+lack improvement courses, amount of hours reading, 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Results}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -122,8 +150,9 @@ of were wants to assess  Pychometric properties of the items and texts, texts is
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Explanatory power}
+\subsection{Explanatory power} \label{sect:explanation}
 
+explain age, not included
 %
 \begin{figure}[H]
 	\centering
