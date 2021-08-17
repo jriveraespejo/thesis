@@ -66,7 +66,8 @@ file_save = file.path(getwd(), '4_final', '4_N2017_final.csv')
 write_csv(n2017s_final, file=file_save)
 
 
-
+data_mom = unique(n2017s_final[, c('ID_ind','education')])
+table(data_mom$education)
 
 
 
@@ -103,6 +104,7 @@ n2017s_final = merge(n2017s_final, extra5, by.x='disability', by.y='D_o', all.x=
 idx = with(n2017s_final, order(IDind_m, IDitem_m, text, dimension))
 n2017s_final = n2017s_final[idx,]
 # str(n2017s_final)
+
 
 
 # list
@@ -147,6 +149,7 @@ items = unique(data.frame(data_app[c('IDk','IDl','IDd')]))
 data_app$IDitem = items$IDk
 data_app$IDtext = items$IDl
 data_app$IDdim = items$IDd
+
 
 
 save(data_app, file=file.path(getwd(), '4_final', 'data_application.RData') )

@@ -1,36 +1,53 @@
-\chapter{Conclusion and Discussion} \label{cap:conclusions}
+\chapter{Conclusions and discussion} \label{cap:conclusions}
 
-\section{Discussion}
+As stated in the introductory section, the current research described and implemented the Bayesian GLLAMM model for dichotomous outcomes \cite{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}, in the context of an educational data. The reason for the model's proposal revolved around the fact that educational data often presents multiple types of dependencies, that left unchecked, can cause IRT models to violate their assumptions of local independence. The latter is particularly important, as violation of these assumption prevent IRT models to reach appropriate inferences from the parameter estimates \cite{Yen_1984, Chen_et_al_1997, Jiao_et_al_2012}.
 
-\section{Conclusions}
+Moreover, in the context of the previously defined model, the current research also provided an assessment of the benefits resulting from changing the posterior sampling geometries. Multiple evidence pointed out the performance improvement on the MCMC methods from using non-centered parameterizations \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}. However, most of the evidence have been developed under Gaussian hierarchical models. So, it seemed sensible to provide a similar assessment for nonlinear latent stochastic models, like our implementation \cite{Papaspiliopoulos_et_al_2007}.
 
-Consequently, all of the above just show the NCP largely improved the performance of the MCMC chains under our implementation, for all models and almost all of the parameters. It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference in performance was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful to ensure the fulfillment of this requirement.
+Finally, the research applied the newfound knowledge to a large standardized teacher assessments from Peru. The purpose of the latter was to evaluate the change of parametrization on a real data setting, determine the evidence in favor of our models of interest, produce psychometric analysis, and finally assess specific research hypothesis. \\
 
-why we have this: we can notice that the SOLV model estimate non-negligible positive correlations for some of replicas with sample sizes greater than $100$. This just indicates that for larger sample sizes, some residual correlation remains present, even when the model considers a higher order latent variable. One explanation for this could be that the model severely underestimated the loadings. The true values for the parameters were not within any of the compatibility intervals (that is why we registered higher levels of $\text{RMSE}_{B}$ in table \ref{tab:SOLV_RMSE_loads}).
+\noindent Therefore the main conclusion derived from our work were the followings:
+%
+\begin{enumerate}
+	%
+	\item In the context of the implemented model, the non-centered parametrization largely improved the performance of the MCMC chains, towards achieving ergodicity. This was true across models, simulated sample sizes, and even under the real application, albeit with some caveats. 
 
-From the figures we notice the model manages to produce a rather well depiction of the true ICC and IIF curves. This means that the model allow us to correctly recover the item's psychometric characteristics, a trait of high relevance for the development of instruments.
+	The most important caveat, under the simulation setting, was that no matter the parametrization, no large difference in performance was observed in either the sub-dimensions' correlation or loading parameters. On this matter, however, no evidence supported the idea the parameters suffered from a further lack of identification.
+	
+	On the other hand, related to the application, we observed some of the structural regression parameters registered better performance under the CP, rather than the NCP, for the FOLV. Nevertheless, the improvement was not unanimous, and it wasn't replicated for the SOLV. 
+	%
+	\item Our proposed model was able to recover most of the simulated parameters with good precision.
+	
+	Similar to the previous result, the model still had issues estimating the sub-dimensions correlations and loadings. This result is important, as under the Confirmatory Factor Analysis theory (CFA), a SOLV model is only justified, if the lower-level correlations are high enough (usually above $0.8$). Moreover, according to the same theory, once the SOLV model is fitted, assuming the model is correct, it is expected the correlation of the lower-level latent variables to be largely reduced, something that was not observed in our simulation studies, not even in accordance to our simulation parameters.
+	%
+	\item The proposed models managed to produce a rather well depiction of the true simulated ICC and IIF curves. 
+	
+	The previous implied the models allow us to correctly recover the item's psychometric characteristics, a trait of high relevance for the development of evaluation instruments.
+	%
+	\item In terms of retrodiction accuracy, the models managed to capture the traits of the data, while avoiding its exact replication. 
+	
+	These results were consistent across models, simulated sample sizes and replicas, and even under the final educational application. Consequently, it is safe to say that the models produced similar encodings of the data, leaving the decision of choosing one model over the other on a more theoretical ground.
+	%
+	\item The non-centered parametrization was slightly faster than the centered counterpart.
+	
+	Although the magnitudes of the differences in running time were not large, this result is still important, as the non-centered parametrization was more complex, and required the sampling of more parameters than the centered counterpart. This mean that improving the performance of the MCMC, through a more complex model as the NCP, did not come with a cost on running time.
+	%
+	\item In relation to the hypotesis
+	%
+\end{enumerate}
 
-no difference in retrodictive accuracy is observed between the CP and NCP. Moreover, they reveal the predictive uncertainty is higher within rather than between the replicas, that is, the models predicted the data in a similar manner across replicas.
 
-The NCP being slightly faster than the CP is important, as the non-centered parametrization is more complex, and requires the sampling of more parameters than the centered counterpart. This just means that improving the performance of the MCMC, through a more complex model as the NCP, does not come with a cost on running time.
-
-No invariance assessment has been made, No multigroup analysis, no clustering effects
-
-All of the above results just resonates with the patterns obtained in the previous chapter. However, in contrast with the results of the simulation study, some of the structural regression parameters (not shown) registered better performance under the CP, rather than the NCP. Among these set of covariates were age, disability, and both of the experience variables. Nevertheless, the disagreement was not unanimous, as the parameters showed ``healthier" chains with larger effective sample sizes, but \texttt{Rhat} values above the recommended threshold, indicating a lack of convergence. This result resonates with \citet{Papaspiliopoulos_et_al_2007}, who stated that the success of the NCP strategy was largely dependent on the specifics of the models and data.
-
-Moreover, it is surprising this pattern of behavior was not replicated on the SOLV model, where all of the structural parameters seemed to be more ergodic under the NCP. The latter lead us to think, the previous patterns resulted from the use a possible miss-specified model.
-
-In conclusion, given the results obtained in this section, and section  \ref{sub_sect:ergodicity_simulation} of the previous chapter, conditional on the selected number of iterations, the non-centered parametrization was the only one to ensure the GLLAMM parameters attained ergodicity.
-
-The full benefit of a DAG comes from using it to design both the collection of data and the structure of our statistical models. However, we recognize the sampling design for contrast was not great. The research realized that in order to produce better inferences, especially related to contrast of variables, a more careful sample design (equal number of individuals within each levels per covariate). However, no bias was induces from a wrongful design.
-
-
-Consequently, both models produce similar encodings of the data, therefore, the decision of choosing one over another rest now on a more theoretical ground.
 
 \section{Future development}
+
+
+No invariance assessment has been made, No multigroup analysis, no clustering effects
 
 It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful of ensuring this requirement.
 
 Investigate this, maybe you need to use Variational Inference methods. CP versus NCP is a false dichotmy, because as authors mentioned they work more in a complementary way, therefore methods that seeks they integrations may need to be the staple of IRT models.
 
 One explanation for this could be that both parametrizations achieved what is called a \textit{local convergence} \cite{Depaoli_2021}, that is, the chains appear to be stable in the range of the iterations (at least observed in the NCP). However, given the consistent results across replicas, the researcher is led to think that even with all the issues present under the CP, the chains managed to visit the posterior distribution in a way, that allows the method to produce a proper estimation of the parameters. Moreover, we are also led to think, the preceding patterns of recovery capacity are the result of using the HMC algorithm with a higher rejection criteria (\texttt{adapt\_delta}$=0.99$) and weakly regularizing priors. The previous chapter has described the benefits of these factors separately, so it is sensible to assume that used in conjunction, they could benefit the posterior exploration, and therefore, the recovery capacity of the method. Further investigations manipulating these conditions could be of relative importance. For example, investigate the recovery capacity under HMC and Gibbs sampling, under CP and NCP with no regularizing priors or adapt delta. as the results could be due to the HMC or the regularizing priors, and we cannot observe the true benefits of the change to NCP.
+
+
+The full benefit of a DAG comes from using it to design both the collection of data and the structure of our statistical models. However, we recognize the sampling design for contrast was not great. The research realized that in order to produce better inferences, especially related to contrast of variables, a more careful sample design (equal number of individuals within each levels per covariate). However, no bias was induces from a wrongful design.
