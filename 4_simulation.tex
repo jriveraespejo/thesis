@@ -358,7 +358,7 @@ First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_a
 
 \noindent where the linear predictor $v_{jkd}$ contains the items' difficulties $\eta^{(2)}_{k}$ and the individuals' sub-dimensions/abilities $\theta^{(2)}_{jd}$, as defined in equation (\ref{eq:linear_predictor1}). As previously mentioned, the ICC of our current implementation can be considered as the multilevel-multidimensional extension to the Rasch's ICC.
 
-On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, ``information" is understood as the reduction of uncertainty, resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM was defined in a similar manner as the Rasch counterpart, in the following form:
+On the other hand, the same authors defined the IIF as a function that measured the amount of information provided by an item. In this setting, much similar to the field of information theory, ``information" is understood as the reduction of uncertainty resulting from using an item to measure the ability of an individual. Given the above, the IIF for the GLLAMM was defined in a similar manner as the Rasch counterpart, in the following form:
 %
 \begin{equation} \label{eq:IIF}
 	\begin{split}
@@ -402,7 +402,7 @@ Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we not
 
 \section{Results}
 
-\subsection{Chain performance}
+\subsection{Chain performance} \label{sub_sect:ergodicity_simulation}
 
 First, the CP and NCP chain performance for the texts' mean difficulties is reported in figures \ref{fig:FOLV_CE_chains1} and \ref{fig:FOLV_NC_chains1}, respectively. The figures correspond to replica number two of the FOLV model, with a simulated sample size of $100$. 
 
@@ -516,7 +516,7 @@ One explanation for this could be that both parametrizations achieved what is ca
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Retrodictive accuracy}
+\subsection{Retrodictive accuracy} \label{sub_sect:retrodictive_simulation}
 
 Figure \ref{fig:FOLV_NC_hitrate_ind} shows the true, average, and marginal predicted proportions, on a random sample of individuals, of the fourth replica from the NCP FOLV model with a sample size of $100$. The plot also depicts the corresponding shrinkage and compatibility intervals. 
 
