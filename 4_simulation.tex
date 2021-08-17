@@ -274,14 +274,14 @@ Lastly, we declare the remaining prior and \textit{hyper-priors} in the followin
 %
 \begin{align}
 	\boldsymbol{R}^{(2)} &\sim \text{LkjCorrelation}( 2 ) \\
-	\beta_{G} &\sim \text{Normal}( 0, 0.5 ) \\
-	\beta_{A} &\sim \text{Normal}( 0, 0.5 ) \\
-	\beta_{E} &\sim \text{Normal}( 0, 1 ) \\
-	\beta_{X} &\sim \text{Normal}( 0, 0.5 ) 
+	\Gamma_{1c} &\sim \text{Normal}( 0, 0.5 ) \\
+	\Gamma_{2} &\sim \text{Normal}( 0, 0.5 ) \\
+	\Gamma_{3c} &\sim \text{Normal}( 0, 1 ) \\
+	\Gamma_{4c} &\sim \text{Normal}( 0, 0.5 ) 
 	%
 \end{align}
 
-\noindent where $\text{LKJCorrelation}(\cdot)$ denotes the Lewandowski, Kurowicka, and Joe prior correlation distribution \cite{Lewandowski_et_al_2009}. Notice from equation (\ref{eq:sigma_factoring}), and the aforementioned prior, that the current research departs from the usual setting of prior distributions for covariances matrices. As it is point out by \citet{Depaoli_2021}, the literature on bayesian MSEM/CFA/IRT have favored the use of the Inverse-Wishart distribution, as a prior for covariances matrices, based on its conjugancy properties. However, the assumptions derived from its use, that is, the priors are equally informative for variances and covariances, is sometimes restrictive. Therefore, following \citet{McElreath_2020}, we believe that by factoring the covariance matrix into variances and correlations, allow us gain control on the preliminary assumptions set to those parameters. Moreover, it makes easier to identify when the researcher is using the unit variance identification scheme (UVI, see next section); and allow us to transition easily to the non-centered parametrization (NCP).
+\noindent where $c$ denotes the categories inside the covariate, different for each variable, while the $\text{LKJCorrelation}(\cdot)$ function denotes the Lewandowski, Kurowicka, and Joe prior correlation distribution \cite{Lewandowski_et_al_2009}. Notice from equation (\ref{eq:sigma_factoring}), and the aforementioned prior, that the current research departs from the usual setting of prior distributions for covariances matrices. As it is point out by \citet{Depaoli_2021}, the literature on bayesian MSEM/CFA/IRT have favored the use of the Inverse-Wishart distribution, as a prior for covariances matrices, based on its conjugancy properties. However, the assumptions derived from its use, that is, the priors are equally informative for variances and covariances, is sometimes restrictive. Therefore, following \citet{McElreath_2020}, we believe that by factoring the covariance matrix into variances and correlations, allow us gain control on the preliminary assumptions set to those parameters. Moreover, it makes easier to identify when the researcher is using the unit variance identification scheme (UVI, see next section); and allow us to transition easily to the non-centered parametrization (NCP).
 
 Second, as it was outlined in section \ref{subsub_sec:NCP}, to identify parameters that can be transformed into the NCP, we needed to recognize equations where the parameters' sampling procedure is dependent on other sampled parameters. A careful inspection of the preceding parametrization revealed that equations (\ref{eq:theta_sub}), (\ref{eq:theta}), and (\ref{eq:items}) fulfilled this characteristic. Therefore, under the NCP, equation (\ref{eq:items}) was re-defined as follows:
 %
