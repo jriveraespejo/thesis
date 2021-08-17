@@ -12,7 +12,7 @@ Considering the GLLAMM model developed in previous chapters, its application on 
 	%
 	\item \textbf{Assess the psychometric properties.} We had a special interest in determine how difficult the items were, and in what part of the abilities measurement range they were located.
 	%
-	\item \textbf{Assess the explanatory power of covariates.} We were interested on testing hypothesis about the explanatory power a set of covariates had on the latent dimensions, and what were the implications of these, for the educational authority's policy decision making.
+	\item \textbf{Test research hypothesis.} We were interested on testing hypothesis about the explanatory power a set of covariates had on the latent dimensions, and what were the implications of these, for the educational authority's policy decision making.
 	%
 \end{enumerate}
 
@@ -51,7 +51,7 @@ Figures \ref{fig:FOLV_app} and \ref{fig:SOLV_app} show the DAGs of the applicati
 
 A careful inspection of both figures reveal they are similar to the ones implemented in the previous chapter. Therefore, the definitions of the likelihoods, priors, and \textit{hyper-priors} will be similar in nomenclature and even in distributional assumptions, as the simulated counterparts (see appendix \ref{appC3:chapter5} to corroborate the statement). Nevertheless, the previous cannot be fully extended to the structural covariates, as one can notice the models have a different set of variables than their simulated counterparts. Consequently, in this section we proceed to define them and outline their assumed causal hypothesis.
 
-It is important to emphasize, the hypothesis presented in this section, and the results presented in section \ref{sect:explanation}, will take a diagnostic perspective, that is, we will emphasize on what factors does the educational authorities will need to give priority, to ensure a fair and equitable development of teachers.
+It is important to emphasize, the hypothesis presented in this section, and the results presented in section \ref{sect:test_hypothesis}, will take a diagnostic perspective, that is, we will emphasize on what factors does the educational authorities will need to give priority, to ensure a fair and equitable development of teachers.
 %
 \begin{figure}[H]
 	\centering
@@ -100,7 +100,7 @@ Therefore, after declaring our hypothesis, we proceed to declare the prior model
 
 \noindent where as in the previous chapter, $c$ denotes the categories inside the covariate, different for each variable. 
 
-Finally, by no means we state the proposed model is the ``correct" model to analyze the data. This is particularly true, if we consider that several unobserved important variables are absent from the analysis, e.g. if the individual followed training courses beyond their initial education, or something as simple as, the amount of hours the individual spends on reading. However, we believe that giving the constraints of the data, the model provides a sensible depiction of the causal hypothesis among the available variables.
+Finally, by no means we state the proposed model is the ``correct" model to analyze the data. This is particularly true, if we consider that several unobserved important variables are absent from the analysis, e.g. if the individual followed training courses beyond their initial education, or something as simple as, the amount of hours the individual spends on reading. Moreover, this is aggravated by the fact that a good portion of the variables used come from self-reported measures, like experience and education. However, we believe that giving the constraints of the data, the model provides a sensible depiction of the causal hypothesis among the available variables.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,6 +111,9 @@ Finally, by no means we state the proposed model is the ``correct" model to anal
 
 \subsection{Parametrization performance}
 
+Figures \ref{fig:FOLV_CE_chains1} and \ref{fig:FOLV_NC_chains1} show the items' trace, trank, and ACF plots for the centered and non-centered parametrization of the application's FOLV model. From a quick inspection of the figures, we realize the items' parameter did not achieved ergodicity under the CP, in contrast to the NCP. This result if further confirmed by figure \ref{fig:FOLV_stat1}, where we observe the items parameters had effective sample sizes below $100$ under the CP, while above $1,500$ under the NCP. Moreover, the parameters' chains registered \texttt{Rhat} values well above the recommended threshold under CP, but maintained values close to one under the NCP.
+
+A similar behavior was registered for the texts difficulties and deviations, and individuals abilities. From the inspection of the appropriate figures\footnote{To inspect the figures refer to the github accompanying page detailed in Appendix \ref{app:chapter5}.}, we notice the CP did not achieved stationarity, convergence, nor good mixing, albeit the patterns were less extreme than in the previous scenario. In contrast, the NCP achieved ergodicity without any issues. Again, this was further confirmed by the comparison of the \texttt{n\_eff} and \texttt{Rhat} values between the two parametrizations.
 %
 \begin{figure}[H]
 	\centering
@@ -120,6 +123,10 @@ Finally, by no means we state the proposed model is the ``correct" model to anal
 	{Application's first-order latent variable model (FOLV). Centered parametrization. Items difficulty: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
 	\label{fig:FOLV_CE_chains1}
 \end{figure}
+
+Moreover, both parametrizations had a hard exploring the posterior distribution of the sub-dimensions correlations. Inspecting the appropriate figures (not shown), we noticed the CP registered effective sample sizes below $100$, while the NCP barely reached sample sizes above $300$. This, in conjunction with the trace, trank, and ACF plots further confirmed the chains did not achieved ergodicity.
+
+A strikingly similar set of patterns was observed in the same set of parameters the SOLV shares with the FOLV model. Part of the evidence of such statement can be found in figures \ref{fig:SOLV_CE_appchains1} and \ref{fig:SOLV_NC_appchains1} (appendix).
 %
 \begin{figure}[H]
 	\centering
@@ -129,16 +136,34 @@ Finally, by no means we state the proposed model is the ``correct" model to anal
 	{Application's first-Order latent variable model (FOLV). Non-centered parametrization. Items difficulty: (Left) trace plot, (Middle) trank plot, (Right) auto-correlation plot.}
 	\label{fig:FOLV_NC_chains1}
 \end{figure}
+
+All of the above results just resonates with the patterns obtained in the previous chapter. However, in contrast with the results of the simulation study, some of the structural regression parameters (not shown) registered better performance under the CP, rather than the NCP. Among these set of covariates were age, disability, and both of the experience variables. Nevertheless, the disagreement was not unanimous, as the parameters showed ``healthier" chains with larger effective sample sizes, but \texttt{Rhat} values above the recommended threshold, indicating a lack of convergence. This result resonates with \citet{Papaspiliopoulos_et_al_2007}, who stated that the success of the NCP strategy was largely dependent on the specifics of the models and data.
+
+Moreover, it is surprising this pattern of behavior was not replicated on the SOLV model, where all of the structural parameters seemed to be more ergodic under the NCP. The latter lead us to think, the previous patterns resulted from the use a possible miss-specified model.
 %
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{FOLV_stat_bk}
 	%
 	\caption[Application's first-order latent variable model (FOLV). CP and NCP comparison plot.]%
-	{Application's first-order latent variable model (FOLV). CP and NCP comparison plot. (A) \texttt{n\_eff} for items' difficulties. (B) \texttt{Rhat} for items' difficulties. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines set in A corresponds to \texttt{n\_eff}$=100$. Vertical and horizontal discontinuous lines set in B corresponds to \texttt{Rhat}$=1.05$. }
+	{Application's first-order latent variable model (FOLV). CP and NCP comparison plot. (A) \texttt{n\_eff} for items' difficulties. (B) \texttt{Rhat} for items' difficulties. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines set in A corresponds to \texttt{n\_eff}$=100$. Vertical and horizontal discontinuous lines set in B corresponds to \texttt{Rhat}$=1.05$.}
 	\label{fig:FOLV_stat1}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Retrodictive accuracy}
+
+Pareto-smoothed importance sampling cross-validation (PSIS) and the  Widely Applicable Information Criterion (WAIC).
+
+All of the preceding suggests one way to navigate overfitting and underfitting: Evaluate our models out-of-sample. using cross validation and information criteria
+
+
+with an additional set of :covariates (not used in the model), we examine their classification and access to the pubic teaching career. 
+
+how the classified poeple is characterized, math scales vs the scores (cut-of of 30 points, or 15 items, 2 points / item)
+
+characterize individuals into profiles 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -166,7 +191,7 @@ of were wants to assess  Pychometric properties of the items and texts, texts is
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Explanatory power} \label{sect:explanation}
+\subsection{Test hypothesis} \label{sect:test_hypothesis}
 
 explain age, not included
 %
@@ -185,20 +210,7 @@ explain age, not included
 	\label{fig:contrast_both}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Retrodictive accuracy}
-
-Pareto-smoothed importance sampling cross-validation (PSIS) and the  Widely Applicable Information Criterion (WAIC).
-
-All of the preceding suggests one way to navigate overfitting and underfitting: Evaluate our models out-of-sample. using cross validation and information criteria
-
-
-with an additional set of :covariates (not used in the model), we examine their classification and access to the pubic teaching career. 
-
-how the classified poeple is characterized, math scales vs the scores (cut-of of 30 points, or 15 items, 2 points / item)
-
-characterize individuals into profiles 
 
 
 
