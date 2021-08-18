@@ -202,9 +202,14 @@ To the friends that managed to keep me motivated through this rewarding endeavor
 % ----------------------- abstract ----------------------------------------
 %--------------------------------------------------------------------------
 \chapter*{Abstract}
-{\color{red}(work in progress)} \\
+
+The current research thesis described and implemented the Bayesian GLLAMM model for dichotomous outcomes \cite{Rabe_et_al_2004a, Rabe_et_al_2004b, Skrondal_et_al_2004a, Rabe_et_al_2012}, in the context of an educational data. The model's proposal revolved around the fact that educational data often presents multiple types of dependencies, that left unchecked, can cause IRT models to violate their assumptions of local independence. The latter is particularly important, as violation of these assumption prevent IRT models to reach appropriate inferences from the parameter estimates \cite{Yen_1984, Chen_et_al_1997, Jiao_et_al_2012}.
+
+Moreover, in the context of the previously defined model, the current research also provided an assessment of the benefits resulting from changing the posterior sampling geometries. Multiple evidence pointed out the performance improvement on the MCMC methods from using non-centered parameterizations \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}. However, most of the evidence have been developed under Gaussian hierarchical models. So, it seemed sensible to provide a similar assessment for nonlinear latent stochastic models, like our implementation \cite{Papaspiliopoulos_et_al_2007}.
+
+Finally, the research applied the newfound knowledge to a large standardized teacher assessments from Peru. The purpose of the latter was to evaluate the change of parametrization on a real data setting, determine the evidence in favor of our models of interest, produce psychometric analysis, and finally assess specific research hypothesis. \\ \\
 %
-\noindent \textbf{Keywords:} 
+\noindent \textbf{Keywords:} Bayesian modeling, MCMC, HMC, IRT, GLLAMM, centered parametrization, non-centered parametrization. 
 %
 %
 %--------------------------------------------------------------------------

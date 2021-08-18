@@ -347,6 +347,15 @@ On the other hand, from the texts and items perspective, at the level of the ite
 \subsection{Prior predictive investigation} \label{sub_sect:prior_pred_inv}
 
 As it was outlined in section \ref{sub_sect:prior_pred}, we will use prior predictive investigation to assess and visualize the consequences of our prior assumptions. The implications will be assessed from two perspectives: the IRT and the outcome space perspective. For the former, we will investigate what the set of priors imply for the item characteristic curves (ICC), and item information function (IIF). For the latter, we will examine how the prior assumption translate onto the outcome space.
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{FOLV_ICC_prior}
+	%
+	\caption[First-order latent variable model (FOLV). Item Characteristic Curve (ICC) and Item Information Function (IIF).]%
+	{First-order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
+	\label{fig:FOLV_ICC_prior}
+\end{figure} 
 
 First, it will useful to define the ICC and IIF functions. \citet{Hambleton_et_al_1991b} defined the ICC as the mathematical function that relates the probability of success on an item, to the ability measured by that same item. In our current implementation, such function would correspond to the systematic part of the GLLAMM, as defined in equations (\ref{eq:systematic}) and (\ref{eq:response_dich1}):
 %
@@ -365,15 +374,6 @@ On the other hand, the same authors defined the IIF as a function that measured 
 		\text{IIF} &= \pi_{jkd} \; (1 - \pi_{jkd})
 	\end{split}	
 \end{equation}
-%
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{FOLV_ICC_prior}
-	%
-	\caption[First-order latent variable model (FOLV). Item Characteristic Curve (ICC) and Item Information Function (IIF).]%
-	{First-order latent variable model (FOLV). (A) Item Characteristics Curve, ICC. (B) Item Information Function, IIF.}
-	\label{fig:FOLV_ICC_prior}
-\end{figure} 
 %
 \begin{figure}[H]
 	\centering
@@ -405,10 +405,6 @@ Finally, from figure \ref{fig:FOLV_hitrate1} and \ref{fig:FOLV_hitrate2}, we not
 \subsection{Chain performance} \label{sub_sect:ergodicity_simulation}
 
 First, the CP and NCP chain performance for the texts' mean difficulties is reported in figures \ref{fig:FOLV_CE_chains1} and \ref{fig:FOLV_NC_chains1}, respectively. The figures correspond to replica number two of the FOLV model, with a simulated sample size of $100$. 
-
-From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, as the several divergent transitions hinted, indicating a lack of good mixing, e.g. the top trace and trank plots show chains that slowly meander through specific areas of the posterior distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, another sign of bad mixing. All of this is further confirmed by panels (A) and (C) from figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
-
-In contrast, the parameters from the NCP are closer to achieve ergodicity. The trace plots show chains that seem to be stationary and convergent. The trank plots show a rapid exploration of the full range of posterior distribution, with no divergent transitions on sight. And finally, the ACF plots showed the iterations were less auto-correlated. Again, this is further confirmed by figure \ref{fig:FOLV_stat1}, where the NCP show greater \texttt{n\_eff} and appropriate \texttt{Rhat} values, versus the CP.
 %
 \begin{figure}[H]
 	\centering
@@ -419,7 +415,9 @@ In contrast, the parameters from the NCP are closer to achieve ergodicity. The t
 	\label{fig:FOLV_CE_chains1}
 \end{figure}
 
-On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show chains with \texttt{Rhat}$<1.05$, for some parameters, the CP has lower effective sample sizes than the NCP counterpart. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
+From the figures, one can easily notice the parameters under the CP did not show signs of achieving ergodicity. The chains showed a clear lack of stationarity and convergence (left panels). Moreover, the iterations did not explore the posterior distribution appropriately, as the several divergent transitions hinted, indicating a lack of good mixing, e.g. the top trace and trank plots show chains that slowly meander through specific areas of the posterior distribution. In addition, the ACF plots reveal the chain iterations were highly auto-correlated, another sign of bad mixing. All of this is further confirmed by panels (A) and (C) from figure \ref{fig:FOLV_stat1}, where we can see the CP has low effective samples sizes (\texttt{n\_eff}) and higher than appropriate \texttt{Rhat} values, compared to the NCP.
+
+In contrast, the parameters from the NCP are closer to achieve ergodicity. The trace plots show chains that seem to be stationary and convergent. The trank plots show a rapid exploration of the full range of posterior distribution, with no divergent transitions on sight. And finally, the ACF plots showed the iterations were less auto-correlated. Again, this is further confirmed by figure \ref{fig:FOLV_stat1}, where the NCP show greater \texttt{n\_eff} and appropriate \texttt{Rhat} values, versus the CP.
 %
 \begin{figure}[H]
 	\centering
@@ -430,9 +428,7 @@ On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains
 	\label{fig:FOLV_NC_chains1}
 \end{figure}
 
-Furthermore, figures \ref{fig:FOLV_CE_chains3} and \ref{fig:FOLV_NC_chains3} (appendix) show the chain performance for the CP and NCP item difficulties. The trace, trank and ACF plots show a similar pattern as the one outlined for the difficulty of the texts, albeit more extreme. The CP chains did not achieved stationarity, convergence, nor good mixing; whereas the NCP does. This is further confirmed by panels (B) and (D) of figure \ref{fig:FOLV_stat1}, where one can see observe the NCP has significantly higher effective sample sizes and \texttt{Rhat}$<1.05$, in contrast to the CP.
-
-Second, the CP chain performance for the reading comprehension sub-dimensions are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6} (appendix). The figures correspond to several replicas of the FOLV model, with a simulated sample size of $100$. Similar to the preceding texts' difficulties, the chains also showed a lack of ergodicity, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in the trace plots). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has low effective sample sizes, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6}, and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
+On the other hand, figures \ref{fig:FOLV_CE_chains2} and \ref{fig:FOLV_NC_chains2} (appendix) show the the CP and NCP trace, trank, and ACF plots for the the difficulties' deviations of the texts. At a simple glance, the plots seem to indicate that both parametrizations achieve a similar level of ergodicity. However, from panels (A) and (C) in figure \ref{fig:FOLV_stat1}, we can notice that while both parametrization show chains with \texttt{Rhat}$<1.05$, for some parameters, the CP has lower effective sample sizes than the NCP counterpart. The latter just indicates the NCP has less auto-correlated chains, and therefore a bit better mixing.
 %
 \begin{figure}[H]
 	\centering
@@ -448,6 +444,10 @@ Second, the CP chain performance for the reading comprehension sub-dimensions ar
 	{First-order latent variable model (FOLV). Sample size $100$, all replicas. CP and NCP comparison plot. (A) \texttt{n\_eff} for texts' mean difficulty and standard deviation of difficulty. (B) \texttt{n\_eff} for items's difficulties. (C) \texttt{Rhat} for texts' mean difficulty and standard deviation of difficulty. (D) \texttt{Rhat} for items's difficulties. Diagonal discontinuous line describes equality between CP and NCP. Vertical and horizontal discontinuous lines is set at \texttt{Rhat}$=1.05$. }
 	\label{fig:FOLV_stat1}
 \end{figure}
+
+Furthermore, figures \ref{fig:FOLV_CE_chains3} and \ref{fig:FOLV_NC_chains3} (appendix) show the chain performance for the CP and NCP item difficulties. The trace, trank and ACF plots show a similar pattern as the one outlined for the difficulty of the texts, albeit more extreme. The CP chains did not achieved stationarity, convergence, nor good mixing; whereas the NCP does. This is further confirmed by panels (B) and (D) of figure \ref{fig:FOLV_stat1}, where one can see observe the NCP has significantly higher effective sample sizes and \texttt{Rhat}$<1.05$, in contrast to the CP.
+
+Second, the CP chain performance for the reading comprehension sub-dimensions are reported in figures \ref{fig:FOLV_CE_chains4}, \ref{fig:FOLV_CE_chains5}, \ref{fig:FOLV_CE_chains6} (appendix). The figures correspond to several replicas of the FOLV model, with a simulated sample size of $100$. Similar to the preceding texts' difficulties, the chains also showed a lack of ergodicity, e.g. the left panels of figure \ref{fig:FOLV_CE_chains6} show chains that did not explore the posterior distribution appropriately (see straight lines in the trace plots). This is further confirmed by panels (A) through (D) in figure \ref{fig:FOLV_stat3}, where the CP has low effective sample sizes, while an important proportion of the parameters is above the recommended \texttt{Rhat} threshold. In contrast, the NCP chains for the sub-dimensions achieve ergodicity, as it is shown in figures \ref{fig:FOLV_NC_chains4}, \ref{fig:FOLV_NC_chains5}, \ref{fig:FOLV_NC_chains6}, and confirmed by the \texttt{n\_eff} and \texttt{Rhat} values in figure \ref{fig:FOLV_stat3}.
 
 Third, similar visualizations for the CP and NCP structural regression parameters are shown in appendix figures \ref{fig:FOLV_CE_chains7} and \ref{fig:FOLV_NC_chains7}. By a careful inspection of the CP trace plots, one can notice we still have chains that are ``stuck" in specific part of the posterior distribution (see green lines). As a result, the CP registered lower effective samples sizes than the NCP, as figure \ref{fig:FOLV_stat2} confirms. However, neither of those things prevented the CP achieving convergence, as the \texttt{Rhat} in the same figure confirms. In contrast, the NCP parameters seem to achieve stationarity, convergence, and good mixing without any issues, with higher effective sample sizes and \texttt{Rhat} values close to one.
 
@@ -466,10 +466,6 @@ The result appear to be sensible because of two factors, (i) as not only the dif
 Consequently, all of the above just show the NCP largely improved the performance of the MCMC chains under our implementation, for all models and almost all of the parameters. It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference in performance was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful to ensure the fulfillment of this requirement (see next section for more evidence).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Recovery capacity}
-
-Figures \ref{fig:FOLV_CE_recovery1} and \ref{fig:FOLV_NC_recovery1} show the CP and NCP recovery of the regression, contrast, and correlation parameters for the first replica of the FOLV model, with a sample size of $100$. From both figures we notice the regression and contrast parameters were estimated appropriately. The true values were located within the compatibility interval of the estimates. Moreover, no remarkable difference is observed between the CP and NCP implementations. This result extends across all replicas and sample sizes, as the recovery plots\footnote{To inspect the remaining recovery plots follow the github accompanying page detailed in Appendix \ref{sub_sect:recovery}.} confirm. Furthermore, table \ref{tab:FOLV_RMSE_regression} (appendix) reveal the $\text{RMSE}_{B}$ of the structural regression parameters under NCP were consistently lower than the CP counterpart, but the differences were negligible. In a similar fashion, table \ref{tab:FOLV_RMSE_contrasts} show a similar pattern in the contrast parameters, between the CP and NCP; however, we also observe the contrasts were recovered with better precision with larger sample sizes, no matter the parametrization.
 %
 \begin{figure}[H]
 	\centering
@@ -485,6 +481,10 @@ Figures \ref{fig:FOLV_CE_recovery1} and \ref{fig:FOLV_NC_recovery1} show the CP 
 	{First-order latent variable model (FOLV). Centered parametrization. Sample size $100$, replica $1$. Regression, contrast, and correlation parameters. The ``true" correlation parameters were calculated using Wright's tracing rules, and corresponds to an approximate unconditional correlation.}
 	\label{fig:FOLV_CE_recovery1}
 \end{figure}
+
+\subsection{Recovery capacity}
+
+Figures \ref{fig:FOLV_CE_recovery1} and \ref{fig:FOLV_NC_recovery1} show the CP and NCP recovery of the regression, contrast, and correlation parameters for the first replica of the FOLV model, with a sample size of $100$. From both figures we notice the regression and contrast parameters were estimated appropriately. The true values were located within the compatibility interval of the estimates. Moreover, no remarkable difference is observed between the CP and NCP implementations. This result extends across all replicas and sample sizes, as the recovery plots\footnote{To inspect the remaining recovery plots follow the github accompanying page detailed in Appendix \ref{sub_sect:recovery}.} confirm. Furthermore, table \ref{tab:FOLV_RMSE_regression} (appendix) reveal the $\text{RMSE}_{B}$ of the structural regression parameters under NCP were consistently lower than the CP counterpart, but the differences were negligible. In a similar fashion, table \ref{tab:FOLV_RMSE_contrasts} show a similar pattern in the contrast parameters, between the CP and NCP; however, we also observe the contrasts were recovered with better precision with larger sample sizes, no matter the parametrization.
 
 On the other hand, in the same figures, we notice the CP and NCP correlation parameters were estimated similarly far from the approximate unconditional correlations. The unconditional correlations were calculated using Wright's tracing rules \cite{Beaujean_2014} using the simulated loadings $\lambda^{(2)}_{d} = 0.95$, therefore, the approximate correlation was $0.95 \times 0.95 = 0.9025$. However, the comparison is misleading because the correlation parameters produced by the model were not unconditional. Recall the FOLV model used regression covariates to explain some of the variability in the sub-dimensions, therefore, the reported correlations are the residual correlations, after controlling for the aforementioned covariates. In that sense, we notice a non-negligible (and sometimes significant) amount of correlation remains present among the sub-dimensions, apparently due to the miss-specification of the model. Again, this behavior is consistent across replicas, and samples sizes, with no discernible difference among parametrizations (see table \ref{tab:FOLV_RMSE_corr}, appendix).
 %
@@ -515,12 +515,6 @@ One explanation for this could be that both parametrizations achieved what is ca
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Retrodictive accuracy} \label{sub_sect:retrodictive_simulation}
-
-Figure \ref{fig:FOLV_NC_hitrate_ind} shows the true, average, and marginal predicted proportions, on a random sample of individuals, of the fourth replica from the NCP FOLV model with a sample size of $100$. The plot also depicts the corresponding shrinkage and compatibility intervals. 
-
-From the figure we notice the model manages to capture rather well the traits of the data, while avoiding its exact replication. We observe the true proportion of endorsed items, among individuals, are within the compatibility intervals of the average and marginal predictions, i.e. the true simulated values for the proportions are close to the predicted mean and outcomes produced by the model. However, we observe the average and marginal predictions show some level of shrinkage, that is, the estimates are ``pulled" towards the average true proportion across individuals, in greater or less quantity. This results from the complex pooling of information across individuals, items, texts and dimensions; that allows the model to negotiate between predicting all individuals with the average proportion (under-fitting) or predicting each individual by its own proportion (over-fitting). On the other hand, figure \ref{fig:FOLV_NC_hitrate_var} only confirms the model manages to capture the traits of the data, as the predicted proportions per individual and covariate combination, are replicated rather well. Similar results can be observed on the predictive accuracy of the model aggregated by dimensions, items, and texts, in figures \ref{fig:FOLV_NC_hitrate_items}, \ref{fig:FOLV_NC_hitrate_dim}, and \ref{fig:FOLV_NC_hitrate_text}, albeit the predicted proportion are closer to the true values.
 %
 \begin{figure}[H]
 	\centering
@@ -530,6 +524,12 @@ From the figure we notice the model manages to capture rather well the traits of
 	{First-order latent variable model (FOLV). Sample size $100$, replica number $4$. Non-centered parametrization. Individual predictive plot.}
 	\label{fig:FOLV_NC_hitrate_ind}
 \end{figure}
+
+\subsection{Retrodictive accuracy} \label{sub_sect:retrodictive_simulation}
+
+Figure \ref{fig:FOLV_NC_hitrate_ind} shows the true, average, and marginal predicted proportions, on a random sample of individuals, of the fourth replica from the NCP FOLV model with a sample size of $100$. The plot also depicts the corresponding shrinkage and compatibility intervals. 
+
+From the figure we notice the model manages to capture rather well the traits of the data, while avoiding its exact replication. We observe the true proportion of endorsed items, among individuals, are within the compatibility intervals of the average and marginal predictions, i.e. the true simulated values for the proportions are close to the predicted mean and outcomes produced by the model. However, we observe the average and marginal predictions show some level of shrinkage, that is, the estimates are ``pulled" towards the average true proportion across individuals, in greater or less quantity. This results from the complex pooling of information across individuals, items, texts and dimensions; that allows the model to negotiate between predicting all individuals with the average proportion (under-fitting) or predicting each individual by its own proportion (over-fitting). On the other hand, figure \ref{fig:FOLV_NC_hitrate_var} only confirms the model manages to capture the traits of the data, as the predicted proportions per individual and covariate combination, are replicated rather well. Similar results can be observed on the predictive accuracy of the model aggregated by dimensions, items, and texts, in figures \ref{fig:FOLV_NC_hitrate_items}, \ref{fig:FOLV_NC_hitrate_dim}, and \ref{fig:FOLV_NC_hitrate_text}, albeit the predicted proportion are closer to the true values.
 
 On the other hand, for the same model, figures \ref{fig:FOLV_CE_ICC} and \ref{fig:FOLV_CE_IIF} (appendix) show the true, average, and marginal items characteristic curves, and item information functions. From the figures, we notice the model manages to reproduce rather well the true ICC and IIF curves. This means that the model allow us to correctly recover the item's psychometric characteristics, a trait of high relevance for the development of instruments.
 %

@@ -10,11 +10,9 @@ Finally, the research applied the newfound knowledge to a large standardized tea
 %
 \begin{enumerate}
 	%
-	\item In the context of the implemented model, the non-centered parametrization largely improved the performance of the MCMC chains, towards achieving ergodicity. This was true across models, simulated sample sizes, and even under the real application, albeit with some caveats. 
+	\item In the context of the implemented model, the non-centered parametrization largely improved the performance of the MCMC chains, towards achieving ergodicity. This was true across models, simulated sample sizes, simulated replicas, and even under the real application, albeit with some caveats. 
 
-	The most important caveat, under the simulation setting, was that no matter the parametrization, no large difference in performance was observed in either the sub-dimensions' correlation or loading parameters. On this matter, however, no evidence supported the idea the parameters suffered from a further lack of identification.
-	
-	On the other hand, related to the application, we observed some of the structural regression parameters registered better performance under the CP, rather than the NCP, for the FOLV. Nevertheless, the improvement was not unanimous, and it wasn't replicated for the SOLV. 
+	The most important caveat, under the simulation and application setting, was that no matter the parametrization, no large difference in performance was observed in either the sub-dimensions' correlation or loading parameters. On this matter, however, no evidence supported the idea the parameters suffered from a further lack of identification.
 	%
 	\item Our proposed model was able to recover most of the simulated parameters with good precision.
 	
@@ -24,30 +22,33 @@ Finally, the research applied the newfound knowledge to a large standardized tea
 	
 	The previous implied the models allow us to correctly recover the item's psychometric characteristics, a trait of high relevance for the development of evaluation instruments.
 	%
-	\item In terms of retrodiction accuracy, the models managed to capture the traits of the data, while avoiding its exact replication. 
+	\item In terms of retrodiction accuracy, the models managed to capture the traits of the data, while avoiding its exact replication. These result were consistent across models, simulated sample sizes and replicas, and even under the final educational application. 
 	
-	These results were consistent across models, simulated sample sizes and replicas, and even under the final educational application. Consequently, it is safe to say that the models produced similar encodings of the data, leaving the decision of choosing one model over the other on a more theoretical ground.
+	Consequently, it is safe to say the models produced similar encodings of the data, leaving the decision of choosing one model over the other, on a more theoretical ground.
 	%
-	\item The non-centered parametrization was slightly faster than the centered counterpart.
+	\item The non-centered parametrization was slightly faster than the centered counterpart, although the magnitudes of the differences in running time were not large. 
 	
-	Although the magnitudes of the differences in running time were not large, this result is still important, as the non-centered parametrization was more complex, and required the sampling of more parameters than the centered counterpart. This mean that improving the performance of the MCMC, through a more complex model as the NCP, did not come with a cost on running time.
+	This result is still important, as the non-centered parametrization was more complex, and required the sampling of more parameters than the centered counterpart. This mean that improving the performance of the MCMC, through a more complex model as the NCP, did not come with a cost on running time.
 	%
-	\item In relation to the hypotesis
+	\item On the application side, the model provided an extra benefit, that it, we were able to asses the psychometric properties of texts, rather than just items.
+	%
+	\item Finally, in relation to our hypothesis of interest, the model was able to produce sound statistical results, supported not only by the statistical application, but also from a DAG guiding our interpretation and causal assumptions.
 	%
 \end{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Future developments}
 
-\section{Future development}
+From the simulation studies and application, we noticed the benefits of the non-centered parametrization did not extend to the estimation of correlation parameters or loadings. In this regard, it would be of interest to investigate why we observe this pattern, considering that the hypothesis of lack of identification have been discarded.
 
+On the other hand, in similar sections, we have been surprised that although the chains produced by the centered parametrization, did not show signs of achieving ergodicity, its recovery capacity was at par of its non-centered counterpart. The considered hypothesis were related to the use of the HMC algorithm with a higher rejection criteria (\texttt{adapt\_delta}$=0.99$) and weakly regularizing priors. However, it would be interesting to test the validity of these hypothesis, using the full factorial design outlined in chapter $4$, and even adding a new factor to the mix, that is, a comparison between HMC and Gibbs sampling.
 
-No invariance assessment has been made, No multigroup analysis, no clustering effects
+Related to the previous two statements, evidence on similar chapters have revealed that, some parameters within a model were sampled with better performance with the CP, in contrast to the NCP, while in the remaining parameters happened the opposite. This resonates with the statement of \citet{Papaspiliopoulos_et_al_2007}, that the advantages of the NCP strategy largely depends on the specifics of the model and data, and that the CP and NCP are complements of each other, rather than replacements. Therefore, under this scenario, it seems sensible to investigate the benefits of Variational Inference methods (VI) to estimate the posterior distribution of the parameters. As the reader can recall, VI seek to produce a sample mechanism located in a continuous between a CP and NCP.
 
-It is important to point out, the result did not extend to the sub-dimensions' correlation parameters, where no large difference was observed between the CP and NCP. On this matter, the issue was not related to a lack of identification of said parameters, as we were careful of ensuring this requirement.
+On the other hand, in the hypothesis test section of the application chapter, we realized that a simple random sample was not the appropriate sample design to evaluate all our contrasts of interest. This was specially true in variables with levels that had low representativeness, like disability. Furthermore, we realized that the full benefit of a DAG, comes from using it not only to structure our statistical model, but also to design the collection of data. In this sense, it would be enlightening to see if the hypothesis results are replicated with a more appropriate sample design. 
 
-Investigate this, maybe you need to use Variational Inference methods. CP versus NCP is a false dichotmy, because as authors mentioned they work more in a complementary way, therefore methods that seeks they integrations may need to be the staple of IRT models.
+Furthermore, in our application section, we assumed the relationship between the reading comprehension abilities and age was linear. However, nothing prevents that non-linearities are present in this relationship. In a similar spirit, it would be interesting to apply the GLLAMM model, in a setting were covariates are not only at the structural level, but also at the level of the responses, e.g. assessment in online environments.
 
-One explanation for this could be that both parametrizations achieved what is called a \textit{local convergence} \cite{Depaoli_2021}, that is, the chains appear to be stable in the range of the iterations (at least observed in the NCP). However, given the consistent results across replicas, the researcher is led to think that even with all the issues present under the CP, the chains managed to visit the posterior distribution in a way, that allows the method to produce a proper estimation of the parameters. Moreover, we are also led to think, the preceding patterns of recovery capacity are the result of using the HMC algorithm with a higher rejection criteria (\texttt{adapt\_delta}$=0.99$) and weakly regularizing priors. The previous chapter has described the benefits of these factors separately, so it is sensible to assume that used in conjunction, they could benefit the posterior exploration, and therefore, the recovery capacity of the method. Further investigations manipulating these conditions could be of relative importance. For example, investigate the recovery capacity under HMC and Gibbs sampling, under CP and NCP with no regularizing priors or adapt delta. as the results could be due to the HMC or the regularizing priors, and we cannot observe the true benefits of the change to NCP.
+Finally, remains as an interesting path for future research, the application of the GLLAMM to a multi-group setting, where an analysis of invariance is required.
 
-
-The full benefit of a DAG comes from using it to design both the collection of data and the structure of our statistical models. However, we recognize the sampling design for contrast was not great. The research realized that in order to produce better inferences, especially related to contrast of variables, a more careful sample design (equal number of individuals within each levels per covariate). However, no bias was induces from a wrongful design.
