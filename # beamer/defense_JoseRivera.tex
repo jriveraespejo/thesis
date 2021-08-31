@@ -33,6 +33,7 @@
 \usepackage[square,numbers]{natbib} 			  		% libreria para la bibliografia
 \usepackage{bibentry}
 \usepackage{soul}
+\usepackage{booktabs}
 %\usepackage[pdftex]{color,graphicx}
 %\usepackage{epsf,epsfig,subfigure}
 %\usepackage{ulem}
@@ -313,7 +314,7 @@
 	%
 	\begin{enumerate}
 		%\setcounter{enumi}{2}
-		\item a distributional
+		\item a distributional part
 		%
 		\item a systematic part
 		%
@@ -414,9 +415,8 @@
 	%
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.9\textwidth]{instrument_design}
-		\caption{Path diagram of the dimensional structure for a hierarchical cross-classified IRT model.}
-		%\label{fig:design}
+		\includegraphics[width=1\textwidth]{instrument_design}
+		\label{fig:design}
 	\end{figure}
 	%
 \end{frame}
@@ -536,109 +536,22 @@
 	\begin{enumerate}
 		%\setcounter{enumi}{2}
 		%
-		\item With Hamiltonian Monte Carlo (HMC) and \texttt{Stan} \cite{Stan2020}.
+		\item Hamiltonian Monte Carlo (HMC) and \texttt{Stan} \cite{Stan2020}.
 		%
-		\item \textbf{No burn-in and thinning}. However, a warm-up phase is required to ``tune-up" the number of steps (\texttt{leapfrogs}), and the \texttt{step size} \cite{Stan2020}.
+		\item \textbf{No burn-in and thinning}. Warm-up phase to ``tune-up" the number of steps (\texttt{leapfrogs}), and the \texttt{step size} \cite{Stan2020}.
 		%
-		\item We will use a total $3,000$ \textbf{effective iterations}, coming from $3$ chains of $2,000$ iterations each, where $1,000$ of them will be spend on warm-up.
+		\item We use $3,000$ \textbf{effective iterations}: $3$ chains of $2,000$ iterations each, where $1,000$ are spend on warm-up.
 		%
 		\item \textbf{Initial starts} sampled from the priors defined in the model.
 		%
 		\item Prior distributions selected based on \textbf{prior predictive simulations}.
 		%
-	\end{enumerate}
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{To center or not to center}
-	%
-	Even the most simple hierarchical models present formidable pathologies, that no simple rotation/rescaling of the parameter can be performed to visit the posterior distribution properly \cite{Betancourt_et_al_2013}. \\
-	%
-	\vspace{0.3cm} Example, the devil's funnel \cite{McElreath_2020}:
-	%
-	%
-	\begin{equation} \label{eq:devil}
-		\begin{split}	
-			v &\sim N(0, 3) \\
-			\theta &\sim N(0, \text{exp}(v))
-		\end{split}
-	\end{equation}
-	%
-	Equation (\ref{eq:devil}) describes a centered parametrization (CP)
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{To center or not to center (cont.)}
-	%
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=1\linewidth]{1_funnel_CE_simple}
-		%
-		\caption{Posterior sampling geometry. Centered Parametrization.}
-		\label{fig:devil_CE_geom}
-	\end{figure}
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{To center or not to center (cont.)}
-	%
-	How can we solve this?:
-	%
-	\begin{enumerate}
-		%\setcounter{enumi}{2}
-		%
-		\item Adapt HMC warm-up (\texttt{adapt\_delta}$=0.99$).
-		%
-		\item Use regularizing priors
-		%
-		\item Use the \textbf{non-centered parametrization}.
+		\item We test the \textbf{centered (CP)} and \textbf{non-centered parametrizations (NCP)}.
 		%
 	\end{enumerate}
 	%
 \end{frame}
 %
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{Non-centered parametrization (NCP)}
-	%
-	Changing the posterior sampling geometry means to modify equation (\ref{eq:devil}) in the following way:
-	%
-	\begin{equation} \label{eq:devil_NC}
-		\begin{split}	
-			v &\sim N(0, 3) \\
-			z &\sim N(0, 1) \\
-			\theta &= \text{exp}(v) \; z
-		\end{split}
-	\end{equation}
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{Non-centered parametrization (cont.)}
-	%
-	Changing the posterior sampling geometry means to modify equation (\ref{eq:devil}) in the following way:
-	%
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.55\linewidth]{3_funnel_NC}
-		%
-		\caption{Posterior sampling geometry. Non-Centered Parametrization.}
-		\label{fig:devil_NC_geom}
-	\end{figure}
-	%
-\end{frame}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -655,8 +568,6 @@
 \begin{frame}
 	%
 	\frametitle{Objectives}
-	%
-	Designed to assess three attributes of the bayesian implementation of the GLLAMM for dichotomous outcomes:
 	%
 	\begin{enumerate}
 		%
@@ -695,13 +606,43 @@
 	%
 	\begin{enumerate}
 		%
-		\item \textbf{Performance.} In terms of achieving ergodicity, under the CP and NCP, 
+		\item the non-centered parametrization (NCP) largely
+		improved the performance of the MCMC chains, towards achieving ergodicity.\\
 		%
-		\item \textbf{Recovery capacity.} Capacity to recover the parameters of interest, especially the structural regression parameters.
+		\vspace{0.3cm} This is true across models, simulated sample sizes, and simulated replicas.
 		%
-		\item \textbf{Retrodictive accuracy.} Capacity to retrodict the data of interest, according to a set of aggregating dimensions.
+		\item No large difference in performance was observed in either the sub-dimensions’ correlation or loading parameters.\\
+		%
+		\vspace{0.3cm} However, no evidence supported the idea the parameters suffered from a further lack of identification.
 		%
 	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Performance, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\linewidth]{FOLV_CE_J100_Ndata1_bk1}
+		\label{fig:FOLV_CE_chains3}
+	\end{figure} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Performance, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\linewidth]{FOLV_NC_J100_Ndata1_bk1}
+	\end{figure} 
 	%
 \end{frame}
 %
@@ -713,13 +654,36 @@
 	%
 	\begin{enumerate}
 		%
-		\item \textbf{Performance.} In terms of achieving ergodicity, under the CP and NCP, 
+		\item The GLLAMM was able to recover most of the simulated parameters with good precision.
 		%
-		\item \textbf{Recovery capacity.} Capacity to recover the parameters of interest, especially the structural regression parameters.
+		\item However, the model still had issues estimating the sub-dimensions correlations and loadings.\\
 		%
-		\item \textbf{Retrodictive accuracy.} Capacity to retrodict the data of interest, according to a set of aggregating dimensions.
+		\vspace{0.3cm} Under the Confirmatory Factor Analysis theory (CFA), a SOLV model is only justified, if the lower-level correlations are high enough, usually above 0.8.
+		%
+		%
+		\item It is surprising that CP and NCP achieved similar levels of recovery capacity.
 		%
 	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Recovery capacity, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		%\begin{subfigure}
+			\includegraphics[width=0.8\linewidth]{FOLV_NC_J100_Ndata1_regression}
+		%\end{subfigure}
+		%
+		%\begin{subfigure}
+			\includegraphics[width=0.45\linewidth]{FOLV_NC_J100_Ndata1_corr}
+		%\end{subfigure}
+		\label{fig:FOLV_NC_recovery1}
+	\end{figure} 
 	%
 \end{frame}
 %
@@ -731,13 +695,25 @@
 	%
 	\begin{enumerate}
 		%
-		\item \textbf{Performance.} In terms of achieving ergodicity, under the CP and NCP, 
+		\item the models managed to capture the traits of the data, while avoiding its exact replication.\\
 		%
-		\item \textbf{Recovery capacity.} Capacity to recover the parameters of interest, especially the structural regression parameters.
-		%
-		\item \textbf{Retrodictive accuracy.} Capacity to retrodict the data of interest, according to a set of aggregating dimensions.
+		\vspace{0.3cm} These result were consistent across models, simulated sample sizes and replicas.
 		%
 	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Retrodictive accuracy, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\linewidth]{FOLV_NC_J100_Ndata4_HitRate_ind}
+		\label{fig:FOLV_NC_hitrate_ind}
+	\end{figure} 
 	%
 \end{frame}
 %
@@ -755,16 +731,205 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{Specific goals}
+	\frametitle{Objectives}
 	%
-	The research have two main goals:
+	\begin{enumerate}
+		%
+		\item \textbf{Evaluate the performance of the parametrizations.} Ergodicity of CP vs NCP.
+		%
+		\item \textbf{Evaluate the retrodictive accuracy.}
+		%
+		\item \textbf{Assess the psychometric properties.} Special interest in determine how difficult the items were.
+		%
+		\item \textbf{Test research hypothesis.} About the explanatory power a set of covariates had on the latent dimensions, and their implications for the educational authority.
+		%
+	\end{enumerate}
 	%
-	\begin{itemize}
-		\item to describe the method, estimation procedures, and advantages of the GLLAMM framework, and 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Instrument and data}
+	%
+	\begin{enumerate}
 		%
-		\item to tests the policy implications of the method and its results, in a data composed of large repeated teacher's standardized educational assessments from Peru. 
+		\item \textbf{Instrument.} Reading comprehension sub-test composed of $25$ binary scored items, from the Peruvian public teaching career national assessment.
 		%
-	\end{itemize}
+		\item \textbf{Access.} Legal requirement of open information to
+		the Ministry of Education of Peru (MINEDU).
+		%
+		\item \textbf{Sample scheme.} Simple random sample of $2,000$ (from approx. $195,0000$).
+		%
+	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Performance)}
+	%
+	\begin{enumerate}
+		%
+		\item the non-centered parametrization (NCP) largely
+		improved the performance of the MCMC chains, towards achieving ergodicity.
+		%
+		\item No large difference in performance was observed in either the sub-dimensions’ correlation or loading parameters.\\
+		%
+		\vspace{0.3cm} results are similar to simulation study, albeit in some cases more extreme.
+		%
+	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Performance, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\linewidth]{FOLV_CE_bk_1_5}
+		\label{fig:FOLV_CE_chains1}
+	\end{figure} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Performance, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\linewidth]{FOLV_NC_bk_1_5}
+		\label{fig:FOLV_NC_chains1}
+	\end{figure} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Retrodictive accuracy)}
+	%
+	\begin{enumerate}
+		%
+		\item the models managed to capture the traits of the data, while avoiding its exact replication.\\
+		%
+		\vspace{0.3cm} Similar to simulation study.
+		%
+	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Retrodictive accuracy, cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\linewidth]{FOLV_NC_HitRate_ind}
+		\label{fig:FOLV_pred_app}
+	\end{figure} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Psychometric properties)}
+	%
+	\begin{enumerate}
+		%
+		\item the items were scattered throughout a significant portion of the abilities range. 
+		%
+		\item Specific benefit of the implementation allowed us to assess
+		how difficult the texts were.
+		%
+		\item A more sound psychometric analysis requires access to the items and texts description, but it was not possible due to legal restrictions.
+		%
+	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Psychometric properties, cont.)}
+	\begin{figure}[H]
+		\centering
+		%\begin{subfigure}
+			\includegraphics[width=0.9\linewidth]{FOLV_recovery_items}
+		%\end{subfigure}
+		%
+		%\begin{subfigure}
+			\includegraphics[width=0.87\linewidth]{FOLV_recovery_texts}
+		%\end{subfigure}
+		%
+		\label{fig:FOLV_CE.NC_recovery}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Hypothesis testing)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{app_FOLV_dag}
+		%
+		\caption{Directed Acyclig Graph (DAG). Application's first-order latent variable model (FOLV).}
+		\label{fig:FOLV_app}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Hypothesis testing, cont.)}
+	%
+	\begin{enumerate}
+		%
+		\item Age (style of teaching proxy) explains negatively reading comprehension $-0.036[-0.04, -0.03]$.
+		%
+		\item Disability also explained the the reading comprehension sub-dimensions, although the results were mildly unexpected. 
+		%
+		\item the statistical evidence seem to support the lower quality of training on pedagogical institutes.
+		%
+		\item Experience improved the reading comprehension abilities. Private experience effects were larger than the public. We observe also diminishing returns on abilities, as the years of experience increases.
+		%
+		\item Instructing students from secondary education improves reading comprehension.
+		%
+	\end{enumerate} 
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Results \\
+		(Hypothesis testing, cont.)}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth]{FOLV_recovery_contrast}
+		\caption{Application's first-order latent variable model. CP and NCP comparison plot.}
+		\label{fig:contrast_both}
+	\end{figure}
 	%
 \end{frame}
 %
@@ -782,16 +947,55 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{Specific goals}
+	\frametitle{Conclusions}
 	%
-	The research have two main goals:
+	\begin{enumerate}
+		\item The NCP largely improved the performance of the MCMC chains, towards achieving ergodicity. True across models, simulated sample sizes, simulated replicas, and even under the real application, albeit with some caveats.
+		%
+		\item Our proposed model was able to recover most of the simulated parameters with good precision. The model still had issues estimating the sub-dimensions correlations and loadings.
+		%
+		\item The models managed to capture the traits of the data, while avoiding its exact replication. Consistent across models, simulated sample sizes and replicas, and even under the final educational application.
+		%
+	\end{enumerate}
 	%
-	\begin{itemize}
-		\item to describe the method, estimation procedures, and advantages of the GLLAMM framework, and 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Conclusions (cont.)}
+	%
+	\begin{enumerate}
+		\item The NCP was slightly faster than the CP, although the magnitudes of the differences in running time were not large.
 		%
-		\item to tests the policy implications of the method and its results, in a data composed of large repeated teacher's standardized educational assessments from Peru. 
+		\item On the application, the model provided an extra benefit, to asses the psychometric properties of texts.
 		%
-	\end{itemize}
+		\item In relation to our hypothesis of interest, the model produced
+		sound statistical results, supported not only by the statistical application, but also from a DAG guiding our interpretation and causal assumptions.
+		%
+	\end{enumerate}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Further investigation}
+	%
+	\begin{enumerate}
+		\item Why the benefits of the NCP did not fully extend to correlations and loadings?.
+		%
+		\item Test other simulation scenarios to find why the CP (no ergodicity) managed recover the parameters as well as the NCP.
+		%
+		\item Related to the previous, test results for Variational Inference methods (VI)
+		%
+		\item The statistical evidence remains valid with a better sample scheme?
+		%
+		\item Test the model also with response explanatory variables, e.g. response time, number of alternatives, etc.
+		%
+		\item Test the model for measurement invariance.
+		%
+	\end{enumerate}
 	%
 \end{frame}
 %
@@ -961,23 +1165,6 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{There is nothing wrong? (cont.)}
-	%
-	\begin{itemize}
-		\item The procedure makes it hard to discover parameters' lack of identification \cite{Skrondal_et_al_2004a} (\textbf{solution:} regularizing priors ).
-		%
-		\item Oftentimes the posterior sampling geometry of the model makes it hard to find proper solutions for the parameter space \cite{Betancourt_et_al_2013} (\textbf{solution:} change the posterior sampling geometry).
-		%
-		\item The greater the complexity of the model, the harder it is to communicate/share and takes more time
-		(\textbf{solution:} No solution, but it is a small ``price" to pay).
-		%
-	\end{itemize}
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
 	\frametitle{Prior elicitation}
 	%
 	Un-informative priors are not the solution:
@@ -1030,7 +1217,99 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{The benefits of using regularizing priors}
+	\frametitle{To center or not to center}
+	%
+	Even the most simple hierarchical models present formidable pathologies, that no simple rotation/rescaling of the parameter can be performed to visit the posterior distribution properly \cite{Betancourt_et_al_2013}. \\
+	%
+	\vspace{0.3cm} Example, the devil's funnel \cite{McElreath_2020}:
+	%
+	%
+	\begin{equation} \label{eq:devil}
+		\begin{split}	
+			v &\sim N(0, 3) \\
+			\theta &\sim N(0, \text{exp}(v))
+		\end{split}
+	\end{equation}
+	%
+	Equation (\ref{eq:devil}) describes a centered parametrization (CP)
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center (cont.)}
+	%
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{1_funnel_CE_simple}
+		%
+		\caption{Posterior sampling geometry. Centered Parametrization.}
+		\label{fig:devil_CE_geom}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center (cont.)}
+	%
+	\begin{figure}[h] 
+		\centering
+		%\begin{subfigure}
+			\includegraphics[width=.70\linewidth]{1_trace_CE_simple}
+		%\end{subfigure}
+		%
+		%\begin{subfigure}
+			\includegraphics[width=.73\linewidth]{1_acf_CE_simple}
+		%\end{subfigure}
+		\caption{The Devil's funnel. Centered Parametrization. Trace and AFC plots.}
+		\label{fig:devil_CE}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center (cont.)}
+	%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{1_jags_CE_simple}
+		%
+		\caption{The Devil's funnel. Centered Parametrization implemented in JAGS.}
+		\label{fig:devil_CE_simple_jags}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center (cont.)}
+	%
+	How can we solve this?:
+	%
+	\begin{enumerate}
+		%\setcounter{enumi}{2}
+		%
+		\item Adapt HMC warm-up (\texttt{adapt\_delta}$=0.99$).
+		%
+		\item Use \textbf{regularizing priors}
+		%
+		\item Use the non-centered parametrization.
+		%
+	\end{enumerate}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(regularizing priors)}
 	%
 	Consider the use of a regularizing prior on equation (\ref{eq:devil}): 
 	%
@@ -1041,11 +1320,115 @@
 		\end{split}
 	\end{equation}
 	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(regularizing priors, cont.)}
+	%
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.8\linewidth]{2_funnel_CE_priors}
+		\includegraphics[width=1\linewidth]{2_funnel_CE_priors}
 		\caption{Posterior sampling geometry. Centered Parametrization with mildly informative priors.}
 		\label{fig:devil_prior_geom}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(regularizing priors, cont.)}
+	%
+	\begin{figure}[h] 
+		\centering
+		%\begin{subfigure}
+			\includegraphics[width=.70\linewidth]{2_trace_CE_priors}
+		%\end{subfigure}
+		%
+		%\begin{subfigure}
+			\includegraphics[width=.73\linewidth]{2_acf_CE_priors}
+		%\end{subfigure}
+		\caption{The Devil's funnel. Centered Parametrization with mildly informative priors. Trace and AFC plots.}
+		\label{fig:devil_prior}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center (cont.)}
+	%
+	How can we solve this?:
+	%
+	\begin{enumerate}
+		%\setcounter{enumi}{2}
+		%
+		\item Adapt HMC warm-up (\texttt{adapt\_delta}$=0.99$).
+		%
+		\item Use regularizing priors
+		%
+		\item Use the \textbf{non-centered parametrization}.
+		%
+	\end{enumerate}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(non-centered parametrization)}
+	%
+	Changing the posterior sampling geometry means to modify equation (\ref{eq:devil}) in the following way:
+	%
+	\begin{equation} \label{eq:devil_NC}
+		\begin{split}	
+			v &\sim N(0, 3) \\
+			z &\sim N(0, 1) \\
+			\theta &= \text{exp}(v) \; z
+		\end{split}
+	\end{equation}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(non-centered parametrization, cont.)}
+	%
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.65\linewidth]{3_funnel_NC}
+		%
+		\caption{Posterior sampling geometry. Non-Centered Parametrization.}
+		\label{fig:devil_NC_geom}
+	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{To center or not to center \\
+		(non-centered parametrization, cont.)}
+	%
+	\begin{figure}[h] 
+		\centering
+		%\begin{subfigure}
+			\includegraphics[width=0.9\linewidth]{3_trace_NC}
+		%\end{subfigure}
+		%
+		%\begin{subfigure}
+			\includegraphics[width=0.93\linewidth]{3_acf_NC}
+		%\end{subfigure}
+		\caption{The Devil's funnel. Non-centered Parametrization. Trace and AFC plots.}
+		\label{fig:devil_NC}
 	\end{figure}
 	%
 \end{frame}
@@ -1297,7 +1680,7 @@
 		\item $\mu_{\eta} = 0$, $\sigma_{\eta}=1$, $\delta_{\eta}=2$
 	\end{itemize}
 	%
-	The first two turned the covariance matrix into a correlation, i.e. $\boldsymbol{\Sigma}^{(2)} = \boldsymbol{R}^{(2)}$.
+	The second turned the covariance matrix into a correlation, i.e. $\boldsymbol{\Sigma}^{(2)} = \boldsymbol{R}^{(2)}$.
 	%
 \end{frame}
 %
@@ -1347,6 +1730,122 @@
 		\caption{First-order latent variable model (FOLV). Aggregated endorsement rate per simulated covariate: (A) gender, (B) age, (C) education, and (D) experience.}
 		\label{fig:FOLV_hitrate2}
 	\end{figure}
+	% 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Running time }
+	%
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{rlrrrr}
+			\hline
+			\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time (min.) } \\ 
+			\cmidrule(rl){4-6} 
+			& Parametrization & Sample & mean & min & max \\ 
+			\hline\hline
+			1 & CP & 100 & 4.80 & 1.89 & 7.56 \\ 
+			2 & CP & 250 & 7.85 & 5.60 & 16.57 \\ 
+			3 & CP & 500 & 19.15 & 17.20 & 22.53 \\ 
+			%
+			\hline
+			%
+			4 & NCP & 100 & 1.94 & 1.74 & 2.23 \\ 
+			5 & NCP & 250 & 7.18 & 6.78 & 8.40 \\ 
+			6 & NCP & 500 & 22.38 & 20.12 & 28.62 \\
+			\hline
+		\end{tabular}
+		\caption{First-order latent variable model (FOLV). Running time statistics.} 
+		\label{tab:FOLV_time}
+	\end{table}
+	% 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Running time (cont.)}
+	%
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{rlrrrr}
+			\hline
+			\multicolumn{3}{c}{ }& \multicolumn{3}{c}{ Time (min.) } \\ 
+			\cmidrule(rl){4-6} 
+			& Parametrization & Sample & mean & min & max \\ 
+			\hline\hline
+			1 & CP & 100 & 4.04 & 1.39 & 8.55 \\ 
+			2 & CP & 250 & 7.13 & 5.22 & 11.49 \\ 
+			3 & CP & 500 & 16.14 & 14.45 & 19.73 \\ 
+			%
+			\hline
+			%
+			4 & NCP & 100 & 1.87 & 1.62 & 2.28 \\ 
+			5 & NCP & 250 & 5.92 & 5.20 & 6.79 \\ 
+			6 & NCP & 500 & 16.58 & 13.37 & 18.26 \\
+			\hline
+		\end{tabular}
+		\caption{Second-order latent variable model (SOLV). Running time statistics.} 
+		\label{tab:SOLV_time}
+	\end{table}
+	% 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Application model fit}
+	%
+	They try to approximate the out-of-sample KL-divergence \cite{Kullback_et_al_1951}:
+	%
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{rlrrrr}
+			\hline
+			& Model & Param. & WAIC & lppd & penalty \\  
+			\hline\hline
+			1 & FOLV & CP &  54,632.4 & -25,429.7 & 1,886.5 \\ 
+			2 & FOLV & NCP & 54,631.7 & -25,427.6 & 1,888.3 \\
+			%
+			\hline
+			%
+			3 & SOLV & CP &  54,610.3 & -25,348.4 & 1,956.7 \\  
+			4 & SOLV & NCP & 54,614.7 & -25,337.9 & 1,969.4 \\ 
+			\hline
+		\end{tabular}
+		\caption[Model fit. Widely Applicable Information Criterion (WAIC).]%
+		{Model fit. Widely Applicable Information Criterion (WAIC).}
+		\label{tab:model_fit1}
+	\end{table}
+	% 
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Application model fit (cont.)}
+	%
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{rlrrrr}
+			\hline
+			& Model & Param. & PSIS & lppd & penalty \\  
+			\hline\hline
+			1 & FOLV & CP &  54,657.4 & -27,328.7 & 1,904.4 \\ 
+			2 & FOLV & NCP & 54,656.9 & -27,328.5 & 1,898.1  \\
+			%
+			\hline
+			%
+			3 & SOLV & CP &  54,627.3 & -27,313.7 & 1,940.1 \\  
+			4 & SOLV & NCP & 54,642.5 & -27,321.2 & 1,990.2 \\ 
+			\hline
+		\end{tabular}
+		\caption[Model fit. Pareto-smoothed importance sampling cross-validation (PSIS).]%
+		{Model fit. Pareto-smoothed importance sampling cross-validation (PSIS).}
+		\label{tab:model_fit2}
+	\end{table} 
 	% 
 \end{frame}
 %
