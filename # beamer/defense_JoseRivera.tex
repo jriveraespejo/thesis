@@ -132,36 +132,6 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Outline}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\begin{frame}
-	%
-	\frametitle{Document Outline}
-	%
-	The document is organized as follows:
-	%
-	\begin{enumerate}
-		%
-		\item Preliminary considerations
-		%
-		\item The GLLAMM for dichotomous outcomes
-		%
-		\item Bayesian estimation
-		%
-		\item Simulation study
-		%
-		\item Application
-		%
-		\item Conclusions
-		%
-	\end{enumerate} 
-	%
-\end{frame}
-%
-%---------------------------
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{1. Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -227,9 +197,9 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{Computational implementation}
+	\frametitle{Implementation}
 	%
-	Under the Bayesian framework, but the integration will be:
+	GLLAMM under the Bayesian framework, but the implementation will be:
 	%
 	\begin{itemize}
 		\item Complex and highly dimensional (in parameters)
@@ -238,49 +208,24 @@
 		%
 	\end{itemize}
 	%
-	\vspace{0.3cm} but complex parametrizations introduce pathologies that prevent MCMC methods to achieve ergodicity \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}, i.e. reach stationarity, convergence, and good mixing \cite{McElreath_2020}.
-	%
 \end{frame}
 %
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{Computational implementation (cont.)}
+	\frametitle{Implementation (cont.)}
 	%
-	Four solutions are offered to solve the previous pathologies:
+	However, complex parametrizations introduce pathologies that prevent MCMC methods to achieve ergodicity \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}, i.e. reach stationarity, convergence, and good mixing \cite{McElreath_2020}. \\
 	%
-	\begin{itemize}
-		\item Changing the settings of the MCMC method
-		%
-		\begin{enumerate}
-			\item increasing the number of iterations per chain, with large burn-in and thinning processes
-			%
-			\item designing model-specific MCMC algorithms.
-			%
-		\end{enumerate}
-		%
-		\item Readjusting the Bayesian model
-		%
-		\begin{enumerate}
-			\setcounter{enumi}{2}
-			\item re-write the model in an alternative parametrization (\textbf{simple changes})
-			%
-			\item encode prior information through the prior distributions
-			%
-		\end{enumerate}
-		%
-	\end{itemize}
-	%
+	\vspace{0.3cm} Although there are proposed solutions, still \textbf{no simple rotation/rescaling of the parameter, or (sometimes) the amount of data, allow to visit the posterior distribution properly} \cite{Betancourt_et_al_2013}.
 \end{frame}
 %
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{Computational implementation (cont.)}
+	\frametitle{Implementation (cont.)}
 	%
-	However, still no simple rotation/rescaling of the parameter, or the amount of data, allow to visit the posterior distribution properly \cite{Betancourt_et_al_2013}. \\
-	%
-	\vspace{0.3cm} Multiple authors showed that changing the \textbf{posterior sampling geometries}, i.e. removing the dependence of the parameters on other sampled parameters, \textbf{improves} the performance of the MCMC methods \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}
+	Multiple authors showed that changing the \textbf{posterior sampling geometries}, i.e. removing the dependence of the parameters on other sampled parameters, \textbf{improves} the performance of the MCMC methods \cite{Gelfand_et_al_1995, Gelfand_et_al_1996, Papaspiliopoulos_et_al_2003, Papaspiliopoulos_et_al_2007, Betancourt_et_al_2013}
 \end{frame}
 %
 %
@@ -325,7 +270,7 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{The response model}
+	\frametitle{1. The response model}
 	Conditional to all parameters $\pmb{\Omega} = \{ \pmb{\beta}, \pmb{\Lambda}, \pmb{\Theta}, \pmb{\Psi}, \pmb{\Gamma} \}$; and the ``stacked" vector of covariates $\mathbf{X}$ and $\mathbf{W}$; \textbf{the distributional part} is defined by:
 	%
 	\begin{equation} \label{eq:distributional}
@@ -349,7 +294,7 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{The response model (cont.)}
+	\frametitle{1. The response model (cont.)}
 	Moreover, the inverse-link function $h(\cdot)$ can be defined in three ways:
 	%
 	\begin{equation} \label{eq:response_dich1}
@@ -370,21 +315,12 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{The response model (cont.)}
+	\frametitle{1. The response model (cont.)}
 	Finally, the linear predictor is defined by:
 	%
-	\begin{equation} \label{eq:linear_predictor1}
+	\begin{equation} \label{eq:linear_predictor2}
 		\begin{split}
-			v_{jkd} &= \sum_{p=1}^{P} x_{jp} \beta_{p} + \sum_{m=2}^{M+1} \sum_{k=1}^{K_{(m)}} \eta_{k}^{(m)} \alpha_{k}^{(m)} + \sum_{l=2}^{L+1} \sum_{d=1}^{D_{(l)}} \theta_{jd}^{(l)} \lambda_{d}^{(l)} \\
-		\end{split}
-	\end{equation}
-	%
-	Which after the appropriate ``stacking":
-	\begin{equation} \label{eq:linear_predictor3}
-		\begin{split}
-			v_{jkd} &= \mathbf{X}_{j} \; \pmb{\beta} + \pmb{\eta} \; \pmb{\alpha} \; \mathbf{A}_{j} + \pmb{\theta} \; \pmb{\lambda} \; \mathbf{B}_{j} \\
-			%
-			&= \mathbf{X}_{j} \; \pmb{\beta} + \pmb{\Theta} \; \pmb{\Lambda} \; \mathbf{H}_{j}
+			v_{jkd} &= \mathbf{X}_{j} \; \pmb{\beta} + \sum_{m=2}^{M+1} \pmb{\eta}^{(m)} \pmb{\alpha}^{(m)} \mathbf{A}_{j}^{(m)} + \sum_{l=2}^{L+1} \pmb{\theta}_{j}^{(l)} \pmb{\lambda}^{(l)} \mathbf{B}_{j}^{(l)}
 		\end{split}
 	\end{equation}
 	%
@@ -393,7 +329,7 @@
 %---------------------------
 \begin{frame}
 	%
-	\frametitle{The latent structure}
+	\frametitle{2. The latent structure}
 	The structural model for the latent variables is represented in the following form:
 	%
 	\begin{equation} \label{eq:structural_model1}
@@ -470,13 +406,13 @@
 			\end{split}
 		\end{equation}
 		%
-		\item \textbf{Prior distributions.}
+		\item \textbf{Prior distributions} $P(\pmb{\Omega})$.
 		Similar to \citet{Patz_et_al_1999}, we use an independent distributional structure for the joint priors:
 		%
 		\begin{equation}
 			\begin{split}
 				P( \pmb{\Omega} ) =& P( \pmb{\beta} ) \; \left[ P( \pmb{\alpha} ) \; P( \pmb{\lambda} ) \right] \; \left[ P( \pmb{\eta} ) \; P( \pmb{\theta} ) \right] \\
-			%
+				%
 				& \left[ P( \pmb{\Psi}_{\eta} ) \; P( \pmb{\Psi}_{\theta} ) \right] \; \left[ P( \pmb{\Gamma}_{\eta} ) \; P( \pmb{\Gamma}_{\theta} ) \right]
 			\end{split}
 		\end{equation}
@@ -493,18 +429,11 @@
 	\begin{enumerate}
 		\setcounter{enumi}{2}
 		%
-		\item \textbf{Likelihood.}
+		\item \textbf{Likelihood} $P( \mathbf{Y} \; | \; \pmb{\Omega} )$.
 		Following \citet{Rabe_et_al_2004a}, the likelihood function is build in a recursive way. 
 	\end{enumerate}
 	%
-	\vspace{0.3cm} \begin{equation} \label{eq:dist}
-		\footnotesize
-		\begin{split}
-			f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) &= \pi_{jkd}^{n} (1 - \pi_{jkd})^{1-n}
-		\end{split}
-	\end{equation}
-	%
-	\begin{equation} \label{eq:lik1}
+	\vspace{0.3cm} \begin{equation} \label{eq:lik1}
 		\footnotesize
 		f \left( \mathbf{y}=\mathbf{1} \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right) = \prod_{j=1}^{J} \prod_{d=1}^{D} \prod_{k=1}^{K} f \left( y_{jkd}=1 \; | \; \mathbf{X}, \mathbf{W}, \pmb{\Omega} \right)
 	\end{equation}
@@ -576,23 +505,6 @@
 		\item \textbf{Recovery capacity.} Capacity to recover the parameters of interest, especially the structural regression parameters.
 		%
 		\item \textbf{Retrodictive accuracy.} Capacity to retrodict the data of interest, according to a set of aggregating dimensions.
-		%
-	\end{enumerate} 
-	%
-\end{frame}
-%
-%---------------------------
-\begin{frame}
-	%
-	\frametitle{Evaluation criteria}
-	%
-	\begin{enumerate}
-		%
-		\item \textbf{Performance.} Trace, trank and ACF plots with support of \texttt{Rhat} and \texttt{n\_eff} statistics developed by \citet{Gelman_et_al_2014} (pp. $284-287$).
-		%
-		\item \textbf{Recovery capacity.} we used the between replica root mean squared error ($\text{RMSE}_{B}$).
-		%
-		\item \textbf{Retrodictive accuracy.} we used the average within $\overline{\text{RMSE}}_{W}$ and between prediction root mean squared error $\text{RMSE}_{B}$, of the responses' predictive proportion $\hat{p}$, versus the observed proportion $p$.
 		%
 	\end{enumerate} 
 	%
@@ -855,7 +767,7 @@
 		\item Specific benefit of the implementation allowed us to assess
 		how difficult the texts were.
 		%
-		\item A more sound psychometric analysis requires access to the items and texts description, but it was not possible due to legal restrictions.
+		\item (a word of advice) A more sound psychometric analysis requires access to the items and texts description, but it was not possible due to legal restrictions.
 		%
 	\end{enumerate} 
 	%
@@ -1007,6 +919,37 @@
 \begin{frame}
 	%
 	\textbf{Appendix}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Improving MCMC chain performance}
+	%
+	Four solutions are offered to solve the previous pathologies:
+	%
+	\begin{itemize}
+		\item Changing the settings of the MCMC method
+		%
+		\begin{enumerate}
+			\item increasing the number of iterations per chain, with large burn-in and thinning processes
+			%
+			\item designing model-specific MCMC algorithms.
+			%
+		\end{enumerate}
+		%
+		\item Readjusting the Bayesian model
+		%
+		\begin{enumerate}
+			\setcounter{enumi}{2}
+			\item re-write the model in an alternative parametrization (\textbf{simple changes})
+			%
+			\item encode prior information through the prior distributions
+			%
+		\end{enumerate}
+		%
+	\end{itemize}
 	%
 \end{frame}
 %
@@ -1328,6 +1271,8 @@
 	\frametitle{To center or not to center \\
 		(regularizing priors, cont.)}
 	%
+	versus figure \ref{fig:devil_CE_geom}.
+	%
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=1\linewidth]{2_funnel_CE_priors}
@@ -1343,14 +1288,16 @@
 	\frametitle{To center or not to center \\
 		(regularizing priors, cont.)}
 	%
+	versus figure \ref{fig:devil_CE}.
+	%
 	\begin{figure}[h] 
 		\centering
 		%\begin{subfigure}
-			\includegraphics[width=.70\linewidth]{2_trace_CE_priors}
+			\includegraphics[width=.60\linewidth]{2_trace_CE_priors}
 		%\end{subfigure}
 		%
 		%\begin{subfigure}
-			\includegraphics[width=.73\linewidth]{2_acf_CE_priors}
+			\includegraphics[width=.63\linewidth]{2_acf_CE_priors}
 		%\end{subfigure}
 		\caption{The Devil's funnel. Centered Parametrization with mildly informative priors. Trace and AFC plots.}
 		\label{fig:devil_prior}
@@ -1402,9 +1349,11 @@
 	\frametitle{To center or not to center \\
 		(non-centered parametrization, cont.)}
 	%
+	versus figure \ref{fig:devil_CE_geom} and \ref{fig:devil_prior_geom}.
+	%
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.65\linewidth]{3_funnel_NC}
+		\includegraphics[width=0.60\linewidth]{3_funnel_NC}
 		%
 		\caption{Posterior sampling geometry. Non-Centered Parametrization.}
 		\label{fig:devil_NC_geom}
@@ -1418,14 +1367,16 @@
 	\frametitle{To center or not to center \\
 		(non-centered parametrization, cont.)}
 	%
+	versus figure \ref{fig:devil_CE} and \ref{fig:devil_prior}.
+	%
 	\begin{figure}[h] 
 		\centering
 		%\begin{subfigure}
-			\includegraphics[width=0.9\linewidth]{3_trace_NC}
+			\includegraphics[width=0.85\linewidth]{3_trace_NC}
 		%\end{subfigure}
 		%
 		%\begin{subfigure}
-			\includegraphics[width=0.93\linewidth]{3_acf_NC}
+			\includegraphics[width=0.88\linewidth]{3_acf_NC}
 		%\end{subfigure}
 		\caption{The Devil's funnel. Non-centered Parametrization. Trace and AFC plots.}
 		\label{fig:devil_NC}
@@ -1480,6 +1431,23 @@
 		\caption{Directed Acyclig Graph (DAG). Second-order latent variable model (SOLV).}
 		\label{fig:SOLV_model}
 	\end{figure}
+	%
+\end{frame}
+%
+%---------------------------
+\begin{frame}
+	%
+	\frametitle{Evaluation criteria}
+	%
+	\begin{enumerate}
+		%
+		\item \textbf{Performance.} Trace, trank and ACF plots with support of \texttt{Rhat} and \texttt{n\_eff} statistics developed by \citet{Gelman_et_al_2014} (pp. $284-287$).
+		%
+		\item \textbf{Recovery capacity.} we used the between replica root mean squared error ($\text{RMSE}_{B}$).
+		%
+		\item \textbf{Retrodictive accuracy.} we used the average within $\overline{\text{RMSE}}_{W}$ and between prediction root mean squared error $\text{RMSE}_{B}$, of the responses' predictive proportion $\hat{p}$, versus the observed proportion $p$.
+		%
+	\end{enumerate} 
 	%
 \end{frame}
 %
